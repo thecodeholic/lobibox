@@ -14,7 +14,8 @@ $(document).ready(function(){
         alert.append(dialog);
         
         var popupClasses = {
-            error   : 'modal-error'
+            error   : 'modal-error',
+            success : 'modal-success'
         };
     //        $(document.body).append(alert);
         var tpl = ['<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">',
@@ -41,6 +42,8 @@ $(document).ready(function(){
             titleAttrs  : {},
             msg         : '',
             closeButton : false,
+            closeAction : 'hide',
+//            closeAction : 'destroy',
             buttons     : ['close'],
             modal       : {
                 class   : 'fade',
@@ -100,7 +103,6 @@ $(document).ready(function(){
             }
         };
         var addAttrsAndClasses = function(options){
-            console.log(options);
             if (options.modal){
                 var modal = options.modal;
                 if (modal.class){
@@ -116,6 +118,9 @@ $(document).ready(function(){
             $.extend(true, opts, options);
             if (!opts)
                 return;
+            for (var i in popupClasses){
+                alert.removeClass(popupClasses[i]);
+            }
             alert.addClass(popupClasses[type]);
             
             addCloseButton(opts);
@@ -129,6 +134,10 @@ $(document).ready(function(){
         };
         window.Exert.error = function(options) {
             generatePopup(options, 'error');
+            alert.modal();
+        }
+        window.Exert.success = function(options) {
+            generatePopup(options, 'success');
             alert.modal();
         }
 //        alert.on('hidden.bs.modal', function(){

@@ -8,19 +8,31 @@ and open the template in the editor.
     Author     : Zura
 */
 
+
+@color-error        : #d2322d;
+@color-success      : #63bf68;
+@padding-medium     : 8px;
+@margin-small       : 2px;
+@gray-lighter       : lighten(#000, 93.5%);
+
 .exert.modal{
-    &.modal-error{
-        .modal-header{
-            padding-bottom: 7px;
-            padding-top: 7px;
-            color: white;
-            background-color: #d2322d;
+    .modal-header{
+        padding-bottom: @padding-medium;
+        padding-top: @padding-medium;
+        color: @gray-lighter;
+        h1, h2, h3, h4, h5, h6{
+            margin-bottom   : @margin-small;
+            margin-top      : @margin-small;
         }
     }
-    .modal-header{ 
-        h1, h2, h3, h4, h5, h6{
-            margin-bottom   : 2px;
-            margin-top      : 2px;
+    &.modal-error{
+        .modal-header{
+            background-color: @color-error;
+        }
+    }
+    &.modal-success{
+        .modal-header{
+            background-color: @color-success;
         }
     }
 }
