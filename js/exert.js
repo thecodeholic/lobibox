@@ -20,6 +20,7 @@ $(document).ready(function(){
         
         var defaults = {
             modal   : {
+                //we need to add this class to div with modal class by default
                 class   : 'fade'
             },
             buttons : {
@@ -83,7 +84,7 @@ $(document).ready(function(){
 //                }
 //            },
             modal       : {
-                class   : 'fade',
+                class   : '',
                 attrs   : {}
             },
             dialog      : {
@@ -115,7 +116,6 @@ $(document).ready(function(){
                     openTag     = '<' + options.titleTag + '>';
                     closeTag    = '</' + options.titleTag + '>';
                 }else if (!options.titleTag && (options.titleClass || typeof options.titleAttrs === 'object' && !$.isEmptyObject(options.titleAttrs))){
-                    window.console.log("aa");
                     openTag     = '<span>';
                     closeTag    = '</span>';
                 }
@@ -140,12 +140,12 @@ $(document).ready(function(){
                 header.append(button);
             }
         };
-        var addAttrsAndClasses = function(options, object){
-            if (options.class && typeof options.class === 'string'){
-                object.addClass(options.class);
+        var addAttrsAndClasses = function(cl, attrs, object){
+            if (cl && typeof cl === 'string'){
+                object.addClass(cl);
             }
-            if (options.attrs && typeof options.attrs === 'object'){
-                object.attr(options.attrs);
+            if (attrs && typeof attrs === 'object'){
+                object.attr(attrs);
             }
             return object;
         };
@@ -170,27 +170,33 @@ $(document).ready(function(){
                 b.attr('data-dismiss', 'modal');
             }
             b.html(options.text);
-            return addAttrsAndClasses(options, b);
+            return addAttrsAndClasses(options.class, options.attrs, b);
         };
         var generateHeader = function(options){
             header.empty();
             addTitle(options);
             addCloseButton(opts);
-            addAttrsAndClasses(opts.header, header);
+            addAttrsAndClasses(opts.header.class, opts.header.attrs, header);
         };
         var generateFooter = function(options){
             footer.empty();
             generateButtons(options);
         };
         var generatePopup = function(options, type){
-            
             $.extend(true, opts, options);
-            if (!opts)
+            if (!opts || typeof opts !== 'object')
                 return;
             for (var i in popupClasses){
                 alert.removeClass(popupClasses[i]);
             }
             alert.addClass(popupClasses[type]);
+            if (opts.modal && typeof opts.modal === 'object' && !$.isEmptyObject(opts.modal)){
+                var cl = opts.modal.class;
+                if (cl === "")
+                    cl = defaults.modal.class;
+                addAttrsAndClasses(cl, opts.modal.attrs, alert);
+            }
+            
             generateHeader(options);
             generateFooter(opts);
             if (opts.msg){
