@@ -35,6 +35,28 @@ and open the template in the editor.
 .exert.modal.modal-success .modal-header {
   background-color: #63bf68;
 }
+/* line 42, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000342}}
+button.btn.btn-mari {
+  background-color: #bd64c1;
+  color: #ffffff;
+}
+/* line 45, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000345}}
+button.btn.btn-mari:hover {
+  background-color: #97509b;
+}
+/* line 49, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000349}}
+button.btn.btn-inverse {
+  background-color: #565656;
+  color: #ffffff;
+}
+/* line 52, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000352}}
+button.btn.btn-inverse:hover {
+  background-color: #343434;
+}
 /*
 .exert.modal.modal-error{
     .modal-header{

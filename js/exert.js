@@ -17,6 +17,29 @@ $(document).ready(function(){
             error   : 'modal-error',
             success : 'modal-success'
         };
+        
+        var defaults = {
+            modal   : {
+                class   : 'fade'
+            },
+            buttons : {
+                close   : {
+                    class   : 'btn btn-default',
+                    attrs   : {},
+                    text    : 'Close'
+                },
+                ok      : {
+                    class   : 'btn btn-success',
+                    attrs   : {},
+                    text    : 'Ok'
+                },
+                cancel  : {
+                    class   : 'btn btn-danger',
+                    attrs   : {},
+                    text    : 'Cancel'
+                }
+            }
+        };
     //        $(document.body).append(alert);
         var tpl = ['<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">',
             '<div class="modal-dialog">',
@@ -45,6 +68,20 @@ $(document).ready(function(){
             closeAction : 'hide',
 //            closeAction : 'destroy',
             buttons     : ['close'],
+//            buttons     : {
+//                close   : {
+//                    class: 'btn btn-default',
+//                    attrs: {}
+//                },
+//                ok      : {
+//                    class: 'btn btn-success',
+//                    attrs: {}
+//                },
+//                cancel  : {
+//                    class: 'btn btn-danger',
+//                    attrs: {}
+//                }
+//            },
             modal       : {
                 class   : 'fade',
                 attrs   : {}
@@ -77,7 +114,8 @@ $(document).ready(function(){
                 if (options.titleTag){
                     openTag     = '<' + options.titleTag + '>';
                     closeTag    = '</' + options.titleTag + '>';
-                }else if (!options.titleTag && (options.titleClass || !$.isEmptyObject(options.titleAttrs))){
+                }else if (!options.titleTag && (options.titleClass || typeof options.titleAttrs === 'object' && !$.isEmptyObject(options.titleAttrs))){
+                    window.console.log("aa");
                     openTag     = '<span>';
                     closeTag    = '</span>';
                 }
@@ -102,19 +140,50 @@ $(document).ready(function(){
                 header.append(button);
             }
         };
-        var addAttrsAndClasses = function(options){
-            if (options.modal){
-                var modal = options.modal;
-                if (modal.class){
-                    alert.addClass(modal.class);
+        var addAttrsAndClasses = function(options, object){
+            if (options.class && typeof options.class === 'string'){
+                object.addClass(options.class);
+            }
+            if (options.attrs && typeof options.attrs === 'object'){
+                object.attr(options.attrs);
+            }
+            return object;
+        };
+        var generateButtons = function(options){
+            var buttons = options.buttons;
+            if (buttons.length !== undefined && buttons.length >=0){
+                var buts = {};
+                for (var i = 0; i<buttons.length; i++){
+                    buts[buttons[i]] = defaults.buttons[buttons[i]];
                 }
-                if (!$.isEmptyObject(modal.attrs)){
-                    alert.attr(modal.attrs);
+                buttons = buts;
+            }
+            if (buttons && typeof buttons === 'object' && !$.isEmptyObject(buttons)){
+                for (var i in buttons){
+                    footer.append(createButton(i, buttons[i]));
                 }
             }
         };
-        var generatePopup = function(options, type){
+        var createButton = function(type, options){
+            var b = $('<button></button>');
+            if (type === 'close'){
+                b.attr('data-dismiss', 'modal');
+            }
+            b.html(options.text);
+            return addAttrsAndClasses(options, b);
+        };
+        var generateHeader = function(options){
             header.empty();
+            addTitle(options);
+            addCloseButton(opts);
+            addAttrsAndClasses(opts.header, header);
+        };
+        var generateFooter = function(options){
+            footer.empty();
+            generateButtons(options);
+        };
+        var generatePopup = function(options, type){
+            
             $.extend(true, opts, options);
             if (!opts)
                 return;
@@ -122,24 +191,26 @@ $(document).ready(function(){
                 alert.removeClass(popupClasses[i]);
             }
             alert.addClass(popupClasses[type]);
-            
-            addCloseButton(opts);
-            addTitle(opts);
-            
-            addAttrsAndClasses(opts);
+            generateHeader(options);
+            generateFooter(opts);
             if (opts.msg){
                 body.html(opts.msg);
             }
             $(document.body).append(alert);
+            alert.on('hidden.bs.modal', function(){
+                if (options.closeAction === 'destroy'){
+                    alert.remove();
+                }
+            });
         };
         window.Exert.error = function(options) {
             generatePopup(options, 'error');
             alert.modal();
-        }
+        };
         window.Exert.success = function(options) {
             generatePopup(options, 'success');
             alert.modal();
-        }
+        };
 //        alert.on('hidden.bs.modal', function(){
 //           console.log("hidden"); 
 //        });
