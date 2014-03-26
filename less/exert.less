@@ -30,19 +30,10 @@ and open the template in the editor.
     transform: scale(@sc);
 }
 
-.transitions(@prop: all; @time: 1s){
-    .cubic-bezier-params(0.25, 0.5, 0.5, 0.9);
-    -webkit-transition: @prop @time @bez;
-    -moz-transition: @prop @time @bez;
-    transition: @prop @time @bez;
-}
-
-.cubic-bezier-transition(@prop: all; @time: 1s; @bez: 0){
-    @bez: cubic-bezier(@a, @b, @c, @d);
-}
-
-.cubic-bezier-params(@a: 0;@b: 0; @c: 0; @d: 0){
-    @bez: cubic-bezier(@a, @b, @c, @d);
+.cubic-bezier-transition(@prop: all; @time: 1s; @bez){
+    -webkit-transition: @prop @time cubic-bezier(@bez);
+    -moz-transition: @prop @time cubic-bezier(@bez);
+    transition: @prop @time cubic-bezier(@bez);
 }
 
 .exert.modal{
@@ -84,7 +75,7 @@ and open the template in the editor.
         .modal-content{
             .translate-x(20%);
             opacity: 0;
-            .transitions(all;0.3s);
+            .cubic-bezier-transition(@prop: all; @time: 0.3s; @bez: 0.25, 0.5, 0.5, 0.9);
             
         }
         &.in{
