@@ -30,7 +30,7 @@ $(document).ready(function(){
                     text    : 'Close'
                 },
                 ok      : {
-                    class   : 'btn btn-success',
+                    class   : 'btn btn-primary',
                     attrs   : {},
                     text    : 'Ok'
                 },
@@ -38,51 +38,29 @@ $(document).ready(function(){
                     class   : 'btn btn-danger',
                     attrs   : {},
                     text    : 'Cancel'
+                },
+                yes  : {
+                    class   : 'btn btn-success',
+                    attrs   : {},
+                    text    : 'Yes'
+                },
+                no  : {
+                    class   : 'btn btn-default',
+                    attrs   : {},
+                    text    : 'No'
                 }
             }
         };
-    //        $(document.body).append(alert);
-        var tpl = ['<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">',
-            '<div class="modal-dialog">',
-            '<div class="modal-content">',
-            '<div class="modal-header">',
-            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>',
-            '<h4 class="modal-title" id="myModalLabel">$title$</h4>',
-            '</div>',
-            '<div class="modal-body">',
-            '$msg$',
-            '</div>',
-            '<div class="modal-footer">',
-            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>',
-            '<button type="button" class="btn btn-primary">Save changes</button>',
-            '</div>',
-            '</div>',
-            '</div>',
-            '</div>'].join("");
         var opts = {
-            title       : '',
-            titleTag    : 'h2',
-            titleClass  : '',
-            titleAttrs  : {},
+            title       : '',           //any string
+            titleHtml   : true,         //if this option is set to true header title will show HTML properly
+            titleTag    : 'h2',         //any valid html tag
+            titleClass  : '',           //any valid css class
+            titleAttrs  : {},           //title tag attributes {key1: value1, key2: value2, ... ,keyN: valueN}
             msg         : '',
-            closeButton : false,
-            closeAction : 'hide',
-//            closeAction : 'destroy',
-            buttons     : ['close'],
-//            buttons     : {
-//                close   : {
-//                    class: 'btn btn-default',
-//                    attrs: {}
-//                },
-//                ok      : {
-//                    class: 'btn btn-success',
-//                    attrs: {}
-//                },
-//                cancel  : {
-//                    class: 'btn btn-danger',
-//                    attrs: {}
-//                }
-//            },
+            closeButton : true,
+            closeAction : 'hide',       //options: ['hide', 'destroy']
+            buttons     : ['close'],    //array with options ['close', 'ok', 'calcel', 'yes', 'no'] or object with template described in default.button object
             modal       : {
                 class   : '',
                 attrs   : {}
@@ -108,6 +86,12 @@ $(document).ready(function(){
                 attrs   : {}
             }
         };
+        var addCloseButton = function(options){
+            if (options.closeButton){
+                var button = $('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
+                header.append(button);
+            }
+        };
         var addTitle = function(options){
             if (options.title){
                 var openTag     = "";
@@ -127,19 +111,33 @@ $(document).ready(function(){
                     if (!$.isEmptyObject(options.titleAttrs)){
                         title.attr(options.titleAttrs);
                     }
-                    title.html(options.title);
+                    if (options.titleHtml){
+                        title.html(options.title);
+                    }else{
+                        title.text(options.title);
+                    }
                     header.append(title);
                 }else{
-                    header.html(options.title);
+                    if (options.titleHtml){
+                        header.html(options.title);
+                    }else{
+                        window.console.log(options.title);
+                        header.text(options.title);
+                    }
                 }
             }
         };
-        var addCloseButton = function(options){
-            if (options.closeButton){
-                var button = $('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
-                header.append(button);
-            }
+        var generateHeader = function(options){
+            header.empty();
+            addCloseButton(options);
+            addTitle(options);
+            addAttrsAndClasses(options.header.class, options.header.attrs, header);
         };
+        var generateFooter = function(options){
+            footer.empty();
+            generateButtons(options);
+        };
+        
         var addAttrsAndClasses = function(cl, attrs, object){
             if (cl && typeof cl === 'string'){
                 object.addClass(cl);
@@ -149,8 +147,19 @@ $(document).ready(function(){
             }
             return object;
         };
+        
         var generateButtons = function(options){
+            var createButton = function(type, options){
+                var b = $('<button></button>');
+                if (type === 'close'){
+                    b.attr('data-dismiss', 'modal');
+                }
+                b.html(options.text);
+                return addAttrsAndClasses(options.class, options.attrs, b);
+            };
+            
             var buttons = options.buttons;
+            //if buttons is array iterate in it and create object according to default values
             if (buttons.length !== undefined && buttons.length >=0){
                 var buts = {};
                 for (var i = 0; i<buttons.length; i++){
@@ -159,55 +168,61 @@ $(document).ready(function(){
                 buttons = buts;
             }
             if (buttons && typeof buttons === 'object' && !$.isEmptyObject(buttons)){
+                //here i is button type and buttons[i] is options for button
                 for (var i in buttons){
                     footer.append(createButton(i, buttons[i]));
                 }
             }
+            
         };
-        var createButton = function(type, options){
-            var b = $('<button></button>');
-            if (type === 'close'){
-                b.attr('data-dismiss', 'modal');
-            }
-            b.html(options.text);
-            return addAttrsAndClasses(options.class, options.attrs, b);
-        };
-        var generateHeader = function(options){
-            header.empty();
-            addTitle(options);
-            addCloseButton(opts);
-            addAttrsAndClasses(opts.header.class, opts.header.attrs, header);
-        };
-        var generateFooter = function(options){
-            footer.empty();
-            generateButtons(options);
-        };
+        
+        
         var generatePopup = function(options, type){
-            $.extend(true, opts, options);
-            if (!opts || typeof opts !== 'object')
+
+            var optss = {};
+            
+            $.extend(true, optss, opts, options);
+            
+            if (typeof options.buttons === 'object' && !$.isEmptyObject(options.buttons)){
+                window.console.log(optss, opts, options);
+//                var buts = {};
+                for (var i in options.buttons){
+                    $.extend(true, optss.buttons[i], defaults.buttons[i], options.buttons[i]);
+                }
+                
+            }
+            
+            if (!optss || typeof optss !== 'object')
                 return;
+            //remove any alert type classes (such as "error", "success") from alert 
             for (var i in popupClasses){
                 alert.removeClass(popupClasses[i]);
             }
+            //add corresponding class(es) to type
             alert.addClass(popupClasses[type]);
-            if (opts.modal && typeof opts.modal === 'object' && !$.isEmptyObject(opts.modal)){
-                var cl = opts.modal.class;
+            
+            //add attributes and class(es) to alert. If they were not given default class(es) and attributes will be used
+            if (optss.modal && typeof optss.modal === 'object' && !$.isEmptyObject(optss.modal)){
+                var cl = optss.modal.class;
                 if (cl === "")
                     cl = defaults.modal.class;
-                addAttrsAndClasses(cl, opts.modal.attrs, alert);
+                addAttrsAndClasses(cl, optss.modal.attrs, alert);
             }
             
-            generateHeader(options);
-            generateFooter(opts);
-            if (opts.msg){
-                body.html(opts.msg);
+            generateHeader(optss);
+            generateFooter(optss);
+            if (optss.msg){
+                body.html(optss.msg);
             }
-            $(document.body).append(alert);
+            
             alert.on('hidden.bs.modal', function(){
                 if (options.closeAction === 'destroy'){
                     alert.remove();
                 }
             });
+            
+            $(document.body).append(alert);
+            
         };
         window.Exert.error = function(options) {
             generatePopup(options, 'error');
