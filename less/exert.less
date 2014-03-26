@@ -15,6 +15,36 @@ and open the template in the editor.
 @margin-small       : 2px;
 @gray-lighter       : lighten(#000, 93.5%);
 
+
+.translate-x(@size: 0){
+    -webkit-transform: translateX(@size);
+    -moz-transform: translateX(@size);
+    -ms-transform: translateX(@size);
+    transform: translateX(@size);
+}
+
+.scale(@sc: 1){
+    -webkit-transform: scale(@sc);
+    -moz-transform: scale(@sc);
+    -ms-transform: scale(@sc);
+    transform: scale(@sc);
+}
+
+.transitions(@prop: all; @time: 1s){
+    .cubic-bezier-params(0.25, 0.5, 0.5, 0.9);
+    -webkit-transition: @prop @time @bez;
+    -moz-transition: @prop @time @bez;
+    transition: @prop @time @bez;
+}
+
+.cubic-bezier-transition(@prop: all; @time: 1s; @bez: 0){
+    @bez: cubic-bezier(@a, @b, @c, @d);
+}
+
+.cubic-bezier-params(@a: 0;@b: 0; @c: 0; @d: 0){
+    @bez: cubic-bezier(@a, @b, @c, @d);
+}
+
 .exert.modal{
     .modal-header{
         padding-bottom: @padding-medium;
@@ -33,6 +63,35 @@ and open the template in the editor.
     &.modal-success{
         .modal-header{
             background-color: @color-success;
+        }
+    }
+    &.zoom-in{
+        .modal-content{ 
+            .scale(0.7);
+            opacity: 0;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+        &.in{
+            .modal-content{ 
+                .scale();
+                opacity: 1;
+            }
+        }
+    }
+    &.slide-from-right{
+        .modal-content{
+            .translate-x(20%);
+            opacity: 0;
+            .transitions(all;0.3s);
+            
+        }
+        &.in{
+            .modal-content{ 
+                .translate-x();
+                opacity: 1;
+            }
         }
     }
 }

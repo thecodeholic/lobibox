@@ -149,10 +149,16 @@ $(document).ready(function(){
         };
         
         var generateButtons = function(options){
+            var opts = options;
             var createButton = function(type, options){
                 var b = $('<button></button>');
                 if (type === 'close'){
                     b.attr('data-dismiss', 'modal');
+                }
+                if (opts.callback && typeof opts.callback === 'function'){
+                    b.on('click', function(e){
+                        opts.callback(e, type);
+                    });
                 }
                 b.html(options.text);
                 return addAttrsAndClasses(options.class, options.attrs, b);
@@ -184,7 +190,6 @@ $(document).ready(function(){
             $.extend(true, optss, opts, options);
             
             if (typeof options.buttons === 'object' && !$.isEmptyObject(options.buttons)){
-                window.console.log(optss, opts, options);
 //                var buts = {};
                 for (var i in options.buttons){
                     $.extend(true, optss.buttons[i], defaults.buttons[i], options.buttons[i]);

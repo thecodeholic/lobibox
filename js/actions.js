@@ -9,7 +9,14 @@ $(document).ready(function(){
 //            }
 //        },
         buttons: ['ok','close'],
-//        titleHtml : false
+//        titleHtml : false,
+        modal: {
+            class: 'slide-from-right'
+//            class: 'zoom-in'
+        },
+        callback: function(a,b){
+                window.console.log(a,b);
+        }
     });
   });
   $('#success').click(function(){
