@@ -86,6 +86,8 @@ $(document).ready(function(){
                 attrs   : {}
             }
         };
+        
+        
         var addCloseButton = function(options){
             if (options.closeButton){
                 var button = $('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
@@ -240,5 +242,51 @@ $(document).ready(function(){
 //        alert.on('hidden.bs.modal', function(){
 //           console.log("hidden"); 
 //        });
+    })();
+    
+    (function(){
+        var outerBoxCreated = false;
+        var createOuterBox = function(){
+            if ($('.exert.notify-outer').length == 0){
+                var box = $('<div class="exert notify-outer"></div>');
+                $(document.body).append(box);
+                box.css({
+                   width: '200px',
+                   position: 'absolute',
+                   backgroundColor: 'lightblue',
+                   left: ($(window).width() - 210) + 'px',
+                   top: '0px',
+                   zIndex: '100'
+                });
+                
+                return box;
+            }else{
+                return $('div.exert.notify-outer');
+            }
+        }
+        var createNotify = function(type, options){
+            window.console.log("ddd");
+            var outerBox = createOuterBox();
+            var box = $('<div class="notify notify-error"></div>');
+            if (options && typeof options === 'object'){
+                if (options.msg){
+                    box.html(options.msg);
+                }
+            }
+            box.css({
+                positions: 'relative'
+            });
+            outerBox.prepend(box);
+            outerBox.css({
+                top: ($(window).height() - $(outerBox).height() - 20) + 'px'
+            });
+        };
+        window.Exert.notify = {
+            error: function(options){
+                createNotify('error', options);
+            }
+        };
+        
+        
     })();
 });
