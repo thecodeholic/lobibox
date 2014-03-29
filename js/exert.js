@@ -263,10 +263,20 @@ $(document).ready(function(){
             closeOnClick: false
         };
         var types = {
-            'error'     : 'alert-danger',
-            'success'   : 'alert-success',
-            'warning'   : 'alert-warning',
-            'info'      : 'alert-info'
+            'error'     : {
+                class   : 'alert-danger',
+                icon    : 'glyphicon glyphicon-remove'
+            },
+            'success'   : {
+                class   : 'alert-success',
+//                icon    : 'glyphicon glyphicon-ok'
+            },
+            'warning'   : {
+                class   : 'alert-warning'
+            },
+            'info'      : {
+                class   : 'alert-info'
+            }
         };
         window.Exert.notify.outerBox = {
             width: 300,
@@ -303,7 +313,7 @@ $(document).ready(function(){
         
         var addCloseEvent = function(box){
             box.bind('closed.bs.alert', function (ev,a) {
-                var parent = $(ev.target).parent();
+                var parent = $(ev.target).closest('.notify-outer');
                 if (parent.children().length === 1){
                     parent.hide();
                 }
@@ -312,7 +322,7 @@ $(document).ready(function(){
         var addClickEvent = function(box){
             box.css('cursor', 'pointer');
             box.on('click', function(ev){
-                var parent = $(this).parent();
+                var parent = $(this).closest('.notify-outer');
                 $(this).hide(200, function(){
                     $(this).remove();
                     if (parent.children().length === 0) {
@@ -329,11 +339,20 @@ $(document).ready(function(){
             //we create outerBox
             var outerBox = createOuterBox();
             //we create message box
-            var box = $('<div class="notify alert"></div>');
+            var box = $('<div class="notify alert row"></div>');
+            //in this variable we save icon content which we need to put in alert;
+            var icon = "";
             //if message box type exists, if it's valid string and it has corresponding class in our
             //types object we add this class
             if (type && typeof type === 'string' && types[type]){
-                box.addClass(types[type]);
+                if (types[type].class){
+                    box.addClass(types[type].class);
+                }
+                if (types[type].icon && typeof types[type].icon === 'string'){
+                    icon += '<div class="icon-notify col-xs-1">';
+                    icon += '<span class="' + types[type].icon + '"></span>';
+                    icon += '</div>';
+                }
             }
             //we check if merged object is valid object
             if (opts && typeof opts === 'object'){
@@ -341,15 +360,19 @@ $(document).ready(function(){
                 if (opts.closable){
                     box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
                 }
-
+                var content = $('<div class="notify-content col-xs-10"></div>');
                 //if inside options parameter we have title we add it
                 if (opts.title){
-                    box.append('<h4>' + opts.title + '</h4>');
+                    content.append('<h4>' + opts.title + '</h4>');
                 }
                 //if inside options parameter we have message we add it
                 if (opts.msg){
-                    box.append('<p>' + opts.msg + '</p>');
+                    content.append('<p>' + opts.msg + '</p>');
                 }
+                box.append(icon);
+                box.append(content);
+                
+                
             }
             //we add created box inside outer box
             outerBox.prepend(box);

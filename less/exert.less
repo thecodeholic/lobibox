@@ -101,7 +101,12 @@ and open the template in the editor.
     
     .notify{
         &.alert{
+            &.row{
+                margin-left: 0;
+                margin-right: 0;
+            }
             margin-bottom: 0;
+            padding-left: 3px;
             color: @very-light;
             display: none;
             &:hover{
@@ -119,6 +124,19 @@ and open the template in the editor.
             &.alert-info{
                 background-color: @color-info;
             }
+        }
+        .icon-notify{
+            &.col-xs-1{
+                padding-left: 3px;
+                padding-right: 3px;
+            }
+            .glyphicon{
+                text-align: center;
+                font-size: 35px;
+            }
+            /*font-size: 22px;*/
+            /*float: left;*/
+            width: 30px;
         }
     }
 }
