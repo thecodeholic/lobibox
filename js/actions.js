@@ -17,7 +17,10 @@ $(document).ready(function(){
         callback: function(event, type){
             if (type === 'ok'){
                 Exert.notify.message('success', {
-                   msg: "You clicked OK button" 
+                    title: "OKOK",
+                    msg: "You clicked OK button",
+                    delay: 0,
+                    closeOnClick: true
                 });
             }else if (type === 'cancel'){
                 Exert.notify.message('error', {

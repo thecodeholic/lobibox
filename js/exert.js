@@ -259,7 +259,8 @@ $(document).ready(function(){
         window.Exert.notify = window.Exert.notify || {};
         var defaults = {
             closable    : true,
-            delay       : 5000
+            delay       : 5000,
+            closeOnClick: false
         };
         var types = {
             'error'     : 'alert-danger',
@@ -276,14 +277,14 @@ $(document).ready(function(){
             position: "bottom right" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
         };
         var createOuterBox = function(){
-            if ($('.exert.notify-outer').length == 0){
+            if ($('.exert.notify-outer').length === 0){
                 var box = $('<div class="exert notify-outer"></div>');
                 $(document.body).append(box);
                 return box;
             }else{
                 return $('div.exert.notify-outer').show();
             }
-        }
+        };
         /*
          * This method calculates left and top where to show outer box and positions it.
          * It also sets the box width
@@ -300,23 +301,65 @@ $(document).ready(function(){
             }
         };
         
+        var addCloseEvent = function(box){
+            box.bind('closed.bs.alert', function (ev,a) {
+                var parent = $(ev.target).parent();
+                if (parent.children().length === 1){
+                    parent.hide();
+                }
+            });
+        };
+        var addClickEvent = function(box){
+            box.css('cursor', 'pointer');
+            box.on('click', function(ev){
+                var parent = $(this).parent();
+                $(this).hide(200, function(){
+                    $(this).remove();
+                    if (parent.children().length === 0) {
+                        parent.hide();
+                    }
+                });
+            });
+        };
+        
         var createNotify = function(type, options){
             var opts = {}; 
+            //we merge given object to our defaults object
             $.extend(true, opts, defaults, options);
+            //we create outerBox
             var outerBox = createOuterBox();
+            //we create message box
             var box = $('<div class="notify alert"></div>');
-            if (opts.closable){
-                box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
-            }
+            //if message box type exists, if it's valid string and it has corresponding class in our
+            //types object we add this class
             if (type && typeof type === 'string' && types[type]){
                 box.addClass(types[type]);
             }
+            //we check if merged object is valid object
             if (opts && typeof opts === 'object'){
+                //if in parameters we have that this box must be closable we add close button to it
+                if (opts.closable){
+                    box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
+                }
+
+                //if inside options parameter we have title we add it
+                if (opts.title){
+                    box.append('<h4>' + opts.title + '</h4>');
+                }
+                //if inside options parameter we have message we add it
                 if (opts.msg){
-                    box.appendText(opts.msg);
+                    box.append('<p>' + opts.msg + '</p>');
                 }
             }
+            //we add created box inside outer box
             outerBox.prepend(box);
+            //we add close event to box
+            //if all boxes are closed we need to hide outer box
+            //this method does this action
+            addCloseEvent(box);
+            if (opts.closeOnClick){
+                addClickEvent(box);
+            }
             /*
              * we show slideDown animation and if delay was provided we hide the message after delay
              * We hide the message using slideUp and when slideUp is finished we actially remove the element
