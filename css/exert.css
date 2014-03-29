@@ -95,51 +95,52 @@ and open the template in the editor.
   margin-bottom: 0;
   cursor: pointer;
   color: #ffffff;
+  display: none;
 }
-/* line 107, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003107}}
+/* line 108, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003108}}
 .exert.notify-outer .notify.alert:hover {
   color: #eeeeee;
 }
-/* line 110, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003110}}
+/* line 111, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003111}}
 .exert.notify-outer .notify.alert.alert-danger {
   background-color: #d2322d;
 }
-/* line 113, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003113}}
+/* line 114, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003114}}
 .exert.notify-outer .notify.alert.alert-success {
   background-color: #63bf68;
 }
-/* line 116, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003116}}
+/* line 117, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003117}}
 .exert.notify-outer .notify.alert.alert-warning {
   background-color: #d37700;
 }
-/* line 119, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003119}}
+/* line 120, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003120}}
 .exert.notify-outer .notify.alert.alert-info {
   background-color: #428bca;
 }
-/* line 127, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003127}}
+/* line 128, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003128}}
 button.btn.btn-mari {
   background-color: #bd64c1;
   color: #ffffff;
 }
-/* line 130, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003130}}
+/* line 131, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003131}}
 button.btn.btn-mari:hover {
   background-color: #97509b;
 }
-/* line 134, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003134}}
+/* line 135, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003135}}
 button.btn.btn-inverse {
   background-color: #565656;
   color: #ffffff;
 }
-/* line 137, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003137}}
+/* line 138, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 button.btn.btn-inverse:hover {
   background-color: #343434;
 }

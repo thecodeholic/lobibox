@@ -257,9 +257,9 @@ $(document).ready(function(){
     
     (function(){
         window.Exert.notify = window.Exert.notify || {};
-        var outerBoxCreated = false;
         var defaults = {
-            closable: true
+            closable    : true,
+            delay       : 5000
         };
         var types = {
             'error'     : 'alert-danger',
@@ -273,7 +273,7 @@ $(document).ready(function(){
             right: 10, //offset from right when showing outer box
             top: 10,   //offset from top when showing outer box
             bottom: 10, //offset from bottom when showing outer box
-            position: "bottom middle" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
+            position: "bottom right" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
         };
         var createOuterBox = function(){
             if ($('.exert.notify-outer').length == 0){
@@ -281,7 +281,7 @@ $(document).ready(function(){
                 $(document.body).append(box);
                 return box;
             }else{
-                return $('div.exert.notify-outer');
+                return $('div.exert.notify-outer').show();
             }
         }
         /*
@@ -299,12 +299,11 @@ $(document).ready(function(){
                 box.css(a[1], window.Exert.notify.outerBox[a[1]] + 'px');
             }
         };
+        
         var createNotify = function(type, options){
             var opts = {}; 
-            window.console.log(options);
             $.extend(true, opts, defaults, options);
             var outerBox = createOuterBox();
-            window.console.log(opts);
             var box = $('<div class="notify alert"></div>');
             if (opts.closable){
                 box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
@@ -318,9 +317,28 @@ $(document).ready(function(){
                 }
             }
             outerBox.prepend(box);
+            /*
+             * we show slideDown animation and if delay was provided we hide the message after delay
+             * We hide the message using slideUp and when slideUp is finished we actially remove the element
+             * we check if there are no more elements in outerBox we hide the outer box
+             */
+            box.slideDown(400, function(){
+                if (opts.delay){
+                    setTimeout(function(){
+                       box.slideUp(300, function(){
+                           box.remove();
+                           if (outerBox.children().length === 0){
+                               outerBox.hide();
+                           }
+                       }); 
+                       
+                    }, opts.delay);
+                }
+            });
+            
             showOuterBox(outerBox);
         };
-        window.Exert.notify.error = function(type, options){
+        window.Exert.notify.message = function(type, options){
             createNotify(type, options);
         };
         

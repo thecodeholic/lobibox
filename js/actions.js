@@ -14,8 +14,28 @@ $(document).ready(function(){
             class: 'slide-from-right'
 //            class: 'zoom-in'
         },
-        callback: function(a,b){
-                window.console.log(a,b);
+        callback: function(event, type){
+            if (type === 'ok'){
+                Exert.notify.message('success', {
+                   msg: "You clicked OK button" 
+                });
+            }else if (type === 'cancel'){
+                Exert.notify.message('error', {
+                   msg: "You clicked Cancel button" 
+                });
+            }else if (type === 'close'){
+                Exert.notify.message('warning', {
+                   msg: "You clicked Close button" 
+                });
+            }else if (type === 'yes'){
+                Exert.notify.message('success', {
+                   msg: "You clicked Yes button" 
+                });
+            }else if (type === 'no'){
+                Exert.notify.message('info', {
+                   msg: "You clicked No button" 
+                });
+            }
         }
     });
   });
