@@ -413,8 +413,8 @@ $(document).ready(function(){
 //                }
                 var content = $('<div class="notify-content col-xs-10"></div>');
                 //if inside options parameter we have title we add it
+                tab = $('<li><a href="#' + id + '" data-toggle="tab" class="alert"></a></li>');
                 if (opts.title) {
-                    tab = $('<li><a href="#' + id + '" data-toggle="tab" class="alert"></a></li>');
                     content.append('<h4>' + opts.title + '</h4>');
                 }
                 //if inside options parameter we have message we add it

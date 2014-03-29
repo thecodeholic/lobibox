@@ -23,7 +23,7 @@ $(document).ready(function(){
                     closeOnClick: true
                 });
             }else if (type === 'cancel'){
-                Exert.notify.message('mini', 'error', {
+                Exert.notify.message('large', 'error', {
                     msg: "You clicked Cancel button",
                     delay: 0,
                     closeOnClick: true
