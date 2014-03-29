@@ -269,13 +269,15 @@ $(document).ready(function(){
             },
             'success'   : {
                 class   : 'alert-success',
-//                icon    : 'glyphicon glyphicon-ok'
+                icon    : 'glyphicon glyphicon-ok'
             },
             'warning'   : {
-                class   : 'alert-warning'
+                class   : 'alert-warning',
+                icon    : 'glyphicon glyphicon-warning-sign'
             },
             'info'      : {
-                class   : 'alert-info'
+                class   : 'alert-info',
+                icon    : 'glyphicon glyphicon-info-sign'
             }
         };
         window.Exert.notify.outerBox = {
@@ -286,6 +288,20 @@ $(document).ready(function(){
             bottom: 10, //offset from bottom when showing outer box
             position: "bottom right" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
         };
+        
+        window.Exert.notify.outerBoxLarge = {
+            width: 400,
+            left: 10, //offset from left when showing outer box
+            right: 10, //offset from right when showing outer box
+            top: 10,   //offset from top when showing outer box
+            bottom: 10, //offset from bottom when showing outer box
+            position: "bottom middle" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
+        };
+        
+        /*
+         * This method creates outer box for mini alerts
+         * @returns void
+         */
         var createOuterBox = function(){
             if ($('.exert.notify-outer').length === 0){
                 var box = $('<div class="exert notify-outer"></div>');
@@ -295,6 +311,25 @@ $(document).ready(function(){
                 return $('div.exert.notify-outer').show();
             }
         };
+        
+        /*
+         * This method creates outer box (Tab panel) for large alerts
+         * @returns void
+         */
+        var createOuterBoxLarge = function(){
+            if ($('.exert.notify-outer-lg').length === 0){
+                var box = $('<div class="exert notify-outer-lg" data-count="0"></div>');
+                $(document.body).append(box);
+                var tabs = $('<ul class="nav nav-tabs"></ul>');
+                var content = $('<div class="tab-content"></div>');
+                box.append(tabs);
+                box.append(content);
+                return box;
+            }else{
+                return $('div.exert.notify-outer-lg').show();
+            }
+        };
+        
         /*
          * This method calculates left and top where to show outer box and positions it.
          * It also sets the box width
@@ -308,6 +343,22 @@ $(document).ready(function(){
                 box.css("left", left);
             }else{
                 box.css(a[1], window.Exert.notify.outerBox[a[1]] + 'px');
+            }
+        };
+        
+        /*
+         * This method calculates left and top where to show outer box and positions it.
+         * It also sets the box width
+         */
+        var showOuterBoxLarge = function(box){
+            var a = window.Exert.notify.outerBoxLarge.position.split(" ");
+            box.css('width', window.Exert.notify.outerBoxLarge.width + 'px' );
+            box.css(a[0], window.Exert.notify.outerBoxLarge[a[0]] + 'px');
+            if (a[1] === 'middle'){
+                var left = ($(window).width() - $(box).width()) / 2;
+                box.css("left", left);
+            }else{
+                box.css(a[1], window.Exert.notify.outerBoxLarge[a[1]] + 'px');
             }
         };
         
@@ -332,20 +383,32 @@ $(document).ready(function(){
             });
         };
         
-        var createNotify = function(type, options){
-            var opts = {}; 
+        /*
+         * 
+         * @param String type repsresents what type od message is this: "error", "info", "success" or "warning"
+         * @param Object options
+         * @returns void
+         */
+        var createLargeNotify = function(type, options){
+            var opts = {};
             //we merge given object to our defaults object
             $.extend(true, opts, defaults, options);
             //we create outerBox
-            var outerBox = createOuterBox();
+            var outerBox = createOuterBoxLarge();
             //we create message box
-            var box = $('<div class="notify alert row"></div>');
+            var box = $('<div class="row tab-pane alert"></div>');
+            //the index refers how many children does this tab have
+            var count = parseInt(outerBox.data('count'),10)+1;
+            var id = 'tabPane' + count;
+            box.attr('id', id);
+            outerBox.data('count', count);
+            
             //in this variable we save icon content which we need to put in alert;
             var icon = "";
             //if message box type exists, if it's valid string and it has corresponding class in our
             //types object we add this class
-            if (type && typeof type === 'string' && types[type]){
-                if (types[type].class){
+            if (type && typeof type === 'string' && types[type]) {
+                if (types[type].class) {
                     box.addClass(types[type].class);
                 }
                 if (types[type].icon && typeof types[type].icon === 'string'){
@@ -354,25 +417,92 @@ $(document).ready(function(){
                     icon += '</div>';
                 }
             }
+            var tab = '';
+            //we check if merged object is valid object
+            if (opts && typeof opts === 'object') {
+                //if in parameters we have that this box must be closable we add close button to it
+//                if (opts.closable) {
+//                    box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
+//                }
+                var content = $('<div class="notify-content col-xs-10"></div>');
+                //if inside options parameter we have title we add it
+                if (opts.title) {
+                    tab = $('<li><a href="#' + id + '" data-toggle="tab">' + opts.title + '</a></li>');
+                    content.append('<h4>' + opts.title + '</h4>');
+                }
+                //if inside options parameter we have message we add it
+                if (opts.msg) {
+                    content.append('<p>' + opts.msg + '</p>');
+                }
+                box.append(icon);
+                box.append(content);
+            }
+            //we add created box inside outer box
+            outerBox.find('ul').append(tab);
+            outerBox.find('ul>li.active').removeClass('active');
+            tab.addClass('active');
+            outerBox.find('.tab-content').append(box);
+            outerBox.find('.tab-content>.tab-pane.active').removeClass('active');
+            box.addClass('active');
+            //we add close event to box
+            //if all boxes are closed we need to hide outer box
+            //this method does this action
+//            addCloseEvent(box);
+//            if (opts.closeOnClick) {
+//                addClickEvent(box);
+//            }
+            /*
+             * we show slideDown animation and if delay was provided we hide the message after delay
+             * We hide the message using slideUp and when slideUp is finished we actially remove the element
+             * we check if there are no more elements in outerBox we hide the outer box
+             */
+//            box.slideDown(400, function() {
+//                if (opts.delay) {
+//                    setTimeout(function() {
+//                        box.slideUp(300, function() {
+//                            box.remove();
+//                            if (outerBox.children().length === 0) {
+//                                outerBox.hide();
+//                            }
+//                        });
+//
+//                    }, opts.delay);
+//                }
+//            });
+
+            showOuterBoxLarge(outerBox);
+        };
+        
+        //This is small version of notify it just shows title and small message
+        var createNotify = function(type, options){
+            var opts = {}; 
+            //we merge given object to our defaults object
+            $.extend(true, opts, defaults, options);
+            //we create outerBox
+            var outerBox = createOuterBox();
+            //we create message box
+            var box = $('<div class="notify alert"></div>');
+            //if message box type exists, if it's valid string and it has corresponding class in our
+            //types object we add this class
+            if (type && typeof type === 'string' && types[type]){
+                if (types[type].class){
+                    box.addClass(types[type].class);
+                }
+            }
             //we check if merged object is valid object
             if (opts && typeof opts === 'object'){
                 //if in parameters we have that this box must be closable we add close button to it
                 if (opts.closable){
                     box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
                 }
-                var content = $('<div class="notify-content col-xs-10"></div>');
                 //if inside options parameter we have title we add it
                 if (opts.title){
-                    content.append('<h4>' + opts.title + '</h4>');
+                    box.append('<h4>' + opts.title + '</h4>');
                 }
                 //if inside options parameter we have message we add it
                 if (opts.msg){
-                    content.append('<p>' + opts.msg + '</p>');
+                    box.append('<p>' + opts.msg + '</p>');
                 }
-                box.append(icon);
-                box.append(content);
-                
-                
             }
             //we add created box inside outer box
             outerBox.prepend(box);
@@ -404,8 +534,12 @@ $(document).ready(function(){
             
             showOuterBox(outerBox);
         };
-        window.Exert.notify.message = function(type, options){
-            createNotify(type, options);
+        window.Exert.notify.message = function(size, messageType, options){
+            if (size === 'mini'){
+                createNotify(messageType, options);
+            }else if (size === 'large'){
+                createLargeNotify(messageType, options);
+            }
         };
         
         

@@ -95,51 +95,73 @@ and open the template in the editor.
     border-radius: 3px;
     border-style: ridge;
     border-width: 1px;
-    border-color: #b6b6b6;
+    /*border-color: #9bb8c4;*/
     /*background-color: #595989;*/
     /*display: none;*/
     
-    .notify{
-        &.alert{
-            &.row{
-                margin-left: 0;
-                margin-right: 0;
-            }
-            margin-bottom: 0;
-            padding-left: 3px;
-            color: @very-light;
-            display: none;
-            &:hover{
-                color: @gray-lighter;
-            }
-            &.alert-danger{
-                background-color: @color-error;
-            }
-            &.alert-success{
-                background-color: @color-success;
-            }
-            &.alert-warning{
-                background-color: @color-warning;
-            }
-            &.alert-info{
-                background-color: @color-info;
-            }
+    .alert{
+/*        &.row{
+            margin-left: 0;
+            margin-right: 0;
+        }*/
+        margin-bottom: 0;
+        color: @very-light;
+        display: none;
+        &:hover{
+            color: @gray-lighter;
         }
+        &.alert-danger{
+            background-color: @color-error;
+        }
+        &.alert-success{
+            background-color: @color-success;
+        }
+        &.alert-warning{
+            background-color: @color-warning;
+        }
+        &.alert-info{
+            background-color: @color-info;
+        }
+        
         .icon-notify{
-            &.col-xs-1{
-                padding-left: 3px;
-                padding-right: 3px;
-            }
+            width: 30px;
             .glyphicon{
                 text-align: center;
                 font-size: 35px;
             }
             /*font-size: 22px;*/
             /*float: left;*/
-            width: 30px;
+
         }
+
+        .remove-paddings(@i: 1) when (@i =< 12) {
+            .icon-notify.col-xs-@{i} {
+                padding-left: 3px;
+                padding-right: 3px;
+            }
+            .remove-paddings(@i+1);
+        }
+        .remove-paddings(1);
     }
 }
+
+.exert{
+    &.notify-outer-lg{
+        &:extend(.exert.notify-outer);
+        .alert{
+            &:extend(.exert.notify-outer .alert all);
+            &.active{
+                display: block;
+            }
+            &.tab-pane{
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+        
+    }
+}
+
 
 button.btn{
     &.btn-mari{
