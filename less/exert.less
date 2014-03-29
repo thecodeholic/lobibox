@@ -147,6 +147,17 @@ and open the template in the editor.
 
 .exert{
     &.notify-outer-lg{
+        ul>li{ 
+            a{
+                &.alert{
+                    &:extend(.exert.notify-outer .alert all);
+                    display: block;
+                    padding: 3px;
+                    padding-left: 6px;
+                    padding-right: 6px;
+                }
+            }
+        }
         &:extend(.exert.notify-outer);
         border: none;
         .alert{

@@ -403,20 +403,7 @@ $(document).ready(function(){
             box.attr('id', id);
             outerBox.data('count', count);
             
-            //in this variable we save icon content which we need to put in alert;
-            var icon = "";
-            //if message box type exists, if it's valid string and it has corresponding class in our
-            //types object we add this class
-            if (type && typeof type === 'string' && types[type]) {
-                if (types[type].class) {
-                    box.addClass(types[type].class);
-                }
-                if (types[type].icon && typeof types[type].icon === 'string'){
-                    icon += '<div class="icon-notify col-xs-1">';
-                    icon += '<span class="' + types[type].icon + '"></span>';
-                    icon += '</div>';
-                }
-            }
+           
             var tab = '';
             //we check if merged object is valid object
             if (opts && typeof opts === 'object') {
@@ -427,16 +414,32 @@ $(document).ready(function(){
                 var content = $('<div class="notify-content col-xs-10"></div>');
                 //if inside options parameter we have title we add it
                 if (opts.title) {
-                    tab = $('<li><a href="#' + id + '" data-toggle="tab">' + opts.title + '</a></li>');
+                    tab = $('<li><a href="#' + id + '" data-toggle="tab" class="alert"></a></li>');
                     content.append('<h4>' + opts.title + '</h4>');
                 }
                 //if inside options parameter we have message we add it
                 if (opts.msg) {
                     content.append('<p>' + opts.msg + '</p>');
                 }
-                box.append(icon);
                 box.append(content);
             }
+            //in this variable we save icon content which we need to put in alert;
+            var icon = "";
+            //if message box type exists, if it's valid string and it has corresponding class in our
+            //types object we add this class
+            if (type && typeof type === 'string' && types[type]) {
+                if (types[type].class) {
+                    box.addClass(types[type].class);
+                    tab.find('a').addClass(types[type].class);
+                }
+                if (types[type].icon && typeof types[type].icon === 'string') {
+//                    icon += '<div class="icon-notify col-xs-1">';
+                    icon += '<span class="' + types[type].icon + '"></span>';
+//                    icon += '</div>';
+                    tab.find('a').append(icon);
+                }
+            }
+            
             //we add created box inside outer box
             outerBox.find('ul').append(tab);
             outerBox.find('ul>li.active').removeClass('active');

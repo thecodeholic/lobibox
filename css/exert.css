@@ -93,6 +93,7 @@ and open the template in the editor.
 /* line 102, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003102}}
 .exert.notify-outer .alert,
+.exert.notify-outer-lg ul > li a.alert,
 .exert.notify-outer-lg .alert {
   /*        &.row{
             margin-left: 0;
@@ -105,36 +106,42 @@ and open the template in the editor.
 /* line 110, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003110}}
 .exert.notify-outer .alert:hover,
+.exert.notify-outer-lg ul > li a.alert:hover,
 .exert.notify-outer-lg .alert:hover {
   color: #eeeeee;
 }
 /* line 113, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003113}}
 .exert.notify-outer .alert.alert-danger,
+.exert.notify-outer-lg ul > li a.alert.alert-danger,
 .exert.notify-outer-lg .alert.alert-danger {
   background-color: #d2322d;
 }
 /* line 116, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003116}}
 .exert.notify-outer .alert.alert-success,
+.exert.notify-outer-lg ul > li a.alert.alert-success,
 .exert.notify-outer-lg .alert.alert-success {
   background-color: #63bf68;
 }
 /* line 119, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003119}}
 .exert.notify-outer .alert.alert-warning,
+.exert.notify-outer-lg ul > li a.alert.alert-warning,
 .exert.notify-outer-lg .alert.alert-warning {
   background-color: #d37700;
 }
 /* line 122, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003122}}
 .exert.notify-outer .alert.alert-info,
+.exert.notify-outer-lg ul > li a.alert.alert-info,
 .exert.notify-outer-lg .alert.alert-info {
   background-color: #428bca;
 }
 /* line 126, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003126}}
 .exert.notify-outer .alert .icon-notify,
+.exert.notify-outer-lg ul > li a.alert .icon-notify,
 .exert.notify-outer-lg .alert .icon-notify {
   width: 30px;
   /*font-size: 22px;*/
@@ -143,6 +150,7 @@ and open the template in the editor.
 /* line 128, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003128}}
 .exert.notify-outer .alert .icon-notify .glyphicon,
+.exert.notify-outer-lg ul > li a.alert .icon-notify .glyphicon,
 .exert.notify-outer-lg .alert .icon-notify .glyphicon {
   text-align: center;
   font-size: 35px;
@@ -150,6 +158,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-1,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-1,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-1 {
   padding-left: 3px;
   padding-right: 3px;
@@ -157,6 +166,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-2,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-2,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-2 {
   padding-left: 3px;
   padding-right: 3px;
@@ -164,6 +174,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-3,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-3,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-3 {
   padding-left: 3px;
   padding-right: 3px;
@@ -171,6 +182,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-4,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-4,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-4 {
   padding-left: 3px;
   padding-right: 3px;
@@ -178,6 +190,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-5,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-5,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-5 {
   padding-left: 3px;
   padding-right: 3px;
@@ -185,6 +198,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-6,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-6,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-6 {
   padding-left: 3px;
   padding-right: 3px;
@@ -192,6 +206,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-7,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-7,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-7 {
   padding-left: 3px;
   padding-right: 3px;
@@ -199,6 +214,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-8,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-8,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-8 {
   padding-left: 3px;
   padding-right: 3px;
@@ -206,6 +222,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-9,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-9,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-9 {
   padding-left: 3px;
   padding-right: 3px;
@@ -213,6 +230,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-10,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-10,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-10 {
   padding-left: 3px;
   padding-right: 3px;
@@ -220,6 +238,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-11,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-11,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-11 {
   padding-left: 3px;
   padding-right: 3px;
@@ -227,6 +246,7 @@ and open the template in the editor.
 /* line 138, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003138}}
 .exert.notify-outer .alert .icon-notify.col-xs-12,
+.exert.notify-outer-lg ul > li a.alert .icon-notify.col-xs-12,
 .exert.notify-outer-lg .alert .icon-notify.col-xs-12 {
   padding-left: 3px;
   padding-right: 3px;
@@ -236,36 +256,44 @@ and open the template in the editor.
 .exert.notify-outer-lg {
   border: none;
 }
-/* line 154, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003154}}
+/* line 152, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003152}}
+.exert.notify-outer-lg ul > li a.alert {
+  display: block;
+  padding: 3px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+/* line 165, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003165}}
 .exert.notify-outer-lg .alert.active {
   display: block;
 }
-/* line 157, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003157}}
+/* line 168, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003168}}
 .exert.notify-outer-lg .alert.tab-pane {
   margin-left: 0;
   margin-right: 0;
 }
-/* line 168, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003168}}
+/* line 179, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003179}}
 button.btn.btn-mari {
   background-color: #bd64c1;
   color: #ffffff;
 }
-/* line 171, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003171}}
+/* line 182, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003182}}
 button.btn.btn-mari:hover {
   background-color: #97509b;
 }
-/* line 175, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003175}}
+/* line 186, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003186}}
 button.btn.btn-inverse {
   background-color: #565656;
   color: #ffffff;
 }
-/* line 178, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003178}}
+/* line 189, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003189}}
 button.btn.btn-inverse:hover {
   background-color: #343434;
 }
