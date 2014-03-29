@@ -1,4 +1,15 @@
+String.prototype.firstUpper = function(){
+    window.console.log("rrr");
+};
+
+
 $(document).ready(function(){
+    $.fn.appendText = function(text) {
+        return this.each(function() {
+            var textNode = document.createTextNode(text);
+            $(this).append(textNode);
+        });
+    };
     (function(){
         window.Exert  = window.Exert || {};
         var alert   = $('<div class="modal exert" role="dialog"></div>');
@@ -245,46 +256,72 @@ $(document).ready(function(){
     })();
     
     (function(){
+        window.Exert.notify = window.Exert.notify || {};
         var outerBoxCreated = false;
+        var defaults = {
+            closable: true
+        };
+        var types = {
+            'error'     : 'alert-danger',
+            'success'   : 'alert-success',
+            'warning'   : 'alert-warning',
+            'info'      : 'alert-info'
+        };
+        window.Exert.notify.outerBox = {
+            width: 300,
+            left: 10, //offset from left when showing outer box
+            right: 10, //offset from right when showing outer box
+            top: 10,   //offset from top when showing outer box
+            bottom: 10, //offset from bottom when showing outer box
+            position: "bottom middle" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
+        };
         var createOuterBox = function(){
             if ($('.exert.notify-outer').length == 0){
                 var box = $('<div class="exert notify-outer"></div>');
                 $(document.body).append(box);
-                box.css({
-                   width: '200px',
-                   position: 'absolute',
-                   backgroundColor: 'lightblue',
-                   left: ($(window).width() - 210) + 'px',
-                   top: '0px',
-                   zIndex: '100'
-                });
-                
                 return box;
             }else{
                 return $('div.exert.notify-outer');
             }
         }
+        /*
+         * This method calculates left and top where to show outer box and positions it.
+         * It also sets the box width
+         */
+        var showOuterBox = function(box){
+            var a = window.Exert.notify.outerBox.position.split(" ");
+            box.css('width', window.Exert.notify.outerBox.width + 'px' );
+            box.css(a[0], window.Exert.notify.outerBox[a[0]] + 'px');
+            if (a[1] === 'middle'){
+                var left = ($(window).width() - $(box).width()) / 2;
+                box.css("left", left);
+            }else{
+                box.css(a[1], window.Exert.notify.outerBox[a[1]] + 'px');
+            }
+        };
         var createNotify = function(type, options){
-            window.console.log("ddd");
+            var opts = {}; 
+            window.console.log(options);
+            $.extend(true, opts, defaults, options);
             var outerBox = createOuterBox();
-            var box = $('<div class="notify notify-error"></div>');
-            if (options && typeof options === 'object'){
-                if (options.msg){
-                    box.html(options.msg);
+            window.console.log(opts);
+            var box = $('<div class="notify alert"></div>');
+            if (opts.closable){
+                box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
+            }
+            if (type && typeof type === 'string' && types[type]){
+                box.addClass(types[type]);
+            }
+            if (opts && typeof opts === 'object'){
+                if (opts.msg){
+                    box.appendText(opts.msg);
                 }
             }
-            box.css({
-                positions: 'relative'
-            });
             outerBox.prepend(box);
-            outerBox.css({
-                top: ($(window).height() - $(outerBox).height() - 20) + 'px'
-            });
+            showOuterBox(outerBox);
         };
-        window.Exert.notify = {
-            error: function(options){
-                createNotify('error', options);
-            }
+        window.Exert.notify.error = function(type, options){
+            createNotify(type, options);
         };
         
         

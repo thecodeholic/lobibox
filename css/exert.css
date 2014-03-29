@@ -7,15 +7,15 @@ and open the template in the editor.
     Created on : Mar 19, 2014, 9:48:25 AM
     Author     : Zura
 */
-/* line 40, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000340}}
+/* line 42, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000342}}
 .exert.modal .modal-header {
   padding-bottom: 8px;
   padding-top: 8px;
   color: #eeeeee;
 }
-/* line 44, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000344}}
+/* line 46, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000346}}
 .exert.modal .modal-header h1,
 .exert.modal .modal-header h2,
 .exert.modal .modal-header h3,
@@ -25,18 +25,18 @@ and open the template in the editor.
   margin-bottom: 2px;
   margin-top: 2px;
 }
-/* line 50, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000350}}
+/* line 52, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000352}}
 .exert.modal.modal-error .modal-header {
   background-color: #d2322d;
 }
-/* line 55, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000355}}
+/* line 57, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000357}}
 .exert.modal.modal-success .modal-header {
   background-color: #63bf68;
 }
-/* line 60, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000360}}
+/* line 62, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000362}}
 .exert.modal.zoom-in .modal-content {
   -webkit-transform: scale(0.7);
   -moz-transform: scale(0.7);
@@ -47,8 +47,8 @@ and open the template in the editor.
   -moz-transition: all 0.3s;
   transition: all 0.3s;
 }
-/* line 68, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000368}}
+/* line 70, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000370}}
 .exert.modal.zoom-in.in .modal-content {
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
@@ -56,8 +56,8 @@ and open the template in the editor.
   transform: scale(1);
   opacity: 1;
 }
-/* line 75, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000375}}
+/* line 77, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000377}}
 .exert.modal.slide-from-right .modal-content {
   -webkit-transform: translateX(20%);
   -moz-transform: translateX(20%);
@@ -68,8 +68,8 @@ and open the template in the editor.
   -moz-transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
   transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
 }
-/* line 82, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000382}}
+/* line 84, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000384}}
 .exert.modal.slide-from-right.in .modal-content {
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
@@ -79,23 +79,67 @@ and open the template in the editor.
 }
 /* line 92, C:\xampp\htdocs\Exert\less\exert.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000392}}
+.exert.notify-outer {
+  position: absolute;
+  z-index: 100;
+  border-radius: 3px;
+  border-style: ridge;
+  border-width: 1px;
+  border-color: #b6b6b6;
+  /*background-color: #595989;*/
+  /*display: none;*/
+}
+/* line 103, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003103}}
+.exert.notify-outer .notify.alert {
+  margin-bottom: 0;
+  cursor: pointer;
+  color: #ffffff;
+}
+/* line 107, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003107}}
+.exert.notify-outer .notify.alert:hover {
+  color: #eeeeee;
+}
+/* line 110, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003110}}
+.exert.notify-outer .notify.alert.alert-danger {
+  background-color: #d2322d;
+}
+/* line 113, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003113}}
+.exert.notify-outer .notify.alert.alert-success {
+  background-color: #63bf68;
+}
+/* line 116, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003116}}
+.exert.notify-outer .notify.alert.alert-warning {
+  background-color: #d37700;
+}
+/* line 119, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003119}}
+.exert.notify-outer .notify.alert.alert-info {
+  background-color: #428bca;
+}
+/* line 127, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003127}}
 button.btn.btn-mari {
   background-color: #bd64c1;
   color: #ffffff;
 }
-/* line 95, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000395}}
+/* line 130, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003130}}
 button.btn.btn-mari:hover {
   background-color: #97509b;
 }
-/* line 99, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\0000399}}
+/* line 134, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003134}}
 button.btn.btn-inverse {
   background-color: #565656;
   color: #ffffff;
 }
-/* line 102, C:\xampp\htdocs\Exert\less\exert.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003102}}
+/* line 137, C:\xampp\htdocs\Exert\less\exert.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Exert\/less\/exert\.less}line{font-family:\00003137}}
 button.btn.btn-inverse:hover {
   background-color: #343434;
 }

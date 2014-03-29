@@ -11,10 +11,12 @@ and open the template in the editor.
 
 @color-error        : #d2322d;
 @color-success      : #63bf68;
+@color-warning      : #d37700;
+@color-info         : #428bca;
 @padding-medium     : 8px;
 @margin-small       : 2px;
 @gray-lighter       : lighten(#000, 93.5%);
-
+@very-light         : #FFFFFF;
 
 .translate-x(@size: 0){
     -webkit-transform: translateX(@size);
@@ -87,18 +89,51 @@ and open the template in the editor.
     }
 }
 
+.exert.notify-outer{
+    position: absolute;
+    z-index: 100;
+    border-radius: 3px;
+    border-style: ridge;
+    border-width: 1px;
+    border-color: #b6b6b6;
+    /*background-color: #595989;*/
+    /*display: none;*/
+    
+    .notify{
+        &.alert{
+            margin-bottom: 0;
+            cursor: pointer;
+            color: @very-light;
+            &:hover{
+                color: @gray-lighter;
+            }
+            &.alert-danger{
+                background-color: @color-error;
+            }
+            &.alert-success{
+                background-color: @color-success;
+            }
+            &.alert-warning{
+                background-color: @color-warning;
+            }
+            &.alert-info{
+                background-color: @color-info;
+            }
+        }
+    }
+}
 
 button.btn{
     &.btn-mari{
         background-color: #bd64c1;
-        color: #ffffff;
+        color: @very-light;
         &:hover{
             background-color: #97509b;
         }
     }
     &.btn-inverse{
         background-color: #565656;
-        color: #ffffff;
+        color: @very-light;
         &:hover{
             background-color: #565656 - #222;
         }
