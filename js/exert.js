@@ -1,8 +1,3 @@
-String.prototype.firstUpper = function(){
-    window.console.log("rrr");
-};
-
-
 $(document).ready(function(){
     $.fn.appendText = function(text) {
         return this.each(function() {
@@ -11,7 +6,9 @@ $(document).ready(function(){
         });
     };
     (function(){
+        //create exert object
         window.Exert  = window.Exert || {};
+        //We create all necessary div-s and put in each other as it's required
         var alert   = $('<div class="modal exert" role="dialog"></div>');
         var dialog  = $('<div class="modal-dialog"></div>');
         var content = $('<div class="modal-content"></div>');
@@ -24,11 +21,12 @@ $(document).ready(function(){
         dialog.append(content);
         alert.append(dialog);
         
+        //This variable contains hash table where key is message type and value is css class
         var popupClasses = {
             error   : 'modal-error',
             success : 'modal-success'
         };
-        
+        //This object contains all default values for Exert message boxes
         var defaults = {
             modal   : {
                 //we need to add this class to div with modal class by default
@@ -62,6 +60,8 @@ $(document).ready(function(){
                 }
             }
         };
+        //This object is almost the same as "defaults".
+        // it contains the structure of options object which is given to function Exert.error or Exert.success
         var opts = {
             title       : '',           //any string
             titleHtml   : true,         //if this option is set to true header title will show HTML properly
@@ -72,6 +72,7 @@ $(document).ready(function(){
             closeButton : true,
             closeAction : 'hide',       //options: ['hide', 'destroy']
             buttons     : ['close'],    //array with options ['close', 'ok', 'calcel', 'yes', 'no'] or object with template described in default.button object
+            //modal corresponds to alert object
             modal       : {
                 class   : '',
                 attrs   : {}
@@ -98,13 +99,19 @@ $(document).ready(function(){
             }
         };
         
-        
+        /*
+         * This method adds close button if it was enabled
+         */
         var addCloseButton = function(options){
             if (options.closeButton){
                 var button = $('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
                 header.append(button);
             }
         };
+        /*
+         * This method adds title to messagebox with corresponding tags, classes and attributes
+         * If class or attributes was given but tag was not given the title text is surrounded by <span></span> tags
+         */
         var addTitle = function(options){
             if (options.title){
                 var openTag     = "";
@@ -134,12 +141,14 @@ $(document).ready(function(){
                     if (options.titleHtml){
                         header.html(options.title);
                     }else{
-                        window.console.log(options.title);
                         header.text(options.title);
                     }
                 }
             }
         };
+        /*
+         * This is general method generate header
+         */
         var generateHeader = function(options){
             header.empty();
             addCloseButton(options);
@@ -160,7 +169,9 @@ $(document).ready(function(){
             }
             return object;
         };
-        
+        /*
+         * This method generates footer buttons with possible classes, attributes and callback method
+         */
         var generateButtons = function(options){
             var opts = options;
             var createButton = function(type, options){
@@ -195,7 +206,11 @@ $(document).ready(function(){
             
         };
         
-        
+        /*
+         * This is general method which merges given object to opts object, makes some validation
+         * adds general class to alert object and makes calls to smaller methods.
+         * It also puts the message in body
+         */
         var generatePopup = function(options, type){
 
             var optss = {};
@@ -242,10 +257,21 @@ $(document).ready(function(){
             $(document.body).append(alert);
             
         };
+        /*
+         * This method shows error message with give options
+         * 
+         * @param Object options
+         * @returns void
+         */
         window.Exert.error = function(options) {
             generatePopup(options, 'error');
             alert.modal();
         };
+        /*
+         * This method shows success message with give options
+         * @param Object options
+         * @returns void
+         */
         window.Exert.success = function(options) {
             generatePopup(options, 'success');
             alert.modal();
@@ -256,12 +282,16 @@ $(document).ready(function(){
     })();
     
     (function(){
+        //we create notify object if it does not exist
         window.Exert.notify = window.Exert.notify || {};
+        //This object contains defaults for notify box
         var defaults = {
             closable    : true,
             delay       : 5000,
             closeOnClick: false
         };
+        //This object is hash map for notify boxes where key is message type and value is object which contains
+        //class and icon for notify box
         var types = {
             'error'     : {
                 class   : 'alert-danger',
@@ -280,6 +310,11 @@ $(document).ready(function(){
                 icon    : 'glyphicon glyphicon-info-sign'
             }
         };
+        /*
+         * We have two types of notification boxes: mini and large
+         */
+        //This object is for outer container for mini notification boxes
+        //This object is global object and can be set from anywhere before calling Exert.notify.message function
         window.Exert.notify.outerBox = {
             width: 300,
             left: 10, //offset from left when showing outer box
@@ -288,7 +323,8 @@ $(document).ready(function(){
             bottom: 10, //offset from bottom when showing outer box
             position: "bottom right" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
         };
-        
+        //This object is for outer container for large notification boxes
+        //This object is global object and can be set from anywhere before calling Exert.notify.message function
         window.Exert.notify.outerBoxLarge = {
             width: 400,
             left: 10, //offset from left when showing outer box
@@ -300,6 +336,7 @@ $(document).ready(function(){
         
         /*
          * This method creates outer box for mini alerts
+         * If this outer box exists, returns it.
          * @returns void
          */
         var createOuterBox = function(){
@@ -313,7 +350,8 @@ $(document).ready(function(){
         };
         
         /*
-         * This method creates outer box (Tab panel) for large alerts
+         * This method creates outer box (Tab panel)  with tabs container and content container for large alerts
+         * If this outer box already exists then returns it
          * @returns void
          */
         var createOuterBoxLarge = function(){
@@ -361,7 +399,10 @@ $(document).ready(function(){
                 box.css(a[1], window.Exert.notify.outerBoxLarge[a[1]] + 'px');
             }
         };
-        
+        /*
+         * This function adds close event to notification box and if every box is closed it hides the outer box
+         * For mini boxes
+         */
         var addCloseEvent = function(box){
             box.bind('closed.bs.alert', function (ev,a) {
                 var parent = $(ev.target).closest('.notify-outer');
@@ -370,6 +411,11 @@ $(document).ready(function(){
                 }
             });
         };
+        /*
+         * This function adds click event to notification box and removes the notification box on click
+         * It also checks if every box was removed, it hides the outer box
+         * For mini boxes
+         */
         var addClickEvent = function(box){
             box.css('cursor', 'pointer');
             box.on('click', function(ev){
@@ -402,15 +448,9 @@ $(document).ready(function(){
             var id = 'tabPane' + count;
             box.attr('id', id);
             outerBox.data('count', count);
-            
-           
             var tab = '';
             //we check if merged object is valid object
             if (opts && typeof opts === 'object') {
-                //if in parameters we have that this box must be closable we add close button to it
-//                if (opts.closable) {
-//                    box.append('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>');
-//                }
                 var content = $('<div class="notify-content col-xs-10"></div>');
                 //if inside options parameter we have title we add it
                 tab = $('<li><a href="#' + id + '" data-toggle="tab" class="alert"></a></li>');
@@ -537,6 +577,7 @@ $(document).ready(function(){
             
             showOuterBox(outerBox);
         };
+        
         window.Exert.notify.message = function(size, messageType, options){
             if (size === 'mini'){
                 createNotify(messageType, options);
