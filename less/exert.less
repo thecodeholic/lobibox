@@ -95,16 +95,9 @@ and open the template in the editor.
     border-radius: 3px;
     border-style: ridge;
     border-width: 1px;
-    /*border-color: #9bb8c4;*/
-    /*background-color: #595989;*/
-    /*display: none;*/
-    
     .alert{
-/*        &.row{
-            margin-left: 0;
-            margin-right: 0;
-        }*/
         margin-bottom: 0;
+        padding: 13px;
         color: @very-light;
         display: none;
         &:hover{
@@ -129,13 +122,10 @@ and open the template in the editor.
                 text-align: center;
                 font-size: 35px;
             }
-            /*font-size: 22px;*/
-            /*float: left;*/
-
         }
 
         .remove-paddings(@i: 1) when (@i =< 12) {
-            .icon-notify.col-xs-@{i} {
+            .col-xs-@{i} {
                 padding-left: 3px;
                 padding-right: 3px;
             }
@@ -168,6 +158,12 @@ and open the template in the editor.
             &.tab-pane{
                 margin-left: 0;
                 margin-right: 0;
+                .notify-image{
+                    img{
+                        width: 90px;
+                        height: 100px;
+                    }
+                }
             }
         }
         

@@ -286,6 +286,9 @@ $(document).ready(function(){
         window.Exert.notify = window.Exert.notify || {};
         //This object contains defaults for notify box
         var defaults = {
+            title       : '',
+            msg         : '',
+            imgUrl      : null, //This is only for large notifications
             closable    : true,
             delay       : 5000,
             closeOnClick: false
@@ -451,7 +454,7 @@ $(document).ready(function(){
             var tab = '';
             //we check if merged object is valid object
             if (opts && typeof opts === 'object') {
-                var content = $('<div class="notify-content col-xs-10"></div>');
+                var content = $('<div class="notify-content col-xs-9"></div>');
                 //if inside options parameter we have title we add it
                 tab = $('<li><a href="#' + id + '" data-toggle="tab" class="alert"></a></li>');
                 if (opts.title) {
@@ -460,6 +463,12 @@ $(document).ready(function(){
                 //if inside options parameter we have message we add it
                 if (opts.msg) {
                     content.append('<p>' + opts.msg + '</p>');
+                }
+                if (opts.imgUrl && typeof opts.imgUrl === 'string'){
+                    var img = $('<div class="notify-image col-xs-3"><img src="' + opts.imgUrl + '"/></div>');
+                }
+                if (img){
+                    box.append(img);
                 }
                 box.append(content);
             }
