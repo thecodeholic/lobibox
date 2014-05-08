@@ -1,4 +1,21 @@
 $(document).ready(function(){
+    
+    /**
+     * This function checks if string equals (char by char) any of given parameters
+     * 
+     * @returns {Boolean}
+     */
+    String.prototype.equals = function(){
+        if (arguments.length === 0)
+            return false;
+        for (var i=arguments.length-1; i>=0; i--){
+            if (arguments[i].toString() === this.valueOf()){
+                return true;
+                break;
+            }
+        }
+    };
+    
     $.fn.appendText = function(text) {
         return this.each(function() {
             var textNode = document.createTextNode(text);
@@ -95,7 +112,8 @@ $(document).ready(function(){
             },
             footer      : {
                 class   : '',
-                attrs   : {}
+                attrs   : {},
+                buttonsAlign: 'right' //we have three options 'right', 'center', 'left'
             }
         };
         
@@ -157,7 +175,11 @@ $(document).ready(function(){
         };
         var generateFooter = function(options){
             footer.empty();
-            generateButtons(options);
+            if (options.footer.buttonsAlign.equals('left', 'right', 'center')){
+                footer.addClass('text-'+options.footer.buttonsAlign);
+            }
+            var buts = generateButtons(options);
+            footer.append(buts);
         };
         
         var addAttrsAndClasses = function(cl, attrs, object){
@@ -169,8 +191,11 @@ $(document).ready(function(){
             }
             return object;
         };
-        /*
+        /**
          * This method generates footer buttons with possible classes, attributes and callback method
+         * 
+         * @param object options the options
+         * @return array array or buttons which we need to add in footer
          */
         var generateButtons = function(options){
             var opts = options;
@@ -197,12 +222,15 @@ $(document).ready(function(){
                 }
                 buttons = buts;
             }
+            var returnButtons = [];
             if (buttons && typeof buttons === 'object' && !$.isEmptyObject(buttons)){
                 //here i is button type and buttons[i] is options for button
                 for (var i in buttons){
-                    footer.append(createButton(i, buttons[i]));
+                    returnButtons.push(createButton(i, buttons[i]));
+//                    footer.append(createButton(i, buttons[i]));
                 }
             }
+            return returnButtons;
             
         };
         

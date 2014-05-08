@@ -14,6 +14,9 @@ $(document).ready(function(){
             class: 'slide-from-right'
 //            class: 'zoom-in'
         },
+        footer: {
+            buttonsAlign: 'right'
+        },
         callback: function(event, type){
             if (type === 'ok'){
                 Exert.notify.message('mini', 'success', {
