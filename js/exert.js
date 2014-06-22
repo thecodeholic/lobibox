@@ -1,27 +1,36 @@
+/**
+ * This function checks if string equals (char by char) any of given parameters
+ * 
+ * @returns {Boolean}
+ */
+String.prototype.equals = function() {
+    if (arguments.length === 0)
+        return false;
+    for (var i = arguments.length - 1; i >= 0; i--) {
+        if (arguments[i].toString() === this.valueOf()) {
+            return true;
+            break;
+        }
+    }
+};
+
 $(document).ready(function(){
     
-    /**
-     * This function checks if string equals (char by char) any of given parameters
-     * 
-     * @returns {Boolean}
-     */
-    String.prototype.equals = function(){
-        if (arguments.length === 0)
-            return false;
-        for (var i=arguments.length-1; i>=0; i--){
-            if (arguments[i].toString() === this.valueOf()){
-                return true;
-                break;
-            }
-        }
-    };
+    (function() {
+        /**
+         * Appends jQuery element with text node, with given text
+         * 
+         * @param {string} text
+         * @returns {voic}
+         */
+        $.fn.appendText = function(text) {
+            return this.each(function() {
+                var textNode = document.createTextNode(text);
+                $(this).append(textNode);
+            });
+        };
+    })();
     
-    $.fn.appendText = function(text) {
-        return this.each(function() {
-            var textNode = document.createTextNode(text);
-            $(this).append(textNode);
-        });
-    };
     (function(){
         //create exert object
         window.Exert  = window.Exert || {};
@@ -41,14 +50,12 @@ $(document).ready(function(){
         //This variable contains hash table where key is message type and value is css class
         var popupClasses = {
             error   : 'modal-error',
-            success : 'modal-success'
+            success : 'modal-success',
+            info    : 'modal-info',
+            warning : 'modal-warning'
         };
         //This object contains all default values for Exert message boxes
         var defaults = {
-            modal   : {
-                //we need to add this class to div with modal class by default
-                class   : 'fade'
-            },
             buttons : {
                 close   : {
                     class   : 'btn btn-default',
@@ -80,18 +87,20 @@ $(document).ready(function(){
         //This object is almost the same as "defaults".
         // it contains the structure of options object which is given to function Exert.error or Exert.success
         var opts = {
-            title       : '',           //any string
-            titleHtml   : true,         //if this option is set to true header title will show HTML properly
-            titleTag    : 'h2',         //any valid html tag
-            titleClass  : '',           //any valid css class
-            titleAttrs  : {},           //title tag attributes {key1: value1, key2: value2, ... ,keyN: valueN}
+            title: {
+                text    : '',               //any string
+                html    : true,             //if this option is set to true header title will show as HTML
+                tag     : '',               //any valid html tag. Most likely you need to set only headings. h1,h2,h3,h4,h5,h6
+                class   : '',               //any valid css class
+                attrs   : {}                //title tag attributes {key1: value1, key2: value2, ... ,keyN: valueN}
+            },
             msg         : '',
             closeButton : true,
             closeAction : 'hide',       //options: ['hide', 'destroy']
             buttons     : ['close'],    //array with options ['close', 'ok', 'calcel', 'yes', 'no'] or object with template described in default.button object
             //modal corresponds to alert object
             modal       : {
-                class   : '',
+                class   : 'fade',
                 attrs   : {}
             },
             dialog      : {
@@ -113,66 +122,130 @@ $(document).ready(function(){
             footer      : {
                 class   : '',
                 attrs   : {},
-                buttonsAlign: 'right' //we have three options 'right', 'center', 'left'
+                buttonsAlign: 'right',           //we have three options 'right', 'center', 'left'
+                //The buttons object contain button types which can be give as parameter
+//                buttons: {
+//                    close: {
+//                        class: 'btn btn-default',
+//                        attrs: {},
+//                        text: 'Close'
+//                    },
+//                    ok: {
+//                        class: 'btn btn-primary',
+//                        attrs: {},
+//                        text: 'Ok'
+//                    },
+//                    cancel: {
+//                        class: 'btn btn-danger',
+//                        attrs: {},
+//                        text: 'Cancel'
+//                    },
+//                    yes: {
+//                        class: 'btn btn-success',
+//                        attrs: {},
+//                        text: 'Yes'
+//                    },
+//                    no: {
+//                        class: 'btn btn-default',
+//                        attrs: {},
+//                        text: 'No'
+//                    }
+//                }
             }
         };
         
-        /*
-         * This method adds close button if it was enabled
+        /**
+         * This method adds close button to modal if it was enabled
+         * 
+         * @param {DomElement}  el      element which will be appended
          */
-        var addCloseButton = function(options){
-            if (options.closeButton){
-                var button = $('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
-                header.append(button);
-            }
+        var addCloseButton = function(el){
+            el.append('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
         };
         /*
-         * This method adds title to messagebox with corresponding tags, classes and attributes
+         * This method adds title to modal with corresponding tags, classes and attributes
          * If class or attributes was given but tag was not given the title text is surrounded by <span></span> tags
          */
-        var addTitle = function(options){
-            if (options.title){
-                var openTag     = "";
-                var closeTag    = "";
-                if (options.titleTag){
-                    openTag     = '<' + options.titleTag + '>';
-                    closeTag    = '</' + options.titleTag + '>';
-                }else if (!options.titleTag && (options.titleClass || typeof options.titleAttrs === 'object' && !$.isEmptyObject(options.titleAttrs))){
+        var addTitle = function(title, el){
+            if (title.text){
+                var openTag = "";
+                var closeTag = "";
+                if (title.tag){
+                    openTag = '<' + title.tag + '>';
+                    closeTag = '</' + title.tag + '>';
+                }else if (!title.tag && (title.class || typeof title.attrs === 'object' && !$.isEmptyObject(title.attrs))){
                     openTag     = '<span>';
                     closeTag    = '</span>';
                 }
-                if (openTag !== ""){
-                    var title = $(openTag + closeTag);
-                    if (options.titleClass){
-                        title.addClass(options.titleClass);
+                if (openTag !== "") {
+                    var text = $(openTag + closeTag);
+                    if (title.class) {
+                        text.addClass(title.class);
                     }
-                    if (!$.isEmptyObject(options.titleAttrs)){
-                        title.attr(options.titleAttrs);
+                    if (!$.isEmptyObject(title.attrs)) {
+                        text.attr(title.attrs);
                     }
-                    if (options.titleHtml){
-                        title.html(options.title);
-                    }else{
-                        title.text(options.title);
+                    if (title.html) {
+                        text.html(title.text);
+                    } else {
+                        text.text(title.text);
                     }
-                    header.append(title);
-                }else{
-                    if (options.titleHtml){
-                        header.html(options.title);
-                    }else{
-                        header.text(options.title);
+                    el.append(text);
+                } else {
+                    if (title.html) {
+                        el.html(title.text);
+                    } else {
+                        el.text(title.text);
                     }
                 }
             }
+//            if (options.title){
+//                var openTag     = "";
+//                var closeTag    = "";
+//                if (options.titleTag){
+//                    openTag     = '<' + options.titleTag + '>';
+//                    closeTag    = '</' + options.titleTag + '>';
+//                }else if (!options.titleTag && (options.titleClass || typeof options.titleAttrs === 'object' && !$.isEmptyObject(options.titleAttrs))){
+//                    openTag     = '<span>';
+//                    closeTag    = '</span>';
+//                }
+//                if (openTag !== ""){
+//                    var title = $(openTag + closeTag);
+//                    if (options.titleClass){
+//                        title.addClass(options.titleClass);
+//                    }
+//                    if (!$.isEmptyObject(options.titleAttrs)){
+//                        title.attr(options.titleAttrs);
+//                    }
+//                    if (options.titleHtml){
+//                        title.html(options.title);
+//                    }else{
+//                        title.text(options.title);
+//                    }
+//                    header.append(title);
+//                }else{
+//                    if (options.titleHtml){
+//                        header.html(options.title);
+//                    }else{
+//                        header.text(options.title);
+//                    }
+//                }
+//            }
         };
         /*
-         * This is general method generate header
+         * This method generates modal header
          */
         var generateHeader = function(options){
             header.empty();
-            addCloseButton(options);
-            addTitle(options);
+            if (options.closeButton){
+                addCloseButton(header);
+            }
+            addTitle(options.title, header);
             addAttrsAndClasses(options.header.class, options.header.attrs, header);
         };
+        /**
+         * This method generates modal footer
+         */
         var generateFooter = function(options){
             footer.empty();
             if (options.footer.buttonsAlign.equals('left', 'right', 'center')){
@@ -182,6 +255,9 @@ $(document).ready(function(){
             footer.append(buts);
         };
         
+        /**
+         * This method adds attribut(es) and class(es) tojQuery object 
+         */
         var addAttrsAndClasses = function(cl, attrs, object){
             if (cl && typeof cl === 'string'){
                 object.addClass(cl);
@@ -194,8 +270,8 @@ $(document).ready(function(){
         /**
          * This method generates footer buttons with possible classes, attributes and callback method
          * 
-         * @param object options the options
-         * @return array array or buttons which we need to add in footer
+         * @param {object}      options 
+         * @return {array}                  array of buttons which we need to add in footer
          */
         var generateButtons = function(options){
             var opts = options;

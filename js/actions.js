@@ -1,7 +1,14 @@
+
+
+
+
+
 $(document).ready(function(){
   $('#error').click(function(){
     Exert.error({
-        title   : "<span style=\"color: black\">შეცდომა</span>",
+        title   : {
+            text: "<span style=\"color: black\">შეცდომა</span>"
+        },
         msg     : "რაღაც არ გამოვიდა!!!",
 //        buttons : {
 //            close: {
@@ -59,11 +66,17 @@ $(document).ready(function(){
   });
   $('#success').click(function(){
     Exert.success({
-        title   : "title",
-//        titleTag: '',
-        titleClass: 'cl',
+        title   : {
+            text    : "title",
+            tag     : 'h2',
+            class   : 'cl',
+            attrs   : {
+                attr1: "some", 
+                attr2: "ggg", 
+                attr3: "sdsdsd"
+            }
+        },
         closeAction: 'destroy',
-        titleAttrs: {attr1: "some", attr2: "ggg", attr3: "sdsdsd"},
         msg     : "msg",
         closeButton: true
     });
