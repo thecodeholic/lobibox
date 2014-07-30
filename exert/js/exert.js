@@ -384,7 +384,9 @@ $(document).ready(function(){
 //           console.log("hidden"); 
 //        });
     })();
-    
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
     (function(){
         //we create notify object if it does not exist
         window.Exert.notify = window.Exert.notify || {};
