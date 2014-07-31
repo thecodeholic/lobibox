@@ -7,7 +7,7 @@ $(document).ready(function(){
   $('#error').click(function(){
     Exert.error({
         title   : {
-            text: "<span style=\"color: black\">შეცდომა</span>"
+            text: "<span style=\"color: black\">შეცდომა</span>",
         },
         msg     : "რაღაც არ გამოვიდა!!!",
 //        buttons : {

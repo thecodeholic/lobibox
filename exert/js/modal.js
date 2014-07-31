@@ -16,7 +16,6 @@
     ExertModal.prototype = {
         constructor: ExertModal,
         _processInput : function(options) {
-
             var buttons = {};
             if (typeof options.buttons === 'object' && options.buttons.length === 0) {
                 for (var i in options.buttons) {
@@ -24,12 +23,14 @@
                 }
             }else if (options.buttons.length > 0){
                 for (var i=0; i<options.buttons.length; i++){
-                    buttons[i] = OPTIONS.buttons[i];
+                    buttons[options.buttons[i]] = OPTIONS.buttons[options.buttons[i]];
                 }
+                options.buttons = buttons;
             }
             return options;
         },
         _init : function() {
+            var me = this;
             var exert = $('.modal.exert-modal');
             if (exert.length === 0){
                 //We create all necessary div-s and put in each other as it's required
@@ -45,6 +46,12 @@
                 dialog.append(content);
                 exert.append(dialog);
                 $('body').append(exert);
+                
+                exert.on('hidden.bs.modal', function() {
+                    if (me.$options.closeAction === 'destroy') {
+                        exert.remove();
+                    }
+                });
             }
             //remove any alert type classes (such as "error", "success") from alert 
             for (var i=0; i<OPTIONS.modalClasses.length; i++){
@@ -52,8 +59,19 @@
             }
             //add corresponding class(es) to type
             exert.addClass(this.$type);
-            this._addAttrsAndClasses(this.$options.modal.class, this.$options.modal.attrs, this.$referer);
             this.$referer = exert;
+            
+            this._addAttrsAndClasses(this.$options.modal.class, this.$options.modal.attrs, this.$referer);
+            this._addHeader();
+            this._addFooter();
+            
+            if (this.$options.msg) {
+                if (!body){
+                    var body = this.$referer.find('.modal-body');
+                }
+                body.html(this.$options.msg);
+            }
+            exert.modal();
         },
         _addAttrsAndClasses : function(cl, attrs, object){
             if (cl && typeof cl === 'string'){
@@ -63,6 +81,108 @@
                 object.attr(attrs);
             }
             return object;
+        },
+        /*
+         * This method adds title to modal with corresponding tags, classes and attributes
+         * If class or attributes was given but tag was not given the title text is surrounded by <span></span> tags
+         */
+        _addTitle: function() {
+            var header = this.$referer.find('.modal-header');
+            var title = this.$options.title;
+            if (title.text) {
+                var openTag = "";
+                var closeTag = "";
+                if (title.tag) {
+                    openTag = '<' + title.tag + '>';
+                    closeTag = '</' + title.tag + '>';
+                } else if (!title.tag && (title.class || typeof title.attrs === 'object' && !$.isEmptyObject(title.attrs))) {
+                    openTag = '<span>';
+                    closeTag = '</span>';
+                }
+                if (openTag !== "") {
+                    var text = $(openTag + closeTag);
+                    if (title.class) {
+                        text.addClass(title.class);
+                    }
+                    if (!$.isEmptyObject(title.attrs)) {
+                        text.attr(title.attrs);
+                    }
+                    if (title.html) {
+                        text.html(title.text);
+                    } else {
+                        text.text(title.text);
+                    }
+                    header.append(text);
+                } else {
+                    if (title.html) {
+                        header.html(title.text);
+                    } else {
+                        header.text(title.text);
+                    }
+                }
+            }
+        },
+        _addHeader: function(){
+            var header = this.$referer.find('.modal-header');
+            header.empty();
+            if (this.$options.closeButton) {
+                this._addCloseButton();
+            }
+            this._addTitle();
+            this._addAttrsAndClasses(this.$options.header.class, this.$options.header.attrs, header);
+        },
+        /**
+         * This method adds close button to modal if it was enabled
+         * 
+         * @param {DomElement}  el      element which will be appended
+         */
+        _addCloseButton : function(){
+            var header = this.$referer.find('.modal-header');
+            header.append('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>');
+        },
+        /**
+         * This method generates modal footer
+         */
+        _addFooter : function(){
+            var footer = this.$referer.find('.modal-footer');
+            footer.empty();
+            if (['left', 'right', 'center'].indexOf(this.$options.footer.buttonsAlign) > -1){
+                footer.addClass('text-'+this.$options.footer.buttonsAlign);
+            }
+            var buts = this._generateButtons();
+            footer.append(buts);
+        },
+        _createButton : function(type, options){
+            var me = this;
+            var b = $('<button></button>');
+            if (type === 'close') {
+                b.attr('data-dismiss', 'modal');
+            }
+            if (this.$options.callback && typeof this.$options.callback === 'function') {
+                b.on('click', function(e) {
+                    me.$options.callback(e, type);
+                });
+            }
+            b.html(options.text);
+            return this._addAttrsAndClasses(options.class, options.attrs, b);
+        },
+        /**
+         * This method generates footer buttons with possible classes, attributes and callback method
+         * 
+         * @param {object}      options 
+         * @return {array}                  array of buttons which we need to add in footer
+         */
+        _generateButtons : function(){
+            var buttons = this.$options.buttons;
+            var returnButtons = [];
+            if (buttons && typeof buttons === 'object' && !$.isEmptyObject(buttons)){
+                //here i is button type and buttons[i] is options for button
+                for (var i in buttons){
+                    returnButtons.push(this._createButton(i, buttons[i]));
+//                    footer.append(createButton(i, buttons[i]));
+                }
+            }
+            return returnButtons;
         }
     };
 
