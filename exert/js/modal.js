@@ -1,37 +1,54 @@
 (function(){
         
-    var ExertModal = function(type, options) {
+    var ExertMessageBox = function(type, options) {
+        //if messagebox type was not is available types we do not do anything
         if (OPTIONS.modalClasses.indexOf(type) === -1){
             return null;
         }
         this.$type   = type;
-        this.$options = {};
+        
         if (options){
-            options = this._processInput(options);
-            this.$options = $.extend({}, ExertModal.DEFAULT_OPTIONS, options);
+            this.$options = {};
         }
+        options = this._processInput(options);
+        this.$options = $.extend({}, ExertMessageBox.DEFAULT_OPTIONS, options);
+        window.console.log(this.$options);
         this._init();
     };
 
-    ExertModal.prototype = {
-        constructor: ExertModal,
+    ExertMessageBox.prototype = {
+        constructor: ExertMessageBox,
         _processInput : function(options) {
-            var buttons = {};
-            if (typeof options.buttons === 'object' && options.buttons.length === 0) {
-                for (var i in options.buttons) {
-                    buttons[i] = $.extend({}, OPTIONS.buttons[i], options.buttons[i]);
+            
+            if (this.$type === 'confirm'){
+                options.buttons = ['yes', 'no'];
+                options.size = 'small';
+                if ( ! options.footer){
+                    options.footer = {};
                 }
-            }else if (options.buttons.length > 0){
-                for (var i=0; i<options.buttons.length; i++){
-                    buttons[options.buttons[i]] = OPTIONS.buttons[options.buttons[i]];
-                }
-                options.buttons = buttons;
+                options.footer.buttonsAlign = 'center';
             }
+            
+            if (options.buttons){
+                var buttons = {};
+                if (typeof options.buttons === 'object' && options.buttons.length === 0) {
+                    for (var i in options.buttons) {
+                        buttons[i] = $.extend({}, OPTIONS.buttons[i], options.buttons[i]);
+                    }
+                }else if (options.buttons.length > 0){
+                    for (var i=0; i<options.buttons.length; i++){
+                        buttons[options.buttons[i]] = OPTIONS.buttons[options.buttons[i]];
+                    }
+                    options.buttons = buttons;
+                }
+            }
+            
             return options;
         },
         _init : function() {
             var me = this;
             var exert = $('.modal.exert-modal');
+            //if messagebox exists we show it, if it does not exist we create and than show it
             if (exert.length === 0){
                 //We create all necessary div-s and put in each other as it's required
                 exert = $('<div class="modal exert-modal" role="dialog"></div>');
@@ -47,10 +64,9 @@
                 exert.append(dialog);
                 $('body').append(exert);
                 
+                //if messagebox closeAction was 'destroy' we remove messagebox from DOM on hide
                 exert.on('hidden.bs.modal', function() {
-                    if (me.$options.closeAction === 'destroy') {
-                        exert.remove();
-                    }
+                    exert.remove();
                 });
             }
             //remove any alert type classes (such as "error", "success") from alert 
@@ -71,7 +87,47 @@
                 }
                 body.html(this.$options.msg);
             }
+            if ( ! me.$options.backDrop){
+                exert.attr('data-backdrop', 'static');
+            }
+            
+            this._givePosition();
+            this._giveSize();
             exert.modal();
+        },
+        _giveSize: function(){
+            var s = this.$options.size;
+            if (!s)
+                return;
+            var d = this.$referer.find('.modal-dialog');
+            if (isNaN(parseFloat(s, 10))){
+                if (s === 'small')
+                    d.addClass('modal-sm');
+                else if (s === 'large')
+                    d.addClass('modal-lg');
+            }else{
+                var px = parseFloat(s, 10);
+                d.css('width', px);
+            }
+        },
+        _givePosition: function(){
+            var me = this;
+            var p = this.$options.position;
+            var pp = p.split(' ');
+            var c = this.$referer.find('.modal-dialog');
+            if (pp[1] === 'middle'){
+                this.$referer.on('shown.bs.modal', function() {
+                    var top = ($(window).height() - c.height()) / 2;
+                    c.css('top', top);
+                });
+            }else if (pp[1] === 'bottom'){
+                this.$referer.on('shown.bs.modal', function() {
+                    var top = ($(window).height() - c.height()) - me.$options.topBottomOffset;
+                    c.css('top', top);
+                });
+            }else{
+                c.css('top', me.$options.topBottomOffset);
+            }
         },
         _addAttrsAndClasses : function(cl, attrs, object){
             if (cl && typeof cl === 'string'){
@@ -89,7 +145,11 @@
         _addTitle: function() {
             var header = this.$referer.find('.modal-header');
             var title = this.$options.title;
-            if (title.text) {
+            if (! title)
+                return;
+            if (typeof title === 'string'){
+                header.append(title);
+            }else if (typeof title === 'object' &&  title.text) {
                 var openTag = "";
                 var closeTag = "";
                 if (title.tag) {
@@ -196,37 +256,72 @@
      * @returns void
      */
     window.Exert.error = function(options) {
-        return new ExertModal('error', options);
+        return new ExertMessageBox('error', options);
+    };
+    
+    /*
+     * This method shows success message with give options
+     * 
+     * @param Object options
+     * @returns void
+     */
+    window.Exert.success = function(options) {
+        return new ExertMessageBox('success', options);
+    };
+    
+    /*
+     * This method shows confirm message with give options
+     * 
+     * @param Object options
+     * @returns void
+     */
+    window.Exert.confirm = function(options) {
+        return new ExertMessageBox('confirm', options);
     };
 
 
 
 
-    ExertModal.DEFAULT_OPTIONS = {
+    ExertMessageBox.DEFAULT_OPTIONS = {
         //This variable contains hash table where key is message type and value is css class
         title: {
-            text: '', //any string
-            html: true, //if this option is set to true header title will show as HTML
-            tag: '', //any valid html tag. Most likely you need to set only headings. h1,h2,h3,h4,h5,h6
-            class: '', //any valid css class
+            text: '',                   //any string
+            html: true,                 //if this option is set to true header title will show as HTML
+            tag: '',                    //any valid html tag. Most likely you need to set only headings. h1,h2,h3,h4,h5,h6
+            class: '',                  //any valid css class
             attrs: {}                   //title tag attributes {key1: value1, key2: value2, ... ,keyN: valueN}
         },
         msg: '',
-        closeButton: true,
-        closeAction: 'hide', //options: ['hide', 'destroy']
+        closeButton: true,              //This will add close button in header
+//        closeAction: 'hide',            //options: ['hide', 'destroy']
+        //Position where the messagebox must be shown
+        //avaibale options: ['center middle', 'center top', 'center bottom']
+        position:    'center middle',
+        //Size of the messagebox. Options: ['default', 'small', 'large']
+        //You can also give number which is evaluated as in px
+        size: 'default',
+        topBottomOffset: 30,
+        backDrop: false,                //This will prevent messagebox from hiding when you click outside
         //By default if you do not provide buttons message box will contain only close button
         /**
-         *  buttons may be object also where key is button type and value is object like this
+         *  buttons may be object  where key is button type and value is object like this
          *  close   : {
          *      class   : 'btn btn-default',
          *      attrs   : {},
          *      text    : 'Close'
          *  }
          */
-        buttons: ['close'], //array with options ['close', 'ok', 'calcel', 'yes', 'no'] or object with template described in default.button object
+        //it may be array also ['close', 'ok', 'calcel', 'yes', 'no'] 
+        buttons: {
+            close   : {
+                class   : 'btn btn-default',
+                attrs   : {},
+                text    : 'Close'
+             }
+        },
         //modal corresponds to alert object
         modal: {
-            class: 'fade',
+            class: 'blur',
             attrs: {}
         },
         dialog: {

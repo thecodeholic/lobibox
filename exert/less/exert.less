@@ -2,30 +2,27 @@
     Created on : Mar 19, 2014, 9:48:25 AM
     Author     : Zura
 */
+@import "mixins";
 
 
-@color-error        : #d2322d;
-@color-success      : #63bf68;
-@color-warning      : #d37700;
-@color-info         : #428bca;
-@padding-medium     : 8px;
-@margin-small       : 2px;
-@gray-lighter       : lighten(#000, 93.5%);
-@very-light         : #FFFFFF;
+@color-error                            : #d2322d;
+@color-success                          : #63bf68;
+@color-warning                          : #d37700;
+@color-info                             : #428bca;
+@color-confirm                          : #3C2D2D;
+@padding-medium                         : 8px;
+@margin-small                           : 2px;
+@gray-lighter                           : lighten(#000, 93.5%);
+@very-light                             : #FFFFFF;
 
-.translate-x(@size: 0){
-    -webkit-transform: translateX(@size);
-    -moz-transform: translateX(@size);
-    -ms-transform: translateX(@size);
-    transform: translateX(@size);
-}
 
-.scale(@sc: 1){
-    -webkit-transform: scale(@sc);
-    -moz-transform: scale(@sc);
-    -ms-transform: scale(@sc);
-    transform: scale(@sc);
-}
+@header-border-radius                   : 4px;
+@header-font-size                       : 16px;
+
+@footer-border-radius                   : 4px;
+@footer-padding                         : 10px;
+
+@confirm-header-font-size               : 20px;
 
 .cubic-bezier-transition(@prop: all; @time: 1s; @bez){
     -webkit-transition: @prop @time cubic-bezier(@bez);
@@ -33,23 +30,51 @@
     transition: @prop @time cubic-bezier(@bez);
 }
 
-.modal.exert-modal{
-    .modal-header{
-        padding-bottom: @padding-medium;
-        padding-top: @padding-medium;
-        color: @gray-lighter;
-        h1, h2, h3, h4, h5, h6{
-            margin-bottom   : @margin-small;
-            margin-top      : @margin-small;
+body{
+    &.modal-open{
+        .container{
+            .filter(blur(3px));
         }
     }
-    .modal-footer{
-        padding: 10px;
-        &.text-center{
-            text-align: center;
-        }
-        &.text-left{
-            text-align: left;
+}
+
+.modal-backdrop{
+    &.in{
+        background: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.modal.exert-modal{
+    .modal-dialog{
+        margin: auto;
+        .modal-content{
+            .modal-header{
+                font-size: @header-font-size;
+                border-top-left-radius: @header-border-radius;
+                border-top-right-radius: @header-border-radius;
+                padding-bottom: @padding-medium;
+                padding-top: @padding-medium;
+                color: @gray-lighter;
+                h1, h2, h3, h4, h5, h6{
+                    margin-bottom   : @margin-small;
+                    margin-top      : @margin-small;
+                }
+            }
+            .modal-footer{
+                border-bottom-left-radius: @footer-border-radius;
+                border-bottom-right-radius: @footer-border-radius;
+                padding: @footer-padding;
+                margin-top: 0;
+                &.text-center{
+                    text-align: center;
+                }
+                &.text-left{
+                    text-align: left;
+                }
+                &.text-right{
+                    text-align: right;
+                }
+            }
         }
     }
     &.error{
@@ -62,32 +87,56 @@
             background-color: @color-success;
         }
     }
+    &.confirm{
+        .modal-header{
+            font-size: @confirm-header-font-size !important;
+            background-color: @color-confirm;
+        }
+        .modal-footer{
+            background-color: lighten(@color-confirm, 10%);
+        }
+    }
     &.zoom-in{
         .modal-content{ 
             .scale(0.7);
             opacity: 0;
-            -webkit-transition: all 0.3s;
-            -moz-transition: all 0.3s;
-            transition: all 0.3s;
+            .transition(all 0.5s); 
         }
         &.in{
             .modal-content{ 
-                .scale();
+                .scale(1);
                 opacity: 1;
             }
         }
     }
     &.slide-from-right{
         .modal-content{
-            .translate-x(20%);
+            .translateX(20%);
             opacity: 0;
-            .cubic-bezier-transition(@prop: all; @time: 0.3s; @bez: 0.25, 0.5, 0.5, 0.9);
+            .transition(all 0.5s);
             
         }
         &.in{
             .modal-content{ 
-                .translate-x();
+                .translateX(0%);
                 opacity: 1;
+            }
+        }
+    }
+    &.blur{
+        .modal-dialog{
+            .modal-content{
+                .translateY(-15%);
+                opacity: 0;
+                .transition(all 0.5s);
+            }
+        }
+        &.in{
+            .modal-dialog{
+                .modal-content{
+                    .translateY(0%);
+                    opacity: 1;
+                }
             }
         }
     }
@@ -174,65 +223,3 @@
     }
 }
 
-
-button.btn{
-    &.btn-mari{
-        background-color: #bd64c1;
-        color: @very-light;
-        &:hover{
-            background-color: #97509b;
-        }
-    }
-    &.btn-inverse{
-        background-color: #565656;
-        color: @very-light;
-        &:hover{
-            background-color: #565656 - #222;
-        }
-    }
-}
-/*
-.exert.modal.modal-error{
-    .modal-header{
-        padding-bottom: 7px;
-        padding-top: 7px;
-        color: white;
-        background-color: #d2322d;
-    }
-}
-
-.modal .modal-header.modal-header-confirm{
-    padding-bottom: 7px;
-    padding-top: 7px;
-    color: white;
-    background-color: #333333;
-}
-
-
-.modal .modal-footer.modal-footer-error{
-    padding: 7px;
-    text-align: center;
-}
-
-.modal .modal-footer.modal-footer-error a,
-.modal .modal-footer.modal-footer-error button{
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-.modal .modal-header.modal-header-info{
-    padding-bottom: 7px;
-    padding-top: 7px;
-    color: #3a87ad;
-    background-color: #eeeeee;
-}
-.modal .modal-footer.modal-footer-info{
-    padding: 7px;
-    text-align: center;
-}
-
-.modal .modal-footer.modal-footer-info a,
-.modal .modal-footer.modal-footer-info button{
-    padding-left: 30px;
-    padding-right: 30px;
-}*/

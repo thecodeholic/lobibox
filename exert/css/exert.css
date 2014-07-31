@@ -2,28 +2,48 @@
     Created on : Mar 19, 2014, 9:48:25 AM
     Author     : Zura
 */
-.modal.exert-modal .modal-header {
+body.modal-open .container {
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  filter: blur(3px);
+}
+.modal-backdrop.in {
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal.exert-modal .modal-dialog {
+  margin: auto;
+}
+.modal.exert-modal .modal-dialog .modal-content .modal-header {
+  font-size: 16px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   padding-bottom: 8px;
   padding-top: 8px;
   color: #eeeeee;
 }
-.modal.exert-modal .modal-header h1,
-.modal.exert-modal .modal-header h2,
-.modal.exert-modal .modal-header h3,
-.modal.exert-modal .modal-header h4,
-.modal.exert-modal .modal-header h5,
-.modal.exert-modal .modal-header h6 {
+.modal.exert-modal .modal-dialog .modal-content .modal-header h1,
+.modal.exert-modal .modal-dialog .modal-content .modal-header h2,
+.modal.exert-modal .modal-dialog .modal-content .modal-header h3,
+.modal.exert-modal .modal-dialog .modal-content .modal-header h4,
+.modal.exert-modal .modal-dialog .modal-content .modal-header h5,
+.modal.exert-modal .modal-dialog .modal-content .modal-header h6 {
   margin-bottom: 2px;
   margin-top: 2px;
 }
-.modal.exert-modal .modal-footer {
+.modal.exert-modal .modal-dialog .modal-content .modal-footer {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   padding: 10px;
+  margin-top: 0;
 }
-.modal.exert-modal .modal-footer.text-center {
+.modal.exert-modal .modal-dialog .modal-content .modal-footer.text-center {
   text-align: center;
 }
-.modal.exert-modal .modal-footer.text-left {
+.modal.exert-modal .modal-dialog .modal-content .modal-footer.text-left {
   text-align: left;
+}
+.modal.exert-modal .modal-dialog .modal-content .modal-footer.text-right {
+  text-align: right;
 }
 .modal.exert-modal.error .modal-header {
   background-color: #d2322d;
@@ -31,15 +51,21 @@
 .modal.exert-modal.success .modal-header {
   background-color: #63bf68;
 }
+.modal.exert-modal.confirm .modal-header {
+  font-size: 20px !important;
+  background-color: #3c2d2d;
+}
+.modal.exert-modal.confirm .modal-footer {
+  background-color: #594343;
+}
 .modal.exert-modal.zoom-in .modal-content {
   -webkit-transform: scale(0.7);
   -moz-transform: scale(0.7);
   -ms-transform: scale(0.7);
   transform: scale(0.7);
   opacity: 0;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
 }
 .modal.exert-modal.zoom-in.in .modal-content {
   -webkit-transform: scale(1);
@@ -54,15 +80,30 @@
   -ms-transform: translateX(20%);
   transform: translateX(20%);
   opacity: 0;
-  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
-  -moz-transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
-  transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
 }
 .modal.exert-modal.slide-from-right.in .modal-content {
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  transform: translateX(0);
+  -webkit-transform: translateX(0%);
+  -moz-transform: translateX(0%);
+  -ms-transform: translateX(0%);
+  transform: translateX(0%);
+  opacity: 1;
+}
+.modal.exert-modal.blur .modal-dialog .modal-content {
+  -webkit-transform: translateY(-15%);
+  -moz-transform: translateY(-15%);
+  -ms-transform: translateY(-15%);
+  transform: translateY(-15%);
+  opacity: 0;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.modal.exert-modal.blur.in .modal-dialog .modal-content {
+  -webkit-transform: translateY(0%);
+  -moz-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  transform: translateY(0%);
   opacity: 1;
 }
 .exert.notify-outer,
@@ -209,62 +250,3 @@
   width: 90px;
   height: 100px;
 }
-button.btn.btn-mari {
-  background-color: #bd64c1;
-  color: #ffffff;
-}
-button.btn.btn-mari:hover {
-  background-color: #97509b;
-}
-button.btn.btn-inverse {
-  background-color: #565656;
-  color: #ffffff;
-}
-button.btn.btn-inverse:hover {
-  background-color: #343434;
-}
-/*
-.exert.modal.modal-error{
-    .modal-header{
-        padding-bottom: 7px;
-        padding-top: 7px;
-        color: white;
-        background-color: #d2322d;
-    }
-}
-
-.modal .modal-header.modal-header-confirm{
-    padding-bottom: 7px;
-    padding-top: 7px;
-    color: white;
-    background-color: #333333;
-}
-
-
-.modal .modal-footer.modal-footer-error{
-    padding: 7px;
-    text-align: center;
-}
-
-.modal .modal-footer.modal-footer-error a,
-.modal .modal-footer.modal-footer-error button{
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-.modal .modal-header.modal-header-info{
-    padding-bottom: 7px;
-    padding-top: 7px;
-    color: #3a87ad;
-    background-color: #eeeeee;
-}
-.modal .modal-footer.modal-footer-info{
-    padding: 7px;
-    text-align: center;
-}
-
-.modal .modal-footer.modal-footer-info a,
-.modal .modal-footer.modal-footer-info button{
-    padding-left: 30px;
-    padding-right: 30px;
-}*/
