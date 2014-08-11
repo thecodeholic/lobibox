@@ -43,8 +43,10 @@
 @notify-box-shadow                      : 3px 3px 5px #aaa;
 body{
     &.modal-open{
-        .container{
-            .filter(blur(3px));
+        >*{
+            &:not(.exert-modal){
+                .filter(blur(3px));
+            }
         }
     }
 }
