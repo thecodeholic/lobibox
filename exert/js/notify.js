@@ -12,9 +12,7 @@
         }
         
         this.$options = $.extend({}, ExertNotify.DEFAULT_OPTIONS, options);
-        window.console.log(this.$options);
         this.$options = this._processInput(this.$options);
-        window.console.log(this.$options);
         this._init();
     };
 
@@ -111,6 +109,7 @@
             this._addCloseOnClick();
             this._givePosition();
             this._addClass();
+            this._addDelay();
             
         },
         
@@ -155,6 +154,27 @@
         _givePosition: function(){
             this.$notify.css(this.$options.position);
         },
+        _addDelay: function(){
+            if ( ! this.$options.delay){
+                return;
+            }
+            var me = this;
+            var delay = $('<div class="exert-delay-indicator"><div></div></div>');
+            me.$notify.append(delay);
+            var time = 0;
+            var interval = 1000/30;
+            var timer = setInterval(function(){
+                time += interval;
+                var width = 100 * time / me.$options.delay;
+                if (width >= 100){
+                    timer = clearInterval(timer);
+                }
+                delay.find('div').css('width', width+"%");
+            },interval);
+            setTimeout(function(){
+                me.remove(); 
+            },this.$options.delay);
+        },
         remove: function(){
             var me = this;
             me.$notify.removeClass(this.$options.showClass).addClass(this.$options.hideClass);
@@ -187,7 +207,7 @@
         img         : null, //This is only for large notifications
         closable    : true,
         delay       : 5000,
-        closeOnClick: false,
+        closeOnClick: true,
         width       : 300,
         //This property may also be object with available keys ["left", "top", "right", "bottom"]where value is css value
         position: "bottom right" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"

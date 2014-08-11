@@ -60,49 +60,41 @@ and open the template in the editor.
 
 @-webkit-keyframes jumpUp {
 	0% { 
-            opacity: 0; 
             -webkit-transform: translate3d(0, calc(200% + 30px), 0) scale3d(0,1,1); 
             -webkit-animation-timing-function: ease-in; 
         }
 	40% { 
-            opacity:0.5; 
             -webkit-transform: translate3d(0,0,0) scale3d(0.02,1.1,1); 
             -webkit-animation-timing-function: ease-out; 
         }
 	70% { 
-            opacity:0.6; 
             -webkit-transform: translate3d(0,-40px,0) scale3d(0.8,1.1,1); 
         }
 	100% { 
-            opacity:1; 
             -webkit-transform: translate3d(0,0,0) scale3d(1,1,1); 
         }
 }
 
 @keyframes jumpUp {
 	0% { 
-            opacity: 0; 
             -webkit-transform: translate3d(0,calc(200% + 30px),0) scale3d(0,1,1); 
             -webkit-animation-timing-function: ease-in; 
             transform: translate3d(0,calc(200% + 30px),0) scale3d(0,1,1); 
             animation-timing-function: ease-in; 
         }
 	40% { 
-            opacity: 0.5; 
             -webkit-transform: translate3d(0,0,0) scale3d(0.02,1.1,1); 
             -webkit-animation-timing-function: ease-out; 
             transform: translate3d(0,0,0) scale3d(0.02,1.1,1); 
             animation-timing-function: ease-out; 
         }
 	70% { 
-            opacity: 0.6; 
             -webkit-transform: translate3d(0,-40px,0) scale3d(0.8,1.1,1); 
             transform: translate3d(0,-40px,0) scale3d(0.8,1.1,1); 
         }
 	100% { 
-            opacity:1; 
             -webkit-transform: translate3d(0,0,0) scale3d(1,1,1); 
-            transform: translate3d(0,0,0) scale3d(1,1,1); 
+            transform: translate3d(0,0,0) scale3d(1,1,1);
         }
 }
 

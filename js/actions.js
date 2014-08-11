@@ -20,7 +20,7 @@ $(document).ready(function(){
                     Exert.notify('success', {
                         title: "OKOK",
                         msg: "You clicked OK button",
-                        delay: 0,
+                        delay: 5000,
                         closeOnClick: false,
                         position: 'top left'
                     });

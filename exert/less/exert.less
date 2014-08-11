@@ -201,21 +201,53 @@ body{
                 opacity: 0.4;
             }
         }
+        .exert-delay-indicator{
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 5px;
+            >div{
+                position: relative;
+                height: 5px;
+                width: 0%;
+            }
+        }
         &:hover{
             cursor: pointer;
             opacity: 1;
         }
         &.error{
             background-color: @color-error;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-error, 15%);
+                }
+            }
         }
         &.success{
             background-color: @color-success;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-success, 15%);
+                }
+            }
         }
         &.warning{
             background-color: @color-warning;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-warning, 15%);
+                }
+            }
         }
         &.info{
             background-color: @color-info;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-info, 15%);
+                }
+            }
         }
     }
 }
