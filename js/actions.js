@@ -21,7 +21,7 @@ $(document).ready(function(){
                         title: "OKOK",
                         msg: "You clicked OK button",
                         delay: 0,
-                        closeOnClick: true,
+                        closeOnClick: false,
                         position: 'top left'
                     });
                 }else if (type === 'cancel'){
