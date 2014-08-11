@@ -38,13 +38,22 @@
                     }
                 }
             }
-            if ( ! options['class']){
-                options['class'] = '';
-            }
-            options['class'] = this.$type + " " + OPTIONS['class'] + " " + options.showClass;
             
             options = this._processPosition(options);
-            
+            options = this._processClass(options);
+            return options;
+        },
+        
+        _processClass : function(options){
+            if ( ! options.showClass || 
+                    OPTIONS.showAnimations.indexOf(options.showClass) === -1) {
+                options.showClass = ExertNotify.DEFAULT_OPTIONS.showClass;
+            }
+            if ( ! options.hideClass || 
+                    OPTIONS.hideAnimations.indexOf(options.hideClass) === -1) {
+                options.hideClass = ExertNotify.DEFAULT_OPTIONS.hideClass;
+            }
+            options['class']  = this.$type + " " + OPTIONS['class'] + " "+options.showClass;
             return options;
         },
         
@@ -214,7 +223,8 @@
         offsetTop       : 10,
         offsetBottom    : 10,
         positions: ["top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"],
-        animationClasses : ['anim-effect1']
+        showAnimations : ['jumpUp'],
+        hideAnimations : ['zoomOutDown']
     };
     
 })();
