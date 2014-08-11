@@ -24,12 +24,23 @@
 
 @confirm-header-font-size               : 20px;
 
-.cubic-bezier-transition(@prop: all; @time: 1s; @bez){
-    -webkit-transition: @prop @time cubic-bezier(@bez);
-    -moz-transition: @prop @time cubic-bezier(@bez);
-    transition: @prop @time cubic-bezier(@bez);
-}
 
+//Variables for notify
+@notify-wrapper-offset-top              : 10px;
+@notify-wrapper-offset-left             : 10px;
+@notify-wrapper-offset-right            : 10px;
+@notify-wrapper-offset-bottom           : 10px;
+
+@notify-padding                         : 10px;
+@notify-icon-font-size                  : 30px;
+@notify-icon-margin                     : 9px;
+@notify-margin                          : 7px;
+@notify-font-family                     : 'Arial Rounded MT Bold';
+@notify-title-font-size                 : 20px;
+
+@notify-border-radius                   : 3px;
+@notify-msg-margin-left                 : 50px;
+@notify-box-shadow                      : 3px 3px 5px #aaa;
 body{
     &.modal-open{
         .container{
@@ -44,7 +55,7 @@ body{
     }
 }
 
-.modal.exert-modal{
+.exert-modal{
     .modal-dialog{
         margin: auto;
         .modal-content{
@@ -142,84 +153,60 @@ body{
     }
 }
 
-.exert.notify-outer{
-    position: fixed;
-    z-index: 100;
-    border-radius: 3px;
-    border-style: ridge;
-    border-width: 1px;
-    .alert{
-        margin-bottom: 0;
-        padding: 13px;
-        color: @very-light;
-        display: none;
+.exert-notify-wrapper{
+    position: absolute;
+    &.top{
+        top: @notify-wrapper-offset-top;
+    }
+    &.bottom{
+        bottom: @notify-wrapper-offset-bottom;
+    }
+    &.left{
+        left: @notify-wrapper-offset-left;
+    }
+    &.right{
+        right: @notify-wrapper-offset-right;
+    }
+    .exert-notify{
+        padding: @notify-padding;
+        margin: @notify-margin;
+        font-family: @notify-font-family;
+        border-radius: @notify-border-radius;
+        position: relative;
+        color: #fff;
+        opacity: 0.8;
+        border: 1px solid transparent;
+        .transition(0.1s all linear); 
+        .box-shadow(@notify-box-shadow);
+        .exert-notify-icon{
+            float: left;
+            font-size: @notify-icon-font-size;
+            margin: @notify-icon-margin;
+        }
+        .exert-notify-title{
+            font-size: @notify-title-font-size;
+        }
+        .exert-notify-msg{
+            margin-left: @notify-msg-margin-left;
+        }
         &:hover{
-            color: @gray-lighter;
+            cursor: pointer;
+            opacity: 1;
         }
-        &.alert-danger{
+        &.error{
             background-color: @color-error;
+/*            &:hover{
+                border: 1px solid darken(@color-error, 50%)
+            }*/
         }
-        &.alert-success{
+        &.success{
             background-color: @color-success;
         }
-        &.alert-warning{
+        &.warning{
             background-color: @color-warning;
         }
-        &.alert-info{
+        &.info{
             background-color: @color-info;
         }
-        
-        .icon-notify{
-            width: 30px;
-            .glyphicon{
-                text-align: center;
-                font-size: 35px;
-            }
-        }
-
-        .remove-paddings(@i: 1) when (@i =< 12) {
-            .col-xs-@{i} {
-                padding-left: 3px;
-                padding-right: 3px;
-            }
-            .remove-paddings(@i+1);
-        }
-        .remove-paddings(1);
     }
 }
-
-.exert{
-    &.notify-outer-lg{
-        ul>li{ 
-            a{
-                &.alert{
-                    &:extend(.exert.notify-outer .alert all);
-                    display: block;
-                    padding: 3px;
-                    padding-left: 6px;
-                    padding-right: 6px;
-                }
-            }
-        }
-        &:extend(.exert.notify-outer);
-        border: none;
-        .alert{
-            &:extend(.exert.notify-outer .alert all);
-            &.active{
-                display: block;
-            }
-            &.tab-pane{
-                margin-left: 0;
-                margin-right: 0;
-                .notify-image{
-                    img{
-                        width: 90px;
-                        height: 100px;
-                    }
-                }
-            }
-        }
-        
-    }
-}
-

@@ -18,17 +18,18 @@
 
     ExertMessageBox.prototype = {
         constructor: ExertMessageBox,
+        
         _processInput : function(options) {
             
             if (this.$type === 'confirm'){
                 options.buttons = ['yes', 'no'];
-                options.size = 'small';
+                options.width = 'small';
                 if ( ! options.footer){
                     options.footer = {};
                 }
                 options.footer.buttonsAlign = 'center';
             }
-            
+            window.console.log(options.buttons);
             if (options.buttons){
                 var buttons = {};
                 if (typeof options.buttons === 'object' && options.buttons.length === 0) {
@@ -63,11 +64,6 @@
                 dialog.append(content);
                 exert.append(dialog);
                 $('body').append(exert);
-                
-                //if messagebox closeAction was 'destroy' we remove messagebox from DOM on hide
-                exert.on('hidden.bs.modal', function() {
-                    exert.remove();
-                });
             }
             //remove any alert type classes (such as "error", "success") from alert 
             for (var i=0; i<OPTIONS.modalClasses.length; i++){
@@ -92,11 +88,22 @@
             }
             
             this._givePosition();
-            this._giveSize();
+            this._giveWidth();
             exert.modal();
+            this._removeAfterHide();
         },
-        _giveSize: function(){
-            var s = this.$options.size;
+        _removeAfterHide: function(){
+            //We remove messagebo from DOM after it was hidden
+            var me = this;
+            me.$referer.on('hidden.bs.modal', function() {
+                me.$referer.remove();
+            });
+        },
+        hide   : function(){
+            this.$referer.modal('hide');
+        },
+        _giveWidth: function(){
+            var s = this.$options.width;
             if (!s)
                 return;
             var d = this.$referer.find('.modal-dialog');
@@ -215,12 +222,12 @@
         _createButton : function(type, options){
             var me = this;
             var b = $('<button></button>');
-            if (type === 'close') {
+            if (options.closeMessagebox) {
                 b.attr('data-dismiss', 'modal');
             }
             if (this.$options.callback && typeof this.$options.callback === 'function') {
                 b.on('click', function(e) {
-                    me.$options.callback(e, type);
+                    me.$options.callback(me, type, e);
                 });
             }
             b.html(options.text);
@@ -248,42 +255,22 @@
 
     //create exert object
     window.Exert = window.Exert || {};
-
-    /*
-     * This method shows error message with give options
-     * 
-     * @param Object options
-     * @returns void
-     */
-    window.Exert.error = function(options) {
-        return new ExertMessageBox('error', options);
-    };
     
     /*
-     * This method shows success message with give options
+     * This method shows message with type and with give options
      * 
+     * @param string type of the messageBox
      * @param Object options
      * @returns void
      */
-    window.Exert.success = function(options) {
-        return new ExertMessageBox('success', options);
+    window.Exert.messageBox = function(type, options) {
+        return new ExertMessageBox(type, options);
     };
-    
-    /*
-     * This method shows confirm message with give options
-     * 
-     * @param Object options
-     * @returns void
-     */
-    window.Exert.confirm = function(options) {
-        return new ExertMessageBox('confirm', options);
-    };
-
 
 
 
     ExertMessageBox.DEFAULT_OPTIONS = {
-        //This variable contains hash table where key is message type and value is css class
+        //title may also be string withour any tag or class. If title is string html is true
         title: {
             text: '',                   //any string
             html: true,                 //if this option is set to true header title will show as HTML
@@ -299,26 +286,20 @@
         position:    'center middle',
         //Size of the messagebox. Options: ['default', 'small', 'large']
         //You can also give number which is evaluated as in px
-        size: 'default',
+        width: 'default',
         topBottomOffset: 30,
         backDrop: false,                //This will prevent messagebox from hiding when you click outside
         //By default if you do not provide buttons message box will contain only close button
         /**
          *  buttons may be object  where key is button type and value is object like this
-         *  close   : {
+         *  cancel   : {
          *      class   : 'btn btn-default',
          *      attrs   : {},
          *      text    : 'Close'
          *  }
          */
-        //it may be array also ['close', 'ok', 'calcel', 'yes', 'no'] 
-        buttons: {
-            close   : {
-                class   : 'btn btn-default',
-                attrs   : {},
-                text    : 'Close'
-             }
-        },
+        //it may be array also ['ok', 'calcel', 'yes', 'no'] 
+//        buttons: ['cancel'],
         //modal corresponds to alert object
         modal: {
             class: 'blur',
@@ -352,30 +333,29 @@
     var OPTIONS = {
         modalClasses : ['error', 'success', 'info', 'warning', 'confirm', 'progress'],
         buttons: {
-            close: {
-                class: 'btn btn-default',
-                attrs: {},
-                text: BUTTON_LOCALES.close
-            },
             ok: {
-                class: 'btn btn-primary',
+                class: 'btn btn-primary btn-sm',
                 attrs: {},
-                text: BUTTON_LOCALES.ok
+                text: BUTTON_LOCALES.ok,
+                closeMessagebox: false
             },
             cancel: {
-                class: 'btn btn-danger',
+                class: 'btn btn-danger btn-sm',
                 attrs: {},
-                text: BUTTON_LOCALES.cancel
+                text: BUTTON_LOCALES.cancel,
+                closeMessagebox: true
             },
             yes: {
-                class: 'btn btn-success',
+                class: 'btn btn-success btn-sm',
                 attrs: {},
-                text: BUTTON_LOCALES.yes
+                text: BUTTON_LOCALES.yes,
+                closeMessagebox: false
             },
             no: {
-                class: 'btn btn-default',
+                class: 'btn btn-default btn-sm',
                 attrs: {},
-                text: BUTTON_LOCALES.no
+                text: BUTTON_LOCALES.no,
+                closeMessagebox: true
             }
         }
     };

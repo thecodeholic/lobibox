@@ -7,6 +7,13 @@
             yes     : 'Yes',
             no      : 'No',
             cancel  : 'Cancel'
+        },
+        titles : {
+            'success'       : 'Success',
+            'error'         : 'Error',
+            'warning'       : 'Warning',
+            'info'          : 'Information',
+            'confirm'       : 'Question'      
         }
     };
     

@@ -5,56 +5,41 @@
 
 $(document).ready(function(){
     $('#error').click(function(){
-        Exert.error({
+        Exert.messageBox('error',{
             title   : {
                 text: "<span style=\"color: black\">შეცდომა</span>",
             },
             msg     : "რაღაც არ გამოვიდა!!!",
-        //        buttons : {
-        //            close: {
-        //                text: 'დახურვა'
-        //            }
-        //        },
-            buttons: ['ok','close', 'yes', 'no', 'cancel'],
-            size: 400,
-        //        position: 'center bottom',
-        //        modal: {
-        //            class: 'slide-from-right'
-        //        },
+            buttons: ['ok', 'yes', 'no', 'cancel'],
+            width: 400,
             footer: {
                 buttonsAlign: 'right'
             },
-            callback: function(event, type){
+            callback: function(exert, type, event){
                 if (type === 'ok'){
-                    Exert.notify.message('mini', 'success', {
+                    Exert.notify('success', {
                         title: "OKOK",
                         msg: "You clicked OK button",
                         delay: 0,
-                        closeOnClick: true
+                        closeOnClick: true,
+                        position: 'top left'
                     });
                 }else if (type === 'cancel'){
-                    Exert.notify.message('large', 'error', {
+                    Exert.notify('error', {
                         title: 'My Title',
-                        msg: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                        msg: "Lorem Iecently with desktop versions of Lorem versions of Lorem versions of Lorem Ipsum.",
                         delay: 0,
                         closeOnClick: true,
                         imgUrl: 'DSC00118.JPG'
                     });
-                }else if (type === 'close'){
-                    Exert.notify.message('large','warning', {
-                        msg: "You clicked Close button",
-                        title: 'Close Tab',
-                        delay: 0,
-                        closeOnClick: true
-                    });
                 }else if (type === 'yes'){
-                    Exert.notify.message('mini', 'success', {
+                    Exert.notify('warning', {
                         msg: "You clicked Yes button",
                         delay: 0,
                         closeOnClick: true
                     });
                 }else if (type === 'no'){
-                    Exert.notify.message('large', 'info', {
+                    Exert.notify('info', {
                         title: 'This is Info',
                         msg: "You clicked No button",
                         delay: 0,
@@ -65,7 +50,7 @@ $(document).ready(function(){
         });
     });
     $('#success').click(function(){
-        Exert.success({
+        Exert.messageBox('success',{
             title   : {
                 text    : "title",
                 tag     : 'h2',
@@ -81,10 +66,15 @@ $(document).ready(function(){
         });
     });
     $('#yesNo').click(function(){
-        Exert.confirm({
+        Exert.messageBox('confirm',{
             title       : 'Question',
             msg         : "Are you sure you want to delete this user?",
-            closeButton : true
+            closeButton : true,
+            callback    : function(exert, type, ev){
+                if (type === 'no')
+                    exert.hide();
+                window.console.log(type);
+            }
         });
     });
 });

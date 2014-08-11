@@ -41,9 +41,20 @@
           transition: @transition;
 }
 
+.cubic-bezier-transition(@prop: all; @time: 1s; @bez){
+    -webkit-transition: @prop @time cubic-bezier(@bez);
+    -moz-transition: @prop @time cubic-bezier(@bez);
+    transition: @prop @time cubic-bezier(@bez);
+}
+
 // Filters
 .filter(@prop){
     -webkit-filter: @prop;
     -moz-filter: @prop;
     filter: @prop;
+}
+
+.box-shadow(@shadow) {
+  -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+          box-shadow: @shadow;
 }
