@@ -23,7 +23,7 @@
             
             if (this.$type === 'confirm'){
                 options.buttons = ['yes', 'no'];
-                options.width = 'small';
+                options.width = OPTIONS.modalSmallWidth;
                 if ( ! options.footer){
                     options.footer = {};
                 }
@@ -331,6 +331,7 @@
     var LOCALES = window.Exert.locales;
     var BUTTON_LOCALES = LOCALES.buttons;
     var OPTIONS = {
+        modalSmallWidth: 250,
         modalClasses : ['error', 'success', 'info', 'warning', 'confirm', 'progress'],
         buttons: {
             ok: {
