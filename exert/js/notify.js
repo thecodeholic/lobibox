@@ -85,7 +85,7 @@
         _init: function(){
             var notify = $('<div class="exert-notify"></div>');
             //Add class to notify box
-            notify.addClass(this.$options.class);
+            notify.addClass(this.$options['class']);
             
             if (this.$options.icon){
                 var icon = $('<div class="exert-notify-icon"><i class="'+this.$options.icon+'"></i></div>');
@@ -149,7 +149,7 @@
             }
         },
         _addClass: function(){
-            this.$notify.addClass(this.$options.class);
+            this.$notify.addClass(this.$options['class']);
         },
         _givePosition: function(){
             this.$notify.css(this.$options.position);
@@ -217,7 +217,7 @@
     var TITLE_LOCALES = LOCALES.titles;
     
     var OPTIONS = {
-        'class'         : 'animated',
+        'class'         : 'exert-animated',
         success: {
             'title'     : TITLE_LOCALES.success,
             'icon'      : 'glyphicon glyphicon-ok-sign'

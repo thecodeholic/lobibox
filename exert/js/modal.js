@@ -29,7 +29,6 @@
                 }
                 options.footer.buttonsAlign = 'center';
             }
-            window.console.log(options.buttons);
             if (options.buttons){
                 var buttons = {};
                 if (typeof options.buttons === 'object' && options.buttons.length === 0) {
@@ -73,7 +72,7 @@
             exert.addClass(this.$type);
             this.$referer = exert;
             
-            this._addAttrsAndClasses(this.$options.modal.class, this.$options.modal.attrs, this.$referer);
+            this._addAttrsAndClasses(this.$options.modal['class'], this.$options.modal.attrs, this.$referer);
             this._addHeader();
             this._addFooter();
             
@@ -89,14 +88,22 @@
             
             this._givePosition();
             this._giveWidth();
+            this._addShowListener();
+            this._addAfterHideListener();
             exert.modal();
-            this._removeAfterHide();
         },
-        _removeAfterHide: function(){
+        _addShowListener : function(){
+            var me = this;
+            me.$referer.on('show.bs.modal', function() {
+                $('body').addClass(OPTIONS.bodyClass);
+            });
+        },
+        _addAfterHideListener: function(){
             //We remove messagebo from DOM after it was hidden
             var me = this;
             me.$referer.on('hidden.bs.modal', function() {
                 me.$referer.remove();
+                $('body').removeClass(OPTIONS.bodyClass);
             });
         },
         hide   : function(){
@@ -162,14 +169,14 @@
                 if (title.tag) {
                     openTag = '<' + title.tag + '>';
                     closeTag = '</' + title.tag + '>';
-                } else if (!title.tag && (title.class || typeof title.attrs === 'object' && !$.isEmptyObject(title.attrs))) {
+                } else if (!title.tag && (title['class'] || typeof title.attrs === 'object' && !$.isEmptyObject(title.attrs))) {
                     openTag = '<span>';
                     closeTag = '</span>';
                 }
                 if (openTag !== "") {
                     var text = $(openTag + closeTag);
-                    if (title.class) {
-                        text.addClass(title.class);
+                    if (title['class']) {
+                        text.addClass(title['class']);
                     }
                     if (!$.isEmptyObject(title.attrs)) {
                         text.attr(title.attrs);
@@ -196,7 +203,7 @@
                 this._addCloseButton();
             }
             this._addTitle();
-            this._addAttrsAndClasses(this.$options.header.class, this.$options.header.attrs, header);
+            this._addAttrsAndClasses(this.$options.header['class'], this.$options.header.attrs, header);
         },
         /**
          * This method adds close button to modal if it was enabled
@@ -231,7 +238,7 @@
                 });
             }
             b.html(options.text);
-            return this._addAttrsAndClasses(options.class, options.attrs, b);
+            return this._addAttrsAndClasses(options['class'], options.attrs, b);
         },
         /**
          * This method generates footer buttons with possible classes, attributes and callback method
@@ -275,7 +282,7 @@
             text: '',                   //any string
             html: true,                 //if this option is set to true header title will show as HTML
             tag: '',                    //any valid html tag. Most likely you need to set only headings. h1,h2,h3,h4,h5,h6
-            class: '',                  //any valid css class
+            'class': '',                  //any valid css class
             attrs: {}                   //title tag attributes {key1: value1, key2: value2, ... ,keyN: valueN}
         },
         msg: '',
@@ -302,27 +309,27 @@
 //        buttons: ['cancel'],
         //modal corresponds to alert object
         modal: {
-            class: 'blur',
+            'class': 'blur',
             attrs: {}
         },
         dialog: {
-            class: '',
+            'class': '',
             attrs: {}
         },
         content: {
-            class: '',
+            'class': '',
             attrs: {}
         },
         header: {
-            class: '',
+            'class': '',
             attrs: {}
         },
         body: {
-            class: '',
+            'class': '',
             attrs: {}
         },
         footer: {
-            class: '',
+            'class': '',
             attrs: {},
             buttonsAlign: 'right'    //we have three options 'right', 'center', 'left'
         }
@@ -331,29 +338,30 @@
     var LOCALES = window.Exert.locales;
     var BUTTON_LOCALES = LOCALES.buttons;
     var OPTIONS = {
+        bodyClass       : 'exert-open',
         modalSmallWidth: 250,
         modalClasses : ['error', 'success', 'info', 'warning', 'confirm', 'progress'],
         buttons: {
             ok: {
-                class: 'btn btn-primary btn-sm',
+                'class': 'btn btn-primary btn-sm',
                 attrs: {},
                 text: BUTTON_LOCALES.ok,
                 closeMessagebox: false
             },
             cancel: {
-                class: 'btn btn-danger btn-sm',
+                'class': 'btn btn-danger btn-sm',
                 attrs: {},
                 text: BUTTON_LOCALES.cancel,
                 closeMessagebox: true
             },
             yes: {
-                class: 'btn btn-success btn-sm',
+                'class': 'btn btn-success btn-sm',
                 attrs: {},
                 text: BUTTON_LOCALES.yes,
                 closeMessagebox: false
             },
             no: {
-                class: 'btn btn-default btn-sm',
+                'class': 'btn btn-default btn-sm',
                 attrs: {},
                 text: BUTTON_LOCALES.no,
                 closeMessagebox: true
