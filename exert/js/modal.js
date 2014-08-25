@@ -11,6 +11,7 @@
             this.$options = {};
         }
         options = this._processInput(options);
+        window.console.log(options);
         this.$options = $.extend({}, ExertMessageBox.DEFAULT_OPTIONS, options);
         window.console.log(this.$options);
         this._init();
@@ -31,9 +32,16 @@
             }
             if (options.buttons){
                 var buttons = {};
-                if (typeof options.buttons === 'object' && options.buttons.length === 0) {
+                if (typeof options.buttons === 'object' && ! options.buttons.length) {
                     for (var i in options.buttons) {
-                        buttons[i] = $.extend({}, OPTIONS.buttons[i], options.buttons[i]);
+                        buttons[i] = options.buttons[i];
+                        buttons[i] = $.extend(buttons[i], options.buttons[i]);
+                        var bs = OPTIONS.buttons[i];
+                        for (var j in bs){
+                            if ( ! buttons[i].hasOwnProperty(j)){
+                                buttons[i][j] = bs[j];
+                            }
+                        }
                     }
                 }else if (options.buttons.length > 0){
                     for (var i=0; i<options.buttons.length; i++){
@@ -74,7 +82,11 @@
             
             this._addAttrsAndClasses(this.$options.modal['class'], this.$options.modal.attrs, this.$referer);
             this._addHeader();
-            this._addFooter();
+            if (this.$options.buttons && !$.isEmptyObject(this.$options.buttons)){
+                this._addFooter();
+            }else{
+                footer.remove();
+            }
             
             if (this.$options.msg) {
                 if (!body){
@@ -199,11 +211,13 @@
         _addHeader: function(){
             var header = this.$referer.find('.modal-header');
             header.empty();
+            this._addTitle();
+            this._addAttrsAndClasses(this.$options.header['class'], this.$options.header.attrs, header);
+            
             if (this.$options.closeButton) {
                 this._addCloseButton();
             }
-            this._addTitle();
-            this._addAttrsAndClasses(this.$options.header['class'], this.$options.header.attrs, header);
+            
         },
         /**
          * This method adds close button to modal if it was enabled
@@ -296,13 +310,12 @@
         width: 'default',
         topBottomOffset: 30,
         backDrop: false,                //This will prevent messagebox from hiding when you click outside
-        //By default if you do not provide buttons message box will contain only close button
         /**
          *  buttons may be object  where key is button type and value is object like this
          *  cancel   : {
          *      class   : 'btn btn-default',
          *      attrs   : {},
-         *      text    : 'Close'
+         *      text    : 'Close',
          *  }
          */
         //it may be array also ['ok', 'calcel', 'yes', 'no'] 

@@ -156,6 +156,7 @@ body{
 }
 
 .exert-notify-wrapper{
+    z-index: 20000;
     position: fixed;
     &.top{
         top: @notify-wrapper-offset-top;
@@ -176,7 +177,7 @@ body{
         border-radius: @notify-border-radius;
         position: relative;
         color: #fff;
-        opacity: 0.8;
+        opacity: 0.9;
         border: 1px solid transparent;
         .transition(0.1s all linear); 
         .box-shadow(@notify-box-shadow);

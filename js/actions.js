@@ -10,10 +10,17 @@ $(document).ready(function(){
                 text: "<span style=\"color: black\">შეცდომა</span>",
             },
             msg     : "რაღაც არ გამოვიდა!!!",
-            buttons: ['ok', 'yes', 'no', 'cancel'],
+//            buttons: ['ok', 'yes', 'no', 'cancel'],
+            buttons: {
+                ok : {
+                    'class' : 'btn btn-default btn-sm',
+                    closeMessagebox: true
+                }
+            },
+            closeButton: true,
             width: 400,
             footer: {
-                buttonsAlign: 'right'
+                buttonsAlign: 'center'
             },
             callback: function(exert, type, event){
                 if (type === 'ok'){
