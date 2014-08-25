@@ -10,6 +10,7 @@
         if (options){
             this.$options = {};
         }
+        window.console.log(options);
         options = this._processInput(options);
         window.console.log(options);
         this.$options = $.extend({}, ExertMessageBox.DEFAULT_OPTIONS, options);
@@ -48,6 +49,16 @@
                         buttons[options.buttons[i]] = OPTIONS.buttons[options.buttons[i]];
                     }
                     options.buttons = buttons;
+                }
+            }
+            if (typeof options.title === 'string'){
+                options.title = {
+                    text    : options.title
+                };
+            }
+            for (var i in OPTIONS.title){
+                if ( ! options.title.hasOwnProperty(i)){
+                    options.title[i] = OPTIONS.title[i];
                 }
             }
             
@@ -173,50 +184,31 @@
             var title = this.$options.title;
             if (! title)
                 return;
-            if (typeof title === 'string'){
-                header.append(title);
-            }else if (typeof title === 'object' &&  title.text) {
-                var openTag = "";
-                var closeTag = "";
+            if (title.text) {
+                var openTag = "<span>";
+                var closeTag = "<span/>";
                 if (title.tag) {
                     openTag = '<' + title.tag + '>';
                     closeTag = '</' + title.tag + '>';
-                } else if (!title.tag && (title['class'] || typeof title.attrs === 'object' && !$.isEmptyObject(title.attrs))) {
-                    openTag = '<span>';
-                    closeTag = '</span>';
                 }
-                if (openTag !== "") {
-                    var text = $(openTag + closeTag);
-                    if (title['class']) {
-                        text.addClass(title['class']);
-                    }
-                    if (!$.isEmptyObject(title.attrs)) {
-                        text.attr(title.attrs);
-                    }
-                    if (title.html) {
-                        text.html(title.text);
-                    } else {
-                        text.text(title.text);
-                    }
-                    header.append(text);
+                var text = $(openTag + closeTag);
+                this._addAttrsAndClasses(title['class'], title['attrs'], text);
+                if (title.html) {
+                    text.html(title.text);
                 } else {
-                    if (title.html) {
-                        header.html(title.text);
-                    } else {
-                        header.text(title.text);
-                    }
+                    text.text(title.text);
                 }
+                header.append(text);
             }
         },
         _addHeader: function(){
             var header = this.$referer.find('.modal-header');
             header.empty();
-            this._addTitle();
-            this._addAttrsAndClasses(this.$options.header['class'], this.$options.header.attrs, header);
-            
             if (this.$options.closeButton) {
                 this._addCloseButton();
             }
+            this._addTitle();
+            this._addAttrsAndClasses(this.$options.header['class'], this.$options.header.attrs, header);
             
         },
         /**
@@ -354,6 +346,11 @@
         bodyClass       : 'exert-open',
         modalSmallWidth: 250,
         modalClasses : ['error', 'success', 'info', 'warning', 'confirm', 'progress'],
+        title  : {
+            'tag'       : 'h3',
+            'class'     : 'modal-title',
+            'html'      : true
+        },
         buttons: {
             ok: {
                 'class': 'btn btn-primary btn-sm',

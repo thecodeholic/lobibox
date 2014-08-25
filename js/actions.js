@@ -7,7 +7,7 @@ $(document).ready(function(){
     $('#error').click(function(){
         Exert.messageBox('error',{
             title   : {
-                text: "<span style=\"color: black\">შეცდომა</span>",
+                text: "შეცდომა",
             },
             msg     : "რაღაც არ გამოვიდა!!!",
 //            buttons: ['ok', 'yes', 'no', 'cancel'],
