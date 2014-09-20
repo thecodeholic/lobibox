@@ -1,22 +1,15 @@
-
-
-
-
-
 $(document).ready(function(){
     $('#error').click(function(){
         Exert.messageBox('error',{
-            title   : {
-                text: "შეცდომა",
-            },
+            title   : "შეცდომა",
             msg     : "რაღაც არ გამოვიდა!!!",
-//            buttons: ['ok', 'yes', 'no', 'cancel'],
-            buttons: {
-                ok : {
-                    'class' : 'btn btn-default btn-sm',
-                    closeMessagebox: true
-                }
-            },
+            buttons: ['ok', 'yes', 'no', 'cancel'],
+//            buttons: {
+//                ok : {
+//                    'class' : 'btn btn-default btn-sm',
+//                    closeMessagebox: true
+//                }
+//            },
             closeButton: true,
             width: 400,
             footer: {
@@ -58,17 +51,22 @@ $(document).ready(function(){
     });
     $('#success').click(function(){
         Exert.messageBox('success',{
-            title   : {
-                text    : "title",
-                tag     : 'h2',
-                class   : 'cl',
-                attrs   : {
-                    attr1: "some", 
-                    attr2: "ggg", 
-                    attr3: "sdsdsd"
-                }
-            },
-            msg         : "msg",
+            title       : 'Success Popup',
+            msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
+            closeButton : true
+        });
+    });
+    $('#info').click(function(){
+        Exert.messageBox('info',{
+            title       : 'Info Popup',
+            msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
+            closeButton : true
+        });
+    });
+    $('#warning').click(function(){
+        Exert.messageBox('warning',{
+            title       : 'Warning Popup',
+            msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
             closeButton : true
         });
     });
@@ -77,6 +75,7 @@ $(document).ready(function(){
             title       : 'Question',
             msg         : "Are you sure you want to delete this user?",
             closeButton : true,
+            draggable   : true,
             callback    : function(exert, type, ev){
                 if (type === 'no')
                     exert.hide();

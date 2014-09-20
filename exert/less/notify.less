@@ -1,0 +1,104 @@
+/*
+    Created on : Sep 19, 2014, 2:01:43 PM
+    Author     : Zura
+*/
+
+.exert-notify-wrapper{
+    z-index: 20000;
+    position: fixed;
+    &.top{
+        top: @notify-wrapper-offset-top;
+    }
+    &.bottom{
+        bottom: @notify-wrapper-offset-bottom;
+    }
+    &.left{
+        left: @notify-wrapper-offset-left;
+    }
+    &.right{
+        right: @notify-wrapper-offset-right;
+    }
+    .exert-notify{
+        padding: @notify-padding;
+        margin: @notify-margin;
+        font-family: @notify-font-family;
+        border-radius: @notify-border-radius;
+        position: relative;
+        color: #fff;
+        opacity: 0.9;
+        border: 1px solid transparent;
+        .transition(0.1s all linear); 
+        .box-shadow(@notify-box-shadow);
+        .exert-notify-icon{
+            float: left;
+            font-size: @notify-icon-font-size;
+            margin: @notify-icon-margin;
+        }
+        .exert-notify-title{
+            font-size: @notify-title-font-size;
+        }
+        .exert-notify-msg{
+            margin-left: @notify-msg-margin-left;
+        }
+        .exert-close{
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 16px;
+            color: #fff;
+            &:hover{
+                font-weight: bold;
+                color: #000;
+                opacity: 0.4;
+            }
+        }
+        .exert-delay-indicator{
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 5px;
+            >div{
+                position: relative;
+                height: 5px;
+                width: 0%;
+            }
+        }
+        &:hover{
+            cursor: pointer;
+            opacity: 1;
+        }
+        &.error{
+            background-color: @color-error;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-error, 15%);
+                }
+            }
+        }
+        &.success{
+            background-color: @color-success;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-success, 15%);
+                }
+            }
+        }
+        &.warning{
+            background-color: @color-warning;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-warning, 15%);
+                }
+            }
+        }
+        &.info{
+            background-color: @color-info;
+            .exert-delay-indicator{
+                >div{
+                    background-color: darken(@color-info, 15%);
+                }
+            }
+        }
+    }
+}

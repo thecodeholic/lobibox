@@ -1,20 +1,183 @@
 (function(){
+    
+    var MessageBox = function(type, options){
+        this.$type      = null;
+        this.$el        = null;
+        this.$options   = null;
+        if ( ! MessageBox.OPTIONS.modalClasses.hasOwnProperty(type)){
+            return;
+        }
+        this.$type = type;
+        options = this._processInput(options);
+        this.$options = $.extend({}, MessageBox.DEFAULT_OPTIONS, options);
         
+        this._init();
+        
+        window.console.log(this);
+    };
+    
+    MessageBox.prototype = {
+        constructor: MessageBox,
+        
+        _processInput: function(options){
+            return options;
+        },
+        _init: function(){
+            var me = this;
+            me._createMarkup();
+            me.setTitle(me.$options.title);
+            me.setMessage(me.$options.msg);
+            me.setSize(me.$options.width, me.$options.height);
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top);
+            
+            if (me.$options.draggable){
+                me.$el.addClass('draggable');
+                me.enableDrag();
+            }
+            if (me.$options.closeButton){
+                me.addCloseButton();
+            }
+            me.show();
+        },
+        addCloseButton: function(){
+            var me = this;
+            var closeBtn = $('<button class="btn-close">&times;</button>');
+            me.$el.find('.exert-modal-header').append(closeBtn);
+            closeBtn.on('click', function(ev){
+                me.destroy();
+            });
+        },
+        hide: function(){
+            this.$el.hide();
+            $('.exert-backdrop').remove();
+        },
+        destroy: function(){
+            this.$el.remove();
+            $('.exert-backdrop').remove();
+        },
+        enableDrag: function(){
+            var el = this.$el;
+            var heading = el.find('.exert-modal-header');
+            heading.on('mousedown', function(ev) {
+                var offset = el.offset();
+                el.attr('offset-left', ev.clientX - offset.left);
+                el.attr('offset-top', ev.clientY - offset.top);
+                el.attr('allow-drag', 'true');
+            });
+            heading.on('mouseup', function(ev) {
+                el.attr('allow-drag', 'false');
+            });
+            $(document).on('mousemove.exert', function(ev) {
+                if (el.attr('allow-drag') === 'true') {
+                    var left = ev.clientX - parseInt(el.attr('offset-left'), 10);
+                    var top = ev.clientY - parseInt(el.attr('offset-top'), 10);
+                    el.css({
+                        left: left,
+                        top: top
+                    });
+                    el.css({
+                        right: $(document).width() - (left + el.width() + 2),
+                        bottom: $(document).height() - (top + el.height() + 2)
+                    });
+                }
+            });
+        },
+        _calculatePosition: function(){
+            var me = this;
+            var left = ($(window).width() - me.$options.width)/2;
+            var top  = ($(window).height() - me.$options.height)/2;
+            return {
+                left: left,
+                top: top
+            };
+        },
+        _createMarkup: function(){
+            var me = this;
+            var exert = $('<div class="exert-modal"></div>');
+            var header = $('<div class="exert-modal-header"></div>')
+                    .append('<span class="exert-modal-title"></span>')
+                    ;
+            var body = $('<div class="exert-modal-body"></div>');
+            var footer = $('<div class="exert-modal-footer"></div>');
+            exert.append(header);
+            exert.append(body);
+            exert.append(footer);
+            me.$el = exert
+                    .addClass(MessageBox.OPTIONS.modalClasses[me.$type])
+                    ;
+        },
+        setSize: function(width, height){
+            var me = this;
+            me.$el.css({
+                width   : width,
+                height  : height
+            });
+        },
+        setPosition: function(left, top){
+            var me = this;
+            me.$el.css({
+                left: left,
+                top: top
+            });
+        },
+        setTitle: function(title){
+            var me = this;
+            me.$el.find('.exert-modal-title').html(title);
+        },
+        setMessage: function(msg){
+            var me = this;
+            me.$el.find('.exert-modal-body').html(msg);
+        },
+        _addBackdrop: function(){
+            $('body').append('<div class="exert-backdrop"></div>');
+        },
+        show: function(){
+            var me = this;
+            $('body').append(me.$el);
+            me._addBackdrop();
+        }
+        
+    };
+    
+    MessageBox.OPTIONS = {
+        modalClasses : {
+            'error'     : 'exert-error',
+            'success'   : 'exert-success',
+            'info'      : 'exert-info',
+            'warning'   : 'exert-warning',
+            'confirm'   : 'exert-confirm',
+            'progress'  : 'exert-progress'
+        }
+    };
+    
+    MessageBox.DEFAULT_OPTIONS = {
+        width       : 250,
+        height      : 150,
+        closeButton : true,
+        draggable   : true
+    };
+    
+//------------------------------------------------------------------------------
+    var PromptBox = function(options){
+        
+    };
+    
+    PromptBox.prototype = {
+        constructor: PromptBox,
+        
+        
+    };
+//------------------------------------------------------------------------------
     var ExertMessageBox = function(type, options) {
+        this.$type              = null;
         //if messagebox type was not is available types we do not do anything
-        if (OPTIONS.modalClasses.indexOf(type) === -1){
+        if ( ! OPTIONS.modalClasses.hasOwnProperty(type)){
             return null;
         }
-        this.$type   = type;
-        
-        if (options){
-            this.$options = {};
-        }
-        window.console.log(options);
+        this.$type = OPTIONS.modalClasses[type];
         options = this._processInput(options);
-        window.console.log(options);
         this.$options = $.extend({}, ExertMessageBox.DEFAULT_OPTIONS, options);
-        window.console.log(this.$options);
         this._init();
     };
 
@@ -22,7 +185,9 @@
         constructor: ExertMessageBox,
         
         _processInput : function(options) {
-            
+            if ( ! options || typeof options !== "object"){
+                return {};
+            }
             if (this.$type === 'confirm'){
                 options.buttons = ['yes', 'no'];
                 options.width = OPTIONS.modalSmallWidth;
@@ -88,31 +253,31 @@
                 exert.removeClass(OPTIONS.modalClasses[i]);
             }
             //add corresponding class(es) to type
-            exert.addClass(this.$type);
-            this.$referer = exert;
+            exert.addClass(me.$type);
+            me.$referer = exert;
             
-            this._addAttrsAndClasses(this.$options.modal['class'], this.$options.modal.attrs, this.$referer);
-            this._addHeader();
-            if (this.$options.buttons && !$.isEmptyObject(this.$options.buttons)){
-                this._addFooter();
+            me._addAttrsAndClasses(me.$options.modal['class'], me.$options.modal.attrs, me.$referer);
+            me._addHeader();
+            if (me.$options.buttons && !$.isEmptyObject(me.$options.buttons)){
+                me._addFooter();
             }else{
                 footer.remove();
             }
             
             if (this.$options.msg) {
                 if (!body){
-                    var body = this.$referer.find('.modal-body');
+                    var body = me.$referer.find('.modal-body');
                 }
-                body.html(this.$options.msg);
+                body.html(me.$options.msg);
             }
             if ( ! me.$options.backDrop){
                 exert.attr('data-backdrop', 'static');
             }
             
-            this._givePosition();
-            this._giveWidth();
-            this._addShowListener();
-            this._addAfterHideListener();
+            me._givePosition();
+            me._giveWidth();
+            me._addShowListener();
+            me._addAfterHideListener();
             exert.modal();
         },
         _addShowListener : function(){
@@ -202,13 +367,14 @@
             }
         },
         _addHeader: function(){
-            var header = this.$referer.find('.modal-header');
+            var me = this;
+            var header = me.$referer.find('.modal-header');
             header.empty();
-            if (this.$options.closeButton) {
-                this._addCloseButton();
+            if (me.$options.closeButton) {
+                me._addCloseButton();
             }
-            this._addTitle();
-            this._addAttrsAndClasses(this.$options.header['class'], this.$options.header.attrs, header);
+            me._addTitle();
+            me._addAttrsAndClasses(me.$options.header['class'], me.$options.header.attrs, header);
             
         },
         /**
@@ -277,10 +443,10 @@
      * @returns void
      */
     window.Exert.messageBox = function(type, options) {
-        return new ExertMessageBox(type, options);
+        return new MessageBox(type, options);
     };
 
-
+    
 
     ExertMessageBox.DEFAULT_OPTIONS = {
         //title may also be string withour any tag or class. If title is string html is true
@@ -345,7 +511,14 @@
     var OPTIONS = {
         bodyClass       : 'exert-open',
         modalSmallWidth: 250,
-        modalClasses : ['error', 'success', 'info', 'warning', 'confirm', 'progress'],
+        modalClasses : {
+            'error'     : 'exert-error',
+            'success'   : 'exert-success',
+            'info'      : 'exert-info',
+            'warning'   : 'exert-warning',
+            'confirm'   : 'exert-confirm',
+            'progress'  : 'exert-progress'
+        },
         title  : {
             'tag'       : 'h3',
             'class'     : 'modal-title',
