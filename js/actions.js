@@ -76,6 +76,7 @@ $(document).ready(function(){
             msg         : "Are you sure you want to delete this user?",
             closeButton : true,
             draggable   : true,
+            width       : false,
             callback    : function(exert, type, ev){
                 if (type === 'no')
                     exert.hide();

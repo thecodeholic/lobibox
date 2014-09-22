@@ -27,9 +27,6 @@
             me._createMarkup();
             me.setTitle(me.$options.title);
             me.setMessage(me.$options.msg);
-            me.setSize(me.$options.width, me.$options.height);
-            var pos = me._calculatePosition();
-            me.setPosition(pos.left, pos.top);
             
             if (me.$options.draggable){
                 me.$el.addClass('draggable');
@@ -39,6 +36,9 @@
                 me.addCloseButton();
             }
             me.show();
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top);
+            me._setSize();
         },
         addCloseButton: function(){
             var me = this;
@@ -85,8 +85,8 @@
         },
         _calculatePosition: function(){
             var me = this;
-            var left = ($(window).width() - me.$options.width)/2;
-            var top  = ($(window).height() - me.$options.height)/2;
+            var left = ($(window).width() - me.$el.width())/2;
+            var top  = ($(window).height() - me.$el.height())/2;
             return {
                 left: left,
                 top: top
@@ -106,6 +106,10 @@
             me.$el = exert
                     .addClass(MessageBox.OPTIONS.modalClasses[me.$type])
                     ;
+        },
+        _setSize: function(){
+            window.console.log(this.$el.width(), this.$el.height());
+            this.setSize(this.$el.width(), this.$el.height());
         },
         setSize: function(width, height){
             var me = this;

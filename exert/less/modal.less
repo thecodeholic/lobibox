@@ -143,9 +143,13 @@ body{
         padding: @header-padding;
         background-color: @gray-lighter;
         color: @very-dark;
+        .exert-modal-title{
+            font-size: @modal-title-font-size;
+        }
         .btn-close{
             float: right;
             background-color: transparent;
+            cursor: pointer;
             border: none;
             outline: 0;
             color: @modal-close-btn-color;
@@ -166,10 +170,6 @@ body{
         padding: @modal-body-padding;
     }
     .exert-modal-footer{
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 100%;
         height: @footer-height;
         border-bottom-left-radius: @footer-border-radius;
         border-bottom-right-radius: @footer-border-radius;
@@ -184,6 +184,15 @@ body{
         }
         &.text-right{
             text-align: right;
+        }
+    }
+    &.exert-confirm{
+        .exert-modal-header{
+            color: @gray-lighter;
+            background-color: @color-confirm;
+        }
+        .exert-modal-footer{
+            background-color: lighten(@color-confirm, 10%);
         }
     }
     &.draggable{
