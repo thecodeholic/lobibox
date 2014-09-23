@@ -29,8 +29,17 @@
                     yes : MessageBox.OPTIONS.buttons.yes,
                     no  : MessageBox.OPTIONS.buttons.no
                 };
+            }else if (me.$type === 'prompt'){
+                options.msg = me._createInput();
+                options.buttons = {
+                    ok      : MessageBox.OPTIONS.buttons.ok,
+                    cancel  : MessageBox.OPTIONS.buttons.cancel
+                };
             }
             return options;
+        },
+        _createInput: function(){
+            return $('<input/>');
         },
         _init: function(){
             var me = this;
@@ -106,16 +115,14 @@
         _generateButtons: function(){
             var me = this;
             var btns = [];
-            if (me.$type === 'confirm'){
-                var yesBtn = $('<button></button>')
-                        .addClass(MessageBox.DEFAULT_OPTIONS.btnClass)
-                        .addClass(me.$options.buttons['yes']['class'])
-                        .html(me.$options.buttons['yes'].text);
-                var noBtn = $('<button></button>')
-                        .addClass(MessageBox.DEFAULT_OPTIONS.btnClass)
-                        .addClass(me.$options.buttons['no']['class'])
-                        .html(me.$options.buttons['no'].text);
-                btns.push(yesBtn, noBtn);
+            for (var i in me.$options.buttons){
+                if (me.$options.buttons.hasOwnProperty(i)){
+                    var btn = $('<button></button>')
+                            .addClass(MessageBox.DEFAULT_OPTIONS.btnClass)
+                            .addClass(me.$options.buttons[i]['class'])
+                            .html(me.$options.buttons[i].text);
+                    btns.push(btn);
+                }
             }
             return btns;
         },
@@ -192,17 +199,18 @@
             'info'      : 'exert-info',
             'warning'   : 'exert-warning',
             'confirm'   : 'exert-confirm',
-            'progress'  : 'exert-progress'
+            'progress'  : 'exert-progress',
+            'prompt'    : 'exert-prompt'
         },
         buttons: {
             ok: {
-                'class': 'btn-primary',
+                'class': 'exert-btn-primary',
                 attrs: {},
                 text: Exert.locales.buttons.ok,
                 closeMessagebox: false
             },
             cancel: {
-                'class': 'btn-danger',
+                'class': 'exert-btn-cancel',
                 attrs: {},
                 text: Exert.locales.buttons.cancel,
                 closeMessagebox: true

@@ -253,6 +253,29 @@ body{
             background-color: lighten(#CE812E, 10%);
         }
     }
+    &.exert-prompt{
+        .exert-modal-header{
+            color: @gray-lighter;
+            background-color: #3c2d2d;
+        }
+        .exert-modal-body{
+            padding: 20px;
+            input{
+                width: 100%;
+                padding: 5px;
+                height: 40px;
+                font-size: 18px;
+                outline: 0;
+                &:focus{
+                    border: 1px solid #21cb91;
+                    background-color: #eee;
+                }
+            }
+        }
+         .exert-modal-footer{
+            background-color: lighten(#3c2d2d, 10%);
+        }
+    }
     &.draggable{
         .exert-modal-header{
             cursor: move;
@@ -286,6 +309,12 @@ body{
         }
         &.exert-btn-no{
             .button-variant(#FFF, #0760B3, darken(#0760B3, 5%));
+        }
+        &.exert-btn-ok{
+            .button-variant(#FFF, #0760B3, darken(#0760B3, 5%));
+        }
+        &.exert-btn-primary{
+            .button-variant(#FFF, #0359aa, darken(#0359aa, 5%));
         }
     }
 }
