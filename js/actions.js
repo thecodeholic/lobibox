@@ -12,6 +12,7 @@ $(document).ready(function(){
 //            },
             closeButton: true,
             width: 400,
+            modal: false,
             footer: {
                 buttonsAlign: 'center'
             },
@@ -52,31 +53,34 @@ $(document).ready(function(){
     $('#success').click(function(){
         Exert.messageBox('success',{
             title       : 'Success Popup',
-            msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
-            closeButton : true
+            msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted.",
+            closeButton : true,
+            modal       : false
         });
     });
     $('#info').click(function(){
         Exert.messageBox('info',{
             title       : 'Info Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
-            closeButton : true
+            closeButton : true,
+            modal       : false
         });
     });
     $('#warning').click(function(){
         Exert.messageBox('warning',{
             title       : 'Warning Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
-            closeButton : true
+            closeButton : true,
+            modal       : false,
         });
     });
     $('#yesNo').click(function(){
         Exert.messageBox('confirm',{
-            title       : 'Question',
+//            title       : 'Question',
             msg         : "Are you sure you want to delete this user?",
             closeButton : true,
             draggable   : true,
-            width       : false,
+//            modal       : false,
             callback    : function(exert, type, ev){
                 if (type === 'no')
                     exert.hide();

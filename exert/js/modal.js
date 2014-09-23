@@ -20,6 +20,16 @@
         constructor: MessageBox,
         
         _processInput: function(options){
+            var me = this;
+            if ( ! options.title){
+                options.title = Exert.locales.titles[me.$type];
+            }
+            if (me.$type === 'confirm'){
+                options.buttons = {
+                    yes : MessageBox.OPTIONS.buttons.yes,
+                    no  : MessageBox.OPTIONS.buttons.no
+                };
+            }
             return options;
         },
         _init: function(){
@@ -27,7 +37,6 @@
             me._createMarkup();
             me.setTitle(me.$options.title);
             me.setMessage(me.$options.msg);
-            
             if (me.$options.draggable){
                 me.$el.addClass('draggable');
                 me.enableDrag();
@@ -36,9 +45,9 @@
                 me.addCloseButton();
             }
             me.show();
+            me._setSize();
             var pos = me._calculatePosition();
             me.setPosition(pos.left, pos.top);
-            me._setSize();
         },
         addCloseButton: function(){
             var me = this;
@@ -54,7 +63,9 @@
         },
         destroy: function(){
             this.$el.remove();
-            $('.exert-backdrop').remove();
+            if ($('.exert-modal[data-is-modal=true]').length === 0){
+                $('.exert-backdrop').remove();
+            }
         },
         enableDrag: function(){
             var el = this.$el;
@@ -92,14 +103,33 @@
                 top: top
             };
         },
+        _generateButtons: function(){
+            var me = this;
+            var btns = [];
+            if (me.$type === 'confirm'){
+                var yesBtn = $('<button></button>')
+                        .addClass(MessageBox.DEFAULT_OPTIONS.btnClass)
+                        .addClass(me.$options.buttons['yes']['class'])
+                        .html(me.$options.buttons['yes'].text);
+                var noBtn = $('<button></button>')
+                        .addClass(MessageBox.DEFAULT_OPTIONS.btnClass)
+                        .addClass(me.$options.buttons['no']['class'])
+                        .html(me.$options.buttons['no'].text);
+                btns.push(yesBtn, noBtn);
+            }
+            return btns;
+        },
         _createMarkup: function(){
             var me = this;
             var exert = $('<div class="exert-modal"></div>');
+            exert.attr('data-is-modal', me.$options.modal);
             var header = $('<div class="exert-modal-header"></div>')
                     .append('<span class="exert-modal-title"></span>')
                     ;
             var body = $('<div class="exert-modal-body"></div>');
             var footer = $('<div class="exert-modal-footer"></div>');
+            footer.append(me._generateButtons());
+            
             exert.append(header);
             exert.append(body);
             exert.append(footer);
@@ -109,7 +139,14 @@
         },
         _setSize: function(){
             window.console.log(this.$el.width(), this.$el.height());
-            this.setSize(this.$el.width(), this.$el.height());
+            this.setWidth(this.$options.width);
+            this.setHeight(this.$el.height());
+        },
+        setWidth: function(width){
+            this.$el.css('width', width);
+        },
+        setHeight: function(height){
+            this.$el.css('height', height);
         },
         setSize: function(width, height){
             var me = this;
@@ -134,12 +171,16 @@
             me.$el.find('.exert-modal-body').html(msg);
         },
         _addBackdrop: function(){
-            $('body').append('<div class="exert-backdrop"></div>');
+            if ($('.exert-backdrop').length === 0){
+                $('body').append('<div class="exert-backdrop"></div>');
+            }
         },
         show: function(){
             var me = this;
             $('body').append(me.$el);
-            me._addBackdrop();
+            if (me.$options.modal){
+                me._addBackdrop();
+            }
         }
         
     };
@@ -152,14 +193,40 @@
             'warning'   : 'exert-warning',
             'confirm'   : 'exert-confirm',
             'progress'  : 'exert-progress'
+        },
+        buttons: {
+            ok: {
+                'class': 'btn-primary',
+                attrs: {},
+                text: Exert.locales.buttons.ok,
+                closeMessagebox: false
+            },
+            cancel: {
+                'class': 'btn-danger',
+                attrs: {},
+                text: Exert.locales.buttons.cancel,
+                closeMessagebox: true
+            },
+            yes: {
+                'class': 'exert-btn-success',
+                text: Exert.locales.buttons.yes,
+                closeMessagebox: false
+            },
+            no: {
+                'class': 'exert-btn-no',
+                attrs: {},
+                text: Exert.locales.buttons.no,
+                closeMessagebox: true
+            }
         }
     };
     
     MessageBox.DEFAULT_OPTIONS = {
-        width       : 250,
-        height      : 150,
+        width       : 340,
         closeButton : true,
-        draggable   : true
+        draggable   : true,
+        btnClass    : 'exert-btn',
+        modal       : true
     };
     
 //------------------------------------------------------------------------------
