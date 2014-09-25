@@ -82,6 +82,8 @@ $(document).ready(function(){
             draggable   : true,
 //            modal       : false,
             callback    : function(exert, type, ev){
+                window.console.log(exert);
+                exert.destroy();
                 window.console.log(type);
             }
         });
@@ -94,6 +96,8 @@ $(document).ready(function(){
             draggable   : true,
             placeholder : "Please enter your email",
             callback    : function(exert, type, ev){
+                window.console.log(exert);
+                exert.destroy();
                 if (type === 'ok'){
                     window.console.log(exert.getValue());
                 }

@@ -1,21 +1,14 @@
 (function(){
     
-    var LobiBoxBase = function(type, child){
-        this.$type      = null;
-        this.$child     = child;
-        this.$el        = null;
-        this.$options   = null;
-        if ( ! LobiBoxBase.OPTIONS.modalClasses.hasOwnProperty(type)){
-            return;
-        }
-        this.$type = type;
-        
-        window.console.log(this);
-    };
-    
-    LobiBoxBase.prototype = {
-        constructor: LobiBoxBase,
-        
+    LobiBoxBase = {
+        $type       : null,
+        $el         : null,
+        $options    : null,
+        debug       : function(){
+            if (this.$options.debug){
+                window.console.info.apply(window.console, arguments);
+            }
+        },
         _processInput: function(options){
             var me = this;
             if ( ! options.title){
@@ -35,6 +28,7 @@
         },
         _init: function(){
             var me = this;
+            
             me._createMarkup();
             me.setTitle(me.$options.title);
             if (me.$options.draggable){
@@ -110,7 +104,7 @@
             if (me.$options.callback && typeof me.$options.callback === 'function') {
                 btn.on('click', function(ev){
                     var bt = $(this);
-                    me.$options.callback(me.$child, bt.data('type'), ev);
+                    me.$options.callback(me, bt.data('type'), ev);
                             if (op.closeMessagebox){
                                 me.destroy();
                             }
@@ -241,35 +235,45 @@
         closeButton : true,
         draggable   : true,
         btnClass    : 'exert-btn',
-        modal       : true
+        modal       : true,
+        debug       : true
     };
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-    var LobiboxPrompt = function(type, options){
+    LobiboxPrompt.prototype = LobiBoxBase;
+    LobiboxPrompt.constructor = LobiboxPrompt;
+    function LobiboxPrompt (type, options){
         this.$input         = null;
-        this.$options       = null;
-        this.prototype = new LobiBoxBase(type, this);
+        this.$type          = type;
+        this.$options = this._processInput(options);
         
-        this.$options = this.prototype.$options = this._processInput(options);
-        
-        this._init();
+        this._init(type);
         window.console.log(this);
-//        window.console.log(this.__proto__.constructor.prototype);
     };
     
-    LobiboxPrompt.prototype = {
+    LobiboxPrompt.prototype = $.extend({}, LobiboxPrompt.prototype, {
         constructor: LobiboxPrompt,
         
         _processInput: function(options){
             var me = this;
             
-            options = me.prototype._processInput(options);
+            options = LobiBoxBase._processInput.call(me, options);
             options.buttons = {
                 ok: LobiBoxBase.OPTIONS.buttons.ok,
                 cancel: LobiBoxBase.OPTIONS.buttons.cancel
             };
             options = $.extend({}, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
+        },
+        _init: function(){
+            var me = this;
+            
+            LobiBoxBase._init.call(me);
+            me.setMessage(me._createInput());
+            me._setSize();
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top);
+            
         },
         _createInput: function(){
              var me = this;
@@ -284,18 +288,8 @@
         },
         getValue: function(){
             return this.$input.val();
-        },
-        _init: function(){
-            var me = this;
-            
-            me.prototype._init();
-            me.prototype.setMessage(me._createInput());
-            me.prototype._setSize();
-            var pos = me.prototype._calculatePosition();
-            me.prototype.setPosition(pos.left, pos.top);
-            
         }
-    };
+    });
     
     LobiboxPrompt.DEFAULT_OPTIONS = {
         placeholder : '',
@@ -303,24 +297,22 @@
     };
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-    var LobiBoxConfirm = function(type, options){
-        this.$options           = null;
-        
-        this.prototype = new LobiBoxBase(type, this);
-        
-        this.$options = this.prototype.$options = this._processInput(options);
-        
+    LobiBoxConfirm.prototype = LobiBoxBase;
+    LobiBoxConfirm.constructor = LobiBoxConfirm;
+    function LobiBoxConfirm (type, options){
+        this.$type      = type;
+        this.$options   = this._processInput(options);
         this._init();
         window.console.log(this);
     };
     
-    LobiBoxConfirm.prototype = {
+    LobiBoxConfirm.prototype = $.extend({}, LobiBoxConfirm.prototype, {
         constructor: LobiBoxConfirm,
         
-         _processInput: function(options){
-             var me = this;
-             options = me.prototype._processInput(options);
-             
+        _processInput: function(options){
+            var me = this;
+            
+            options = LobiBoxBase._processInput.call(me, options); 
             options.buttons = {
                 yes: LobiBoxBase.OPTIONS.buttons.yes,
                 no: LobiBoxBase.OPTIONS.buttons.no
@@ -332,14 +324,14 @@
         _init: function(){
             var me = this;
             
-            me.prototype._init();
-            me.prototype.setMessage(me.$options.msg);
-            me.prototype._setSize();
-            var pos = me.prototype._calculatePosition();
-            me.prototype.setPosition(pos.left, pos.top);
+            LobiBoxBase._init.call(me);
+            me.setMessage(me.$options.msg);
+            me._setSize();
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top);
             
         }
-    };
+    });
     
     LobiBoxConfirm.DEFAULT_OPTIONS = {
         
