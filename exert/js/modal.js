@@ -1,7 +1,8 @@
 (function(){
     
-    var LobiBoxBase = function(type){
+    var LobiBoxBase = function(type, child){
         this.$type      = null;
+        this.$child     = child;
         this.$el        = null;
         this.$options   = null;
         if ( ! LobiBoxBase.OPTIONS.modalClasses.hasOwnProperty(type)){
@@ -44,9 +45,6 @@
                 me.addCloseButton();
             }
             me.show();
-//            me._setSize();
-//            var pos = me._calculatePosition();
-//            me.setPosition(pos.left, pos.top);
         },
         addCloseButton: function(){
             var me = this;
@@ -102,21 +100,35 @@
                 top: top
             };
         },
+        _createButton: function(type, op){
+            var me = this;
+            var btn = $('<button></button>')
+                    .addClass(LobiBoxBase.DEFAULT_OPTIONS.btnClass)
+                    .addClass(op['class'])
+                    .attr('data-type', type)
+                    .html(op.text);
+            if (me.$options.callback && typeof me.$options.callback === 'function') {
+                btn.on('click', function(ev){
+                    var bt = $(this);
+                    me.$options.callback(me.$child, bt.data('type'), ev);
+                            if (op.closeMessagebox){
+                                me.destroy();
+                            }
+                });
+            } else if (op.closeMessagebox){
+                btn.click(function() {
+                    me.destroy();
+                });
+            }
+            return btn;
+        },
         _generateButtons: function(){
             var me = this;
             var btns = [];
             for (var i in me.$options.buttons){
                 if (me.$options.buttons.hasOwnProperty(i)){
                     var op = me.$options.buttons[i];
-                    var btn = $('<button></button>')
-                            .addClass(LobiBoxBase.DEFAULT_OPTIONS.btnClass)
-                            .addClass(op['class'])
-                            .html(op.text);
-                    if (op.closeMessagebox){
-                        btn.click(function(){
-                            me.destroy();
-                        });
-                    }
+                    var btn = me._createButton(i, op);
                     btns.push(btn);
                 }
             }
@@ -234,9 +246,9 @@
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
     var LobiboxPrompt = function(type, options){
-        this.$value         = null;
+        this.$input         = null;
         this.$options       = null;
-        this.prototype = new LobiBoxBase(type, options);
+        this.prototype = new LobiBoxBase(type, this);
         
         this.$options = this.prototype.$options = this._processInput(options);
         
@@ -252,7 +264,6 @@
             var me = this;
             
             options = me.prototype._processInput(options);
-            options.msg = me._createInput();
             options.buttons = {
                 ok: LobiBoxBase.OPTIONS.buttons.ok,
                 cancel: LobiBoxBase.OPTIONS.buttons.cancel
@@ -260,8 +271,19 @@
             options = $.extend({}, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
         },
-         _createInput: function(){
-            return $('<input/>');
+        _createInput: function(){
+             var me = this;
+             me.$input = $('<input/>');
+             if (me.$options.placeholder){
+                 me.$input.attr('placeholder', me.$options.placeholder);
+             }
+            return me.$input;
+        },
+        setValue: function(val){
+            this.$input.val(val);
+        },
+        getValue: function(){
+            return this.$input.val();
         },
         _init: function(){
             var me = this;
@@ -272,21 +294,19 @@
             var pos = me.prototype._calculatePosition();
             me.prototype.setPosition(pos.left, pos.top);
             
-        },
-        setValue: function(val){
-            this.$value = val;
         }
     };
     
     LobiboxPrompt.DEFAULT_OPTIONS = {
-        
+        placeholder : '',
+        value       : ''
     };
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
     var LobiBoxConfirm = function(type, options){
         this.$options           = null;
         
-        this.prototype = new LobiBoxBase(type, options);
+        this.prototype = new LobiBoxBase(type, this);
         
         this.$options = this.prototype.$options = this._processInput(options);
         

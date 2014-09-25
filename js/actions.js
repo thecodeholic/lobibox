@@ -94,9 +94,11 @@ $(document).ready(function(){
             title       : 'Please enter you email',
             closeButton : true,
             draggable   : true,
+            placeholder : "Please enter your email",
             callback    : function(exert, type, ev){
-                if (type === 'no')
-                    exert.hide();
+                if (type === 'ok'){
+                    window.console.log(exert.getValue());
+                }
                 window.console.log(type);
             }
         });
