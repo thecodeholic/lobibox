@@ -1,61 +1,41 @@
 (function(){
     
-    var MessageBox = function(type, options){
+    var LobiBoxBase = function(type){
         this.$type      = null;
         this.$el        = null;
         this.$options   = null;
-        if ( ! MessageBox.OPTIONS.modalClasses.hasOwnProperty(type)){
+        if ( ! LobiBoxBase.OPTIONS.modalClasses.hasOwnProperty(type)){
             return;
         }
         this.$type = type;
-        options = this._processInput(options);
-        this.$options = $.extend({}, MessageBox.DEFAULT_OPTIONS, options);
         
-        this._init();
         window.console.log(this);
     };
     
-    MessageBox.prototype = {
-        constructor: MessageBox,
+    LobiBoxBase.prototype = {
+        constructor: LobiBoxBase,
         
         _processInput: function(options){
             var me = this;
             if ( ! options.title){
                 options.title = Exert.locales.titles[me.$type];
             }
-            if (me.$type === 'confirm'){
-                options.buttons = {
-                    yes : MessageBox.OPTIONS.buttons.yes,
-                    no  : MessageBox.OPTIONS.buttons.no
-                };
-            }else if (me.$type === 'prompt'){
-                options.msg = me._createInput();
-                options.buttons = {
-                    ok      : MessageBox.OPTIONS.buttons.ok,
-                    cancel  : MessageBox.OPTIONS.buttons.cancel
-                };
-            }
-            
             if ($.isArray(options.buttons)){
-                window.console.log(options.buttons);
                 var btns = {};
                 for (var i=0; i<options.buttons.length; i++){
-                    var btn = MessageBox.OPTIONS.buttons[options.buttons[i]];
+                    var btn = LobiBoxBase.OPTIONS.buttons[options.buttons[i]];
                     
                     btns[options.buttons[i]] = btn;
                 }
                 options.buttons = btns;
             }
+            options = $.extend({}, LobiBoxBase.DEFAULT_OPTIONS, options);
             return options;
-        },
-        _createInput: function(){
-            return $('<input/>');
         },
         _init: function(){
             var me = this;
             me._createMarkup();
             me.setTitle(me.$options.title);
-            me.setMessage(me.$options.msg);
             if (me.$options.draggable){
                 me.$el.addClass('draggable');
                 me.enableDrag();
@@ -64,9 +44,9 @@
                 me.addCloseButton();
             }
             me.show();
-            me._setSize();
-            var pos = me._calculatePosition();
-            me.setPosition(pos.left, pos.top);
+//            me._setSize();
+//            var pos = me._calculatePosition();
+//            me.setPosition(pos.left, pos.top);
         },
         addCloseButton: function(){
             var me = this;
@@ -129,7 +109,7 @@
                 if (me.$options.buttons.hasOwnProperty(i)){
                     var op = me.$options.buttons[i];
                     var btn = $('<button></button>')
-                            .addClass(MessageBox.DEFAULT_OPTIONS.btnClass)
+                            .addClass(LobiBoxBase.DEFAULT_OPTIONS.btnClass)
                             .addClass(op['class'])
                             .html(op.text);
                     if (op.closeMessagebox){
@@ -157,11 +137,10 @@
             exert.append(body);
             exert.append(footer);
             me.$el = exert
-                    .addClass(MessageBox.OPTIONS.modalClasses[me.$type])
+                    .addClass(LobiBoxBase.OPTIONS.modalClasses[me.$type])
                     ;
         },
         _setSize: function(){
-            window.console.log(this.$el.width(), this.$el.height());
             this.setWidth(this.$options.width);
             this.setHeight(this.$el.height());
         },
@@ -208,7 +187,7 @@
         
     };
     
-    MessageBox.OPTIONS = {
+    LobiBoxBase.OPTIONS = {
         modalClasses : {
             'error'     : 'exert-error',
             'success'   : 'exert-success',
@@ -244,19 +223,22 @@
             }
         }
     };
-    
-    MessageBox.DEFAULT_OPTIONS = {
+
+    LobiBoxBase.DEFAULT_OPTIONS = {
         width       : 340,
         closeButton : true,
         draggable   : true,
         btnClass    : 'exert-btn',
         modal       : true
     };
-    
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
     var LobiboxPrompt = function(type, options){
         this.$value         = null;
+        this.$options       = null;
+        this.prototype = new LobiBoxBase(type, options);
         
-        this.prototype = new MessageBox(type, options);
+        this.$options = this.prototype.$options = this._processInput(options);
         
         this._init();
         window.console.log(this);
@@ -268,35 +250,122 @@
         
         _processInput: function(options){
             var me = this;
+            
+            options = me.prototype._processInput(options);
             options.msg = me._createInput();
             options.buttons = {
-                ok: MessageBox.OPTIONS.buttons.ok,
-                cancel: MessageBox.OPTIONS.buttons.cancel
+                ok: LobiBoxBase.OPTIONS.buttons.ok,
+                cancel: LobiBoxBase.OPTIONS.buttons.cancel
             };
+            options = $.extend({}, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
         },
          _createInput: function(){
             return $('<input/>');
         },
         _init: function(){
-            window.console.log("init");
+            var me = this;
+            
+            me.prototype._init();
+            me.prototype.setMessage(me._createInput());
+            me.prototype._setSize();
+            var pos = me.prototype._calculatePosition();
+            me.prototype.setPosition(pos.left, pos.top);
+            
         },
-        
         setValue: function(val){
             this.$value = val;
         }
+    };
+    
+    LobiboxPrompt.DEFAULT_OPTIONS = {
         
     };
 //------------------------------------------------------------------------------
-    var PromptBox = function(options){
+//------------------------------------------------------------------------------
+    var LobiBoxConfirm = function(type, options){
+        this.$options           = null;
+        
+        this.prototype = new LobiBoxBase(type, options);
+        
+        this.$options = this.prototype.$options = this._processInput(options);
+        
+        this._init();
+        window.console.log(this);
+    };
+    
+    LobiBoxConfirm.prototype = {
+        constructor: LobiBoxConfirm,
+        
+         _processInput: function(options){
+             var me = this;
+             options = me.prototype._processInput(options);
+             
+            options.buttons = {
+                yes: LobiBoxBase.OPTIONS.buttons.yes,
+                no: LobiBoxBase.OPTIONS.buttons.no
+            };
+            options = $.extend({}, LobiBoxConfirm.DEFAULT_OPTIONS, options);
+            return options;
+        },
+        
+        _init: function(){
+            var me = this;
+            
+            me.prototype._init();
+            me.prototype.setMessage(me.$options.msg);
+            me.prototype._setSize();
+            var pos = me.prototype._calculatePosition();
+            me.prototype.setPosition(pos.left, pos.top);
+            
+        }
+    };
+    
+    LobiBoxConfirm.DEFAULT_OPTIONS = {
+        
+    };
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+    
+    var LobiBoxInfo = function(type, options){
+        this.$options           = null;
+        
+        this.prototype = new LobiBoxBase(type, options);
+        
+        this.$options = this.prototype.$options = this._processInput(options);
+        
+        this._init();
+        window.console.log(this);
+    };
+    
+    LobiBoxInfo.prototype = {
+        constructor: LobiBoxInfo,
+        
+        _processInput: function(options){
+            var me = this;
+            options = me.prototype._processInput(options);
+             
+            options = $.extend({}, LobiBoxInfo.DEFAULT_OPTIONS, options);
+            return options;
+        },
+        
+        _init: function(){
+            var me = this;
+            
+            me.prototype._init();
+            me.prototype.setMessage(me.$options.msg);
+            me.prototype._setSize();
+            var pos = me.prototype._calculatePosition();
+            me.prototype.setPosition(pos.left, pos.top);
+            
+        }
+    };
+    
+    LobiBoxInfo.DEFAULT_OPTIONS = {
         
     };
     
-    PromptBox.prototype = {
-        constructor: PromptBox,
-        
-        
-    };
+//------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
     var ExertMessageBox = function(type, options) {
         this.$type              = null;
@@ -574,8 +643,13 @@
     window.Exert.messageBox = function(type, options) {
         if (type === 'prompt'){
             return new LobiboxPrompt(type, options);
+        }else if (type === 'confirm'){
+            return new LobiBoxConfirm(type, options);
+        }
+        else if (["success", "error", "warning", "info"].indexOf(type) > -1){
+            return new LobiBoxInfo(type, options);
         }else{
-            return new MessageBox(type, options);
+            return new LobiBoxBase(type, options);
         }
     };
 
