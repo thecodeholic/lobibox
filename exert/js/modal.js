@@ -12,7 +12,6 @@
         this.$options = $.extend({}, MessageBox.DEFAULT_OPTIONS, options);
         
         this._init();
-        
         window.console.log(this);
     };
     
@@ -35,6 +34,17 @@
                     ok      : MessageBox.OPTIONS.buttons.ok,
                     cancel  : MessageBox.OPTIONS.buttons.cancel
                 };
+            }
+            
+            if ($.isArray(options.buttons)){
+                window.console.log(options.buttons);
+                var btns = {};
+                for (var i=0; i<options.buttons.length; i++){
+                    var btn = MessageBox.OPTIONS.buttons[options.buttons[i]];
+                    
+                    btns[options.buttons[i]] = btn;
+                }
+                options.buttons = btns;
             }
             return options;
         },
@@ -117,10 +127,16 @@
             var btns = [];
             for (var i in me.$options.buttons){
                 if (me.$options.buttons.hasOwnProperty(i)){
+                    var op = me.$options.buttons[i];
                     var btn = $('<button></button>')
                             .addClass(MessageBox.DEFAULT_OPTIONS.btnClass)
-                            .addClass(me.$options.buttons[i]['class'])
-                            .html(me.$options.buttons[i].text);
+                            .addClass(op['class'])
+                            .html(op.text);
+                    if (op.closeMessagebox){
+                        btn.click(function(){
+                            me.destroy();
+                        });
+                    }
                     btns.push(btn);
                 }
             }
@@ -237,6 +253,40 @@
         modal       : true
     };
     
+    var LobiboxPrompt = function(type, options){
+        this.$value         = null;
+        
+        this.prototype = new MessageBox(type, options);
+        
+        this._init();
+        window.console.log(this);
+//        window.console.log(this.__proto__.constructor.prototype);
+    };
+    
+    LobiboxPrompt.prototype = {
+        constructor: LobiboxPrompt,
+        
+        _processInput: function(options){
+            var me = this;
+            options.msg = me._createInput();
+            options.buttons = {
+                ok: MessageBox.OPTIONS.buttons.ok,
+                cancel: MessageBox.OPTIONS.buttons.cancel
+            };
+            return options;
+        },
+         _createInput: function(){
+            return $('<input/>');
+        },
+        _init: function(){
+            window.console.log("init");
+        },
+        
+        setValue: function(val){
+            this.$value = val;
+        }
+        
+    };
 //------------------------------------------------------------------------------
     var PromptBox = function(options){
         
@@ -522,7 +572,11 @@
      * @returns void
      */
     window.Exert.messageBox = function(type, options) {
-        return new MessageBox(type, options);
+        if (type === 'prompt'){
+            return new LobiboxPrompt(type, options);
+        }else{
+            return new MessageBox(type, options);
+        }
     };
 
     

@@ -88,4 +88,18 @@ $(document).ready(function(){
             }
         });
     });
+    
+    $('#prompt').click(function(){
+        Exert.messageBox('prompt',{
+            title       : 'Please enter you email',
+            closeButton : true,
+            draggable   : true,
+            callback    : function(exert, type, ev){
+                if (type === 'no')
+                    exert.hide();
+                window.console.log(type);
+            }
+        });
+    });
+    
 });
