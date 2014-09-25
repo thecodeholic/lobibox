@@ -178,7 +178,6 @@ body{
         border-bottom-right-radius: @footer-border-radius;
         padding: @footer-padding;
         background-color: @gray-lighter;
-        margin-top: 0;
         &.text-center{
             text-align: center;
         }
@@ -285,7 +284,8 @@ body{
     .exert-btn{
         display: inline-block;
         padding: 4px 10px;
-        margin-bottom: 0;
+        margin: 0;
+        margin-right: 10px;
         font-size: 14px;
         font-weight: 400;
         line-height: 1.42857143;
@@ -293,28 +293,23 @@ body{
         white-space: nowrap;
         vertical-align: middle;
         cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        background-image: none;
         border: 1px solid transparent;
-        border-radius: 4px;
         outline: 0;
+        border-radius: 4px;
         &.exert-btn-cancel{
-            .button-variant(#FFF, #c92b2b, darken(#c92b2b, 5%));
+            .button-variant(#FFF, #c92b2b, #c92b2b);
         }
         &.exert-btn-success{
-            .button-variant(#FFF, #00cc8f, darken(#00cc8f, 5%));
+            .button-variant(#FFF, #00cc8f, #00cc8f);
         }
         &.exert-btn-no{
-            .button-variant(#FFF, #0760B3, darken(#0760B3, 5%));
+            .button-variant(#FFF, #0760B3, #0760B3);
         }
         &.exert-btn-ok{
-            .button-variant(#FFF, #0760B3, darken(#0760B3, 5%));
+            .button-variant(#FFF, #0760B3, #0760B3);
         }
         &.exert-btn-primary{
-            .button-variant(#FFF, #0359aa, darken(#0359aa, 5%));
+            .button-variant(#FFF, #0359aa, #0359aa);
         }
     }
 }

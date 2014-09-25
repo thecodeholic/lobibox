@@ -82,8 +82,6 @@ $(document).ready(function(){
             draggable   : true,
 //            modal       : false,
             callback    : function(exert, type, ev){
-                if (type === 'no')
-                    exert.hide();
                 window.console.log(type);
             }
         });
