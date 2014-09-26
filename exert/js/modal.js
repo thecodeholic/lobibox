@@ -220,7 +220,7 @@
         },
         buttons: {
             ok: {
-                'class': 'lobibox-btn-primary',
+                'class': 'lobibox-btn-default',
                 attrs: {},
                 text: Exert.locales.buttons.ok,
                 closeMessagebox: false
@@ -232,7 +232,7 @@
                 closeMessagebox: true
             },
             yes: {
-                'class': 'lobibox-btn-success',
+                'class': 'lobibox-btn-yes',
                 text: Exert.locales.buttons.yes,
                 closeMessagebox: false
             },
