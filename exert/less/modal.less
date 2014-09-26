@@ -133,7 +133,7 @@ body{
         overflow: hidden;
     }
 }
-.exert-modal{
+.lobibox{
     position: absolute;
     z-index: 2001;
     box-sizing: content-box;
@@ -142,14 +142,14 @@ body{
     border-top-right-radius: @header-border-radius;
     border-bottom-left-radius: @footer-border-radius;
     border-bottom-right-radius: @footer-border-radius;
-    .exert-modal-header{
+    .lobibox-header{
         font-size: @header-font-size;
         border-top-left-radius: @header-border-radius/2;
         border-top-right-radius: @header-border-radius/2;
         padding: @header-padding;
         background-color: @gray-lighter;
         color: @very-dark;
-        .exert-modal-title{
+        .lobibox-title{
             font-size: @modal-title-font-size;
         }
         .btn-close{
@@ -168,11 +168,11 @@ body{
             }
         }
     }
-    .exert-modal-body{
+    .lobibox-body{
         overflow: auto;
         padding: @modal-body-padding;
     }
-    .exert-modal-footer{
+    .lobibox-footer{
         text-align: center;
         height: @footer-height;
         border-bottom-left-radius: @footer-border-radius;
@@ -189,64 +189,64 @@ body{
             text-align: right;
         }
     }
-    &.exert-confirm{
-        .exert-modal-header{
+    &.lobibox-confirm{
+        .lobibox-header{
             color: @gray-lighter;
             background-color: @color-confirm;
         }
-        .exert-modal-body{
+        .lobibox-body{
             padding: 20px;
         }
-        .exert-modal-footer{
+        .lobibox-footer{
             background-color: lighten(@color-confirm, 10%);
         }
     }
-    &.exert-success{
+    &.lobibox-success{
         border: 1px solid #29B87E;
-        .exert-modal-header{
+        .lobibox-header{
             color: @gray-lighter;
             background-color: #29B87E;
         }
-        .exert-modal-footer{
+        .lobibox-footer{
             background-color: lighten(#29B87E, 10%);
         }
     }
-    &.exert-error{
+    &.lobibox-error{
         border: 1px solid #CA2121;
-        .exert-modal-header{
+        .lobibox-header{
             color: @gray-lighter;
             background-color: #CA2121;
         }
-        .exert-modal-footer{
+        .lobibox-footer{
             background-color: lighten(#CA2121, 10%);
         }
     }
-    &.exert-info{
+    &.lobibox-info{
         border: 1px solid #2E79B4;
-        .exert-modal-header{
+        .lobibox-header{
             color: @gray-lighter;
             background-color: #2E79B4;
         }
-        .exert-modal-footer{
+        .lobibox-footer{
             background-color: lighten(#2E79B4, 10%);
         }
     }
-    &.exert-warning{
+    &.lobibox-warning{
         border: 1px solid #CE812E;
-        .exert-modal-header{
+        .lobibox-header{
             color: @gray-lighter;
             background-color: #CE812E;
         }
-        .exert-modal-footer{
+        .lobibox-footer{
             background-color: lighten(#CE812E, 10%);
         }
     }
-    &.exert-prompt{
-        .exert-modal-header{
+    &.lobibox-prompt{
+        .lobibox-header{
             color: @gray-lighter;
             background-color: #3c2d2d;
         }
-        .exert-modal-body{
+        .lobibox-body{
             padding: 20px;
             input{
                 width: 100%;
@@ -260,33 +260,33 @@ body{
                 }
             }
         }
-         .exert-modal-footer{
+         .lobibox-footer{
             background-color: lighten(#3c2d2d, 10%);
         }
     }
-    &.exert-window{
+    &.lobibox-window{
         border: 3px solid #225EB8;
         border-radius: 6px;
-        .exert-modal-header{
+        .lobibox-header{
             background-color: #225EB8;
-            .exert-modal-title{
+            .lobibox-title{
                 font-size: 18px;
             }
         }
-        .exert-modal-body{
+        .lobibox-body{
             background-color: lighten(#225EB8, 55%);
         }
-        .exert-modal-footer{
+        .lobibox-footer{
             background-color: lighten(#225EB8, 30%);
         }
     }
     &.draggable{
-        .exert-modal-header{
+        .lobibox-header{
             cursor: move;
         }
     }
     
-    .exert-btn{
+    .lobibox-btn{
         display: inline-block;
         padding: 4px 10px;
         margin: 0;
@@ -301,25 +301,25 @@ body{
         border: 1px solid transparent;
         outline: 0;
         border-radius: 4px;
-        &.exert-btn-cancel{
+        &.lobibox-btn-cancel{
             .button-variant(#FFF, #c92b2b, #c92b2b);
         }
-        &.exert-btn-success{
+        &.lobibox-btn-success{
             .button-variant(#FFF, #00cc8f, #00cc8f);
         }
-        &.exert-btn-no{
+        &.lobibox-btn-no{
             .button-variant(#FFF, #0760B3, #0760B3);
         }
-        &.exert-btn-ok{
+        &.lobibox-btn-ok{
             .button-variant(#FFF, #0760B3, #0760B3);
         }
-        &.exert-btn-primary{
+        &.lobibox-btn-primary{
             .button-variant(#FFF, #0359aa, #0359aa);
         }
     }
 }
 
-.exert-backdrop{
+.lobibox-backdrop{
     position: absolute;
     z-index: 2000;
     left: 0;

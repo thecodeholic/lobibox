@@ -44,25 +44,25 @@
         addCloseButton: function(){
             var me = this;
             var closeBtn = $('<button class="btn-close">&times;</button>');
-            me.$el.find('.exert-modal-header').append(closeBtn);
+            me.$el.find('.lobibox-header').append(closeBtn);
             closeBtn.on('click', function(ev){
                 me.destroy();
             });
         },
         hide: function(){
             this.$el.hide();
-            $('.exert-backdrop').remove();
+            $('.lobibox-backdrop').remove();
         },
         destroy: function(){
             this.$el.remove();
-            if ($('.exert-modal[data-is-modal=true]').length === 0){
-                $('.exert-backdrop').remove();
+            if ($('.lobibox[data-is-modal=true]').length === 0){
+                $('.lobibox-backdrop').remove();
                 $('body').removeClass(LobiBoxBase.OPTIONS.bodyClass);
             }
         },
         enableDrag: function(){
             var el = this.$el;
-            var heading = el.find('.exert-modal-header');
+            var heading = el.find('.lobibox-header');
             heading.on('mousedown', function(ev) {
                 var offset = el.offset();
                 el.attr('offset-left', ev.clientX - offset.left);
@@ -132,16 +132,16 @@
         },
         _createMarkup: function(){
             var me = this;
-            var exert = $('<div class="exert-modal"></div>');
+            var exert = $('<div class="lobibox"></div>');
             exert.attr('data-is-modal', me.$options.modal);
-            var header = $('<div class="exert-modal-header"></div>')
-                    .append('<span class="exert-modal-title"></span>')
+            var header = $('<div class="lobibox-header"></div>')
+                    .append('<span class="lobibox-title"></span>')
                     ;
-            var body = $('<div class="exert-modal-body"></div>');
+            var body = $('<div class="lobibox-body"></div>');
             exert.append(header);
             exert.append(body);
             if (me.$options.buttons && ! $.isEmptyObject(me.$options.buttons)){
-                var footer = $('<div class="exert-modal-footer"></div>');
+                var footer = $('<div class="lobibox-footer"></div>');
                 footer.append(me._generateButtons());
                 exert.append(footer);
             }
@@ -163,14 +163,11 @@
         },
         setHeight: function(height){
             var me = this;
-            var headerHeight = me.$el.find('.exert-modal-header').outerHeight();
-            var footerHeight = me.$el.find('.exert-modal-footer').outerHeight();
-            window.console.log(height);
+            var headerHeight = me.$el.find('.lobibox-header').outerHeight();
+            var footerHeight = me.$el.find('.lobibox-footer').outerHeight();
             var h = height - (headerHeight ? headerHeight : 0) - (footerHeight ? footerHeight : 0);
-            window.console.log(h);
-            window.console.log(headerHeight, footerHeight);
             me.$el.css('height', height);
-            me.$el.find('.exert-modal-body').css('height', h);
+            me.$el.find('.lobibox-body').css('height', h);
         },
         setSize: function(width, height){
             var me = this;
@@ -188,15 +185,15 @@
         },
         setTitle: function(title){
             var me = this;
-            me.$el.find('.exert-modal-title').html(title);
+            me.$el.find('.lobibox-title').html(title);
         },
         setMessage: function(msg){
             var me = this;
-            me.$el.find('.exert-modal-body').html(msg);
+            me.$el.find('.lobibox-body').html(msg);
         },
         _addBackdrop: function(){
-            if ($('.exert-backdrop').length === 0){
-                $('body').append('<div class="exert-backdrop"></div>');
+            if ($('.lobibox-backdrop').length === 0){
+                $('body').append('<div class="lobibox-backdrop"></div>');
             }
         },
         show: function(){
@@ -212,35 +209,35 @@
     LobiBoxBase.OPTIONS = {
         bodyClass       : 'lobibox-open',
         modalClasses : {
-            'error'     : 'exert-error',
-            'success'   : 'exert-success',
-            'info'      : 'exert-info',
-            'warning'   : 'exert-warning',
-            'confirm'   : 'exert-confirm',
-            'progress'  : 'exert-progress',
-            'prompt'    : 'exert-prompt',
-            'window'    : 'exert-window'
+            'error'     : 'lobibox-error',
+            'success'   : 'lobibox-success',
+            'info'      : 'lobibox-info',
+            'warning'   : 'lobibox-warning',
+            'confirm'   : 'lobibox-confirm',
+            'progress'  : 'lobibox-progress',
+            'prompt'    : 'lobibox-prompt',
+            'window'    : 'lobibox-window'
         },
         buttons: {
             ok: {
-                'class': 'exert-btn-primary',
+                'class': 'lobibox-btn-primary',
                 attrs: {},
                 text: Exert.locales.buttons.ok,
                 closeMessagebox: false
             },
             cancel: {
-                'class': 'exert-btn-cancel',
+                'class': 'lobibox-btn-cancel',
                 attrs: {},
                 text: Exert.locales.buttons.cancel,
                 closeMessagebox: true
             },
             yes: {
-                'class': 'exert-btn-success',
+                'class': 'lobibox-btn-success',
                 text: Exert.locales.buttons.yes,
                 closeMessagebox: false
             },
             no: {
-                'class': 'exert-btn-no',
+                'class': 'lobibox-btn-no',
                 attrs: {},
                 text: Exert.locales.buttons.no,
                 closeMessagebox: true
@@ -253,7 +250,7 @@
         height      : 'auto',
         closeButton : true,
         draggable   : true,
-        btnClass    : 'exert-btn',
+        btnClass    : 'lobibox-btn',
         modal       : true,
         debug       : true
     };
@@ -424,7 +421,7 @@
         },
         setContent: function(content){
             var me = this;
-            me.$el.find('.exert-modal-body').html(content);
+            me.$el.find('.lobibox-body').html(content);
         }
     });
 
