@@ -106,4 +106,22 @@ $(document).ready(function(){
         });
     });
     
+    $('#window').click(function(){
+        Exert.window({
+            title       : 'Window title',
+            content     : $('#windowContent')[0].outerHTML,
+            width       : 480,
+            height      : 640,
+            buttons     : ['ok', 'cancel'],
+            callback    : function(exert, type, ev){
+                window.console.log(exert);
+                exert.destroy();
+                if (type === 'ok'){
+                    window.console.log(exert.getValue());
+                }
+                window.console.log(type);
+            }
+        });
+    });
+    
 });

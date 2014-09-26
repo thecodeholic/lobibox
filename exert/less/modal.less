@@ -128,9 +128,15 @@ body{
     }
 }*/
 //------------------------------------------------------------------------------
+body{
+    &.lobibox-open{
+        overflow: hidden;
+    }
+}
 .exert-modal{
     position: absolute;
     z-index: 2001;
+    box-sizing: content-box;
     background-color: @very-light;
     border-top-left-radius: @header-border-radius;
     border-top-right-radius: @header-border-radius;
@@ -138,8 +144,8 @@ body{
     border-bottom-right-radius: @footer-border-radius;
     .exert-modal-header{
         font-size: @header-font-size;
-        border-top-left-radius: @header-border-radius;
-        border-top-right-radius: @header-border-radius;
+        border-top-left-radius: @header-border-radius/2;
+        border-top-right-radius: @header-border-radius/2;
         padding: @header-padding;
         background-color: @gray-lighter;
         color: @very-dark;
@@ -161,14 +167,9 @@ body{
                 color: darken(@modal-close-btn-color, 20%);
             }
         }
-/*        h1, h2, h3, h4, h5, h6{
-            margin-bottom   : @margin-small;
-            margin-top      : @margin-small;
-        }*/
     }
     .exert-modal-body{
-        border-left: 1px solid #e0e0e0;
-        border-right: 1px solid #e0e0e0;
+        overflow: auto;
         padding: @modal-body-padding;
     }
     .exert-modal-footer{
@@ -201,52 +202,40 @@ body{
         }
     }
     &.exert-success{
+        border: 1px solid #29B87E;
         .exert-modal-header{
             color: @gray-lighter;
             background-color: #29B87E;
-        }
-        .exert-modal-body{
-            border-left: 1px solid #29B87E;
-            border-right: 1px solid #29B87E;
         }
         .exert-modal-footer{
             background-color: lighten(#29B87E, 10%);
         }
     }
     &.exert-error{
+        border: 1px solid #CA2121;
         .exert-modal-header{
             color: @gray-lighter;
             background-color: #CA2121;
-        }
-        .exert-modal-body{
-            border-left: 1px solid #CA2121;
-            border-right: 1px solid #CA2121;
         }
         .exert-modal-footer{
             background-color: lighten(#CA2121, 10%);
         }
     }
     &.exert-info{
+        border: 1px solid #2E79B4;
         .exert-modal-header{
             color: @gray-lighter;
             background-color: #2E79B4;
-        }
-        .exert-modal-body{
-            border-left: 1px solid #2E79B4;
-            border-right: 1px solid #2E79B4;
         }
         .exert-modal-footer{
             background-color: lighten(#2E79B4, 10%);
         }
     }
     &.exert-warning{
+        border: 1px solid #CE812E;
         .exert-modal-header{
             color: @gray-lighter;
             background-color: #CE812E;
-        }
-        .exert-modal-body{
-            border-left: 1px solid #CE812E;
-            border-right: 1px solid #CE812E;
         }
         .exert-modal-footer{
             background-color: lighten(#CE812E, 10%);
@@ -273,6 +262,22 @@ body{
         }
          .exert-modal-footer{
             background-color: lighten(#3c2d2d, 10%);
+        }
+    }
+    &.exert-window{
+        border: 3px solid #225EB8;
+        border-radius: 6px;
+        .exert-modal-header{
+            background-color: #225EB8;
+            .exert-modal-title{
+                font-size: 18px;
+            }
+        }
+        .exert-modal-body{
+            background-color: lighten(#225EB8, 55%);
+        }
+        .exert-modal-footer{
+            background-color: lighten(#225EB8, 30%);
         }
     }
     &.draggable{
