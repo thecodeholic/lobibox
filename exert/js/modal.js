@@ -23,7 +23,19 @@
                 }
                 options.buttons = btns;
             }
-            
+            options.customBtnClass = options.customBtnClass ? options.customBtnClass : LobiBoxBase.DEFAULT_OPTIONS.customBtnClass;
+            for (var i in options.buttons){
+                var btn = options.buttons[i];
+                if (options.buttons.hasOwnProperty(i)){
+                    if (LobiBoxBase.OPTIONS.buttons[i]){
+                        btn = $.extend({}, LobiBoxBase.OPTIONS.buttons[i], btn);
+                        options.buttons[i] = btn;
+                    }else{
+                        btn['class'] = options.customBtnClass;
+                    }
+                }
+                 
+            }
             options = $.extend({}, LobiBoxBase.DEFAULT_OPTIONS, options);
             return options;
         },
@@ -39,7 +51,6 @@
             if (me.$options.closeButton){
                 me.addCloseButton();
             }
-            me.show();
         },
         addCloseButton: function(){
             var me = this;
@@ -144,6 +155,9 @@
                 var footer = $('<div class="lobibox-footer"></div>');
                 footer.append(me._generateButtons());
                 exert.append(footer);
+                if (LobiBoxBase.OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1){
+                    footer.addClass('text-'+me.$options.buttonsAlign);
+                }
             }
             me.$el = exert
                     .addClass(LobiBoxBase.OPTIONS.modalClasses[me.$type])
@@ -218,6 +232,7 @@
             'prompt'    : 'lobibox-prompt',
             'window'    : 'lobibox-window'
         },
+        buttonsAlign: ['left', 'center', 'right'],
         buttons: {
             ok: {
                 'class': 'lobibox-btn-default',
@@ -246,13 +261,15 @@
     };
 
     LobiBoxBase.DEFAULT_OPTIONS = {
-        width       : 340,
-        height      : 'auto',
-        closeButton : true,
-        draggable   : true,
-        btnClass    : 'lobibox-btn',
-        modal       : true,
-        debug       : true
+        width           : 340,
+        height          : 'auto',
+        closeButton     : true,
+        draggable       : true,
+        btnClass        : 'lobibox-btn',
+        customBtnClass  : 'lobibox-btn-default',
+        modal           : true,
+        debug           : true,
+        buttonsAlign    : 'center'
     };
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -285,11 +302,11 @@
             var me = this;
             
             LobiBoxBase._init.call(me);
+            me.show();
             me.setMessage(me._createInput());
             me._setSize();
             var pos = me._calculatePosition();
             me.setPosition(pos.left, pos.top);
-            
         },
         _createInput: function(){
              var me = this;
@@ -341,6 +358,7 @@
             var me = this;
             
             LobiBoxBase._init.call(me);
+            me.show();
             me.setMessage(me.$options.msg);
             me._setSize();
             var pos = me._calculatePosition();
@@ -379,6 +397,7 @@
             var me = this;
             
             LobiBoxBase._init.call(me);
+            me.show();
             me.setMessage(me.$options.msg);
             me._setSize();
             var pos = me._calculatePosition();
@@ -406,7 +425,10 @@
         _processInput: function(options) {
             var me = this;
             options = LobiBoxBase._processInput.call(me, options);
-
+            
+            if (options.content && typeof options.content === 'function'){
+                options.content = options.content();
+            }
             options = $.extend({}, LobiBoxWindow.DEFAULT_OPTIONS, options);
             return options;
         },
@@ -415,18 +437,80 @@
 
             LobiBoxBase._init.call(me);
             me.setContent(me.$options.content);
-            me._setSize();
-            var pos = me._calculatePosition();
-            me.setPosition(pos.left, pos.top);
+            if (me.$options.url && me.$options.autoload){
+                if ( ! me.$options.showAfterLoad){
+                    me.show();
+                    me._setSize();
+                    var pos = me._calculatePosition();
+                    me.setPosition(pos.left, pos.top);
+                }
+                me.load(function(){
+                    if (me.$options.showAfterLoad) {
+                        me.show();
+                        me._setSize();
+                        var pos = me._calculatePosition();
+                        me.setPosition(pos.left, pos.top);
+                    }
+                });
+            }else{
+                me.show();
+                me._setSize();
+                var pos = me._calculatePosition();
+                me.setPosition(pos.left, pos.top);
+            }
+        },
+        setParams: function(p){
+            var me = this;
+            me.$options.params = p;
+            return me;
+        },
+        getParams: function(){
+            var me = this;
+            return me.$options.params;
+        },
+        setLoadMethod: function(m){
+            var me = this;
+            me.$options.loadMethod = m;
+            return me;
+        },
+        getLoadMethod: function(){
+            var me = this;
+            return me.$options.loadMethod;
         },
         setContent: function(content){
             var me = this;
-            me.$el.find('.lobibox-body').html(content);
+            me.$options.content = content;
+            me.$el.find('.lobibox-body').html('').append(content);
+            return me;
+        },
+        getContent: function(){
+            var me = this;
+            return me.$options.content;
+        },
+        load: function(callback){
+            var me = this;
+            if ( ! me.$options.url){
+                return me;
+            }
+            $.ajax(me.$options.url, {
+                method: me.$options.loadMethod,
+                data: me.$options.params
+            }).done(function(res) {
+                me.setContent(res);
+                if (callback && typeof callback === 'function'){
+                    callback(res);
+                }
+            });
         }
     });
 
     LobiBoxWindow.DEFAULT_OPTIONS = {
-        content: ''
+        content         : '',
+        url             : false,
+        autoload        : true,
+        loadMethod      : 'GET',
+        showAfterLoad   : true,
+        params          : {}
     };
     
 //------------------------------------------------------------------------------

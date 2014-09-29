@@ -107,18 +107,34 @@ $(document).ready(function(){
     });
     
     $('#window').click(function(){
-        Exert.window({
+        var v = Exert.window({
             title       : 'Window title',
-            content     : $('#windowContent')[0].outerHTML,
+            content     : function(){
+                return $('#windowContent');
+            },
             width       : 480,
             height      : 640,
-            buttons     : ['ok', 'cancel'],
-            callback    : function(exert, type, ev){
-                window.console.log(exert);
-                exert.destroy();
-                if (type === 'ok'){
-                    window.console.log(exert.getValue());
+            url         : 'content.html',
+            autoload    : false,
+//            params      : {
+//                name    : 'zura'
+//            },
+            buttons     : {
+                ok  : {
+                    text: 'კარგი'
+                },
+                print : {
+                    text: 'print'
                 }
+            },
+            callback    : function(exert, type, ev){
+                if (type === 'print'){
+                    exert.setParams({
+                        name: 'mari'
+                    });
+                    exert.load();
+                }
+                window.console.log(exert);
                 window.console.log(type);
             }
         });
