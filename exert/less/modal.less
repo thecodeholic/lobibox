@@ -14,6 +14,7 @@ body{
     position: absolute;
     z-index: 2001;
     box-sizing: content-box;
+    font-family: @lobibox-font-family;
     background-color: @very-light;
     border-top-left-radius: @header-border-radius;
     border-top-right-radius: @header-border-radius;
@@ -172,6 +173,7 @@ body{
         border: @lobibox-btn-border;
         outline: 0;
         border-radius: @lobibox-btn-border-radius;
+        line-height: initial;
         &.lobibox-btn-cancel{
             .button-variant(@lobibox-btn-cancel-color, @lobibox-btn-cancel-bg, @lobibox-btn-cancel-border);
         }

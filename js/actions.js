@@ -119,13 +119,11 @@ $(document).ready(function(){
 //            params      : {
 //                name    : 'zura'
 //            },
-            buttons     : {
-                ok  : {
-                    text: 'კარგი'
+             buttons: {
+                save: {
+                    text: 'Save'
                 },
-                print : {
-                    text: 'print'
-                }
+                cancel: {}
             },
             callback    : function(exert, type, ev){
                 if (type === 'print'){
