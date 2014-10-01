@@ -42,6 +42,8 @@
         _init: function(){
             var me = this;
             
+            me._triggerEvent('beforeCreate');
+            
             me._createMarkup();
             me.setTitle(me.$options.title);
             if (me.$options.draggable){
@@ -212,9 +214,27 @@
         },
         show: function(){
             var me = this;
+            
+            me._triggerEvent('beforeShow');
             $('body').append(me.$el).addClass(LobiBoxBase.OPTIONS.bodyClass);
             if (me.$options.modal){
                 me._addBackdrop();
+            }
+            me._triggerEvent('onShow');
+        },
+        position: function(){
+            var me = this;
+            
+            me._triggerEvent('beforePosition');
+            me._setSize();
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top);
+            me._triggerEvent('afterPosition');
+        },
+        _triggerEvent: function(type){
+            var me = this;
+            if (me.$options[type] && typeof me.$options[type] === 'function'){
+                me.$options[type](me);
             }
         }
         
@@ -269,7 +289,14 @@
         customBtnClass  : 'lobibox-btn-default',
         modal           : true,
         debug           : true,
-        buttonsAlign    : 'center'
+        buttonsAlign    : 'center',
+        
+        //events
+        beforeCreate    : null,
+        beforeShow      : null,
+        onShow          : null,
+        beforePosition  : null,
+        afterPosition   : null
     };
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -302,11 +329,11 @@
             var me = this;
             
             LobiBoxBase._init.call(me);
+            
             me.show();
             me.setMessage(me._createInput());
-            me._setSize();
-            var pos = me._calculatePosition();
-            me.setPosition(pos.left, pos.top);
+            
+            me.position();
         },
         _createInput: function(){
              var me = this;
@@ -360,10 +387,8 @@
             LobiBoxBase._init.call(me);
             me.show();
             me.setMessage(me.$options.msg);
-            me._setSize();
-            var pos = me._calculatePosition();
-            me.setPosition(pos.left, pos.top);
             
+            me.position();
         }
     });
     
@@ -399,9 +424,8 @@
             LobiBoxBase._init.call(me);
             me.show();
             me.setMessage(me.$options.msg);
-            me._setSize();
-            var pos = me._calculatePosition();
-            me.setPosition(pos.left, pos.top);
+            
+            me.position();
             
         }
     });
@@ -440,23 +464,17 @@
             if (me.$options.url && me.$options.autoload){
                 if ( ! me.$options.showAfterLoad){
                     me.show();
-                    me._setSize();
-                    var pos = me._calculatePosition();
-                    me.setPosition(pos.left, pos.top);
+                    me.position();
                 }
                 me.load(function(){
                     if (me.$options.showAfterLoad) {
                         me.show();
-                        me._setSize();
-                        var pos = me._calculatePosition();
-                        me.setPosition(pos.left, pos.top);
+                        me.position();
                     }
                 });
             }else{
                 me.show();
-                me._setSize();
-                var pos = me._calculatePosition();
-                me.setPosition(pos.left, pos.top);
+                me.position();
             }
         },
         setParams: function(p){
