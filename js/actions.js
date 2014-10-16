@@ -106,7 +106,8 @@ $(document).ready(function(){
     $('#promptColor').click(function(){
         Exert.messageBox('prompt',{
             title       : 'Please Choose color',
-            type        : 'color'
+            type        : 'color',
+            label       : 'Please Choose color'
         });
     });
     $('#promptNumber').click(function(){

@@ -350,18 +350,23 @@
             me.$input.focus();
         },
         _createInput: function(){
-             var me = this;
-             if (me.$options.multiline){
-                 me.$input = $('<textarea></textarea>');
-                 me.$input.attr('rows' , me.$options.lines);
-             }else{
-                 me.$input = $('<input type="'+me.$options.type+'"/>');
-             }
-             me.$input.addClass('lobibox-input');
-             if (me.$options.placeholder){
-                 me.$input.attr('placeholder', me.$options.placeholder);
-             }
-            return me.$input;
+            var me = this;
+            var label;
+            if (me.$options.multiline){
+                me.$input = $('<textarea></textarea>');
+                me.$input.attr('rows' , me.$options.lines);
+            }else{
+                me.$input = $('<input type="'+me.$options.type+'"/>');
+            }
+            me.$input.addClass('lobibox-input');
+            if (me.$options.placeholder){
+                me.$input.attr('placeholder', me.$options.placeholder);
+            }
+            if (me.$options.label){
+                label = $('<label>'+me.$options.label+'</label>');
+            }
+            var innerHTML = $('<div></div>').append(label, me.$input);
+            return innerHTML;
         },
         setValue: function(val){
             this.$input.val(val);
@@ -376,7 +381,8 @@
         value       : '',
         multiline   : false,
         lines       : 3,
-        type        : 'text'
+        type        : 'text',
+        label       : false
     };
 //------------------------------------------------------------------------------
 ////-------------------------LobiboxConfirm-------------------------------------
