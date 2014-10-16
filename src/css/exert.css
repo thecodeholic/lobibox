@@ -269,14 +269,15 @@ body.lobibox-open {
 .lobibox.lobibox-prompt .lobibox-body {
   padding: 20px;
 }
-.lobibox.lobibox-prompt .lobibox-body input {
+.lobibox.lobibox-prompt .lobibox-body .lobibox-input {
+  min-height: 38px;
   border: 1px solid #21cb91;
   width: 100%;
   padding: 5px;
   font-size: 18px;
   outline: 0;
 }
-.lobibox.lobibox-prompt .lobibox-body input:focus {
+.lobibox.lobibox-prompt .lobibox-body .lobibox-input:focus {
   background-color: #eeeeee;
 }
 .lobibox.lobibox-prompt .lobibox-footer {

@@ -351,7 +351,13 @@
         },
         _createInput: function(){
              var me = this;
-             me.$input = $('<input/>');
+             if (me.$options.multiline){
+                 me.$input = $('<textarea></textarea>');
+                 me.$input.attr('rows' , me.$options.lines);
+             }else{
+                 me.$input = $('<input type="'+me.$options.type+'"/>');
+             }
+             me.$input.addClass('lobibox-input');
              if (me.$options.placeholder){
                  me.$input.attr('placeholder', me.$options.placeholder);
              }
@@ -367,7 +373,10 @@
     
     LobiboxPrompt.DEFAULT_OPTIONS = {
         placeholder : '',
-        value       : ''
+        value       : '',
+        multiline   : false,
+        lines       : 3,
+        type        : 'text'
     };
 //------------------------------------------------------------------------------
 ////-------------------------LobiboxConfirm-------------------------------------

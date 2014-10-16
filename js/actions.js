@@ -95,16 +95,42 @@ $(document).ready(function(){
             closeButton : true,
             draggable   : true,
             placeholder : "Please enter your email",
-            afterPosition   : function(exert){
-//                exert.$input.focus();
-            },
             callback    : function(exert, type, ev){
-                window.console.log(exert);
                 exert.destroy();
                 if (type === 'ok'){
                     window.console.log(exert.getValue());
                 }
-                window.console.log(type);
+            }
+        });
+    });
+    $('#promptColor').click(function(){
+        Exert.messageBox('prompt',{
+            title       : 'Please Choose color',
+            type        : 'color'
+        });
+    });
+    $('#promptNumber').click(function(){
+        Exert.messageBox('prompt',{
+            title       : 'How old are you?',
+            placeholder : 'Age',
+            type        : 'number'
+        });
+    });
+    
+    $('#multilinePrompt').click(function(){
+        Exert.messageBox('prompt',{
+            title       : 'Comment',
+            closeButton : true,
+            draggable   : true,
+            placeholder : "Please tell us your oppinion",
+            multiline   : true,
+            lines       : 6,
+            width       : 400,
+            callback    : function(exert, type, ev){
+                exert.destroy();
+                if (type === 'ok'){
+                    window.console.log(exert.getValue());
+                }
             }
         });
     });
@@ -113,7 +139,7 @@ $(document).ready(function(){
         var v = Exert.window({
             title       : 'Window title',
             content     : function(){
-                return $('#windowContent');
+                return $('#windowContent').clone().removeAttr('style');
             },
             width       : 480,
             height      : 640,
