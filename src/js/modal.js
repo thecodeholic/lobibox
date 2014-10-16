@@ -9,7 +9,7 @@
         $options    : null,
         debug       : function(){
             if (this.$options.debug){
-                window.console.info.apply(window.console, arguments);
+                window.console.debug.apply(window.console, arguments);
             }
         },
         _processInput: function(options){
@@ -508,10 +508,15 @@
             var outer = $('<div class="lobibox-progress-bar-wrapper"></div>')
                     .append('<div class="lobibox-progress-bar"></div>')
                     ;
-            if (me.$options.showLabel){
+            if (me.$options.showProgressLabel){
                 outer.append('<span class="lobibox-progress-text"></span>');
             }
-            return outer;
+            var label;
+            if (me.$options.label){
+                label = $('<label>'+me.$options.label+'</label>');
+            }
+            var innerHTML = $('<div></div>').append(label, outer);
+            return innerHTML;
         },
         setProgress: function(progress){
             var me = this;
@@ -525,7 +530,7 @@
                 me._triggerEvent('progressCompleted');
             }
             me.$el.find('.lobibox-progress-bar').css('width', progress+"%");
-            if (me.$options.showLabel){
+            if (me.$options.showProgressLabel){
                 me.$el.find('.lobibox-progress-text').html(progress+"%");
             }
         },
@@ -535,7 +540,8 @@
     });
     
     LobiboxProgress.DEFAULT_OPTIONS = {
-        showLabel           : true,
+        showProgressLabel   : true,
+        label               : false,
         progressUpdated     : null,
         progressCompleted   : null
     };

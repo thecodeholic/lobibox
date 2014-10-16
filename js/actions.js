@@ -60,8 +60,9 @@ $(document).ready(function(){
     });
     $('#progress').click(function(){
         Lobibox.progress({
-            title       : 'Progress Popup',
+            title       : 'Please wait',
             closeButton : true,
+            label       : 'Uploading files...',
             progressCompleted: function(){
                 window.console.log("completed");
             },
