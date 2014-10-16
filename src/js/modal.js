@@ -523,7 +523,7 @@
             if (me.$progress === 100){
                 return;
             }
-            progress = Math.min(100, Math.max(0, progress));
+            progress = Math.min(100, Math.max(0, progress)).toFixed(1);
             me.$progress = progress;
             me._triggerEvent('progressUpdated');
             if (me.$progress === 100){

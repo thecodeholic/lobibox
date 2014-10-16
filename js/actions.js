@@ -69,8 +69,9 @@ $(document).ready(function(){
             onShow      : function(exert){
                 var i = 1;
                 setInterval(function(){
-                    exert.setProgress(i++);
-                },30);
+                    exert.setProgress(i);
+                    i = i+0.1;
+                },300);
             }
         });
     });
