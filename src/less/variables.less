@@ -9,52 +9,48 @@
 @color-info                             : #2E79B4;
 @color-confirm                          : #3C2D2D;
 
-/*@padding-medium                         : 8px;*/
-/*@margin-small                           : 2px;*/
-
 @gray-lighter                           : lighten(#000, 93.5%);
 @very-light                             : #FFFFFF;
 @very-dark                              : #000;
 
-@modal-body-padding                     : 10px;
-@modal-close-btn-color                  : fadeout(#1c1c1c, 60%);
-@modal-close-btn-font-size              : 20px;
-@modal-close-btn-margin-top             : -5px;
-@modal-close-btn-margin-right           : -5px;
-@modal-title-font-size                  : 24px;
-
-@header-border-radius                   : 4px;
-@header-font-size                       : 16px;
-@header-padding                         : 5px;
-
-@footer-border-radius                   : 4px;
-@footer-padding                         : 6px;
-@footer-height                          : 38px;
-
 @lobibox-font-family                    : "Helvetica Neue",Helvetica,Arial,sans-serif;
 
-@lobibox-confirm-header-color           : gray-lighter;
+@lobibox-close-btn-color                : @very-dark;
+@lobibox-close-btn-hover-color          : darken(@lobibox-close-btn-color, 20%);
+@lobibox-close-btn-font-size            : 20px;
+@lobibox-title-font-size                : 24px;
+@lobibox-body-padding                   : 10px;
+
+@lobibox-header-padding                 : 5px;
+@lobibox-header-border-radius           : 4px;
+@lobibox-header-font-size               : 16px;
+
+@lobibox-footer-border-radius           : 4px;
+@lobibox-footer-padding                 : 6px;
+@lobibox-footer-height                  : 38px;
+
+@lobibox-confirm-header-color           : @gray-lighter;
 @lobibox-confirm-header-bg              : @color-confirm;
 @lobibox-confirm-body-padding           : 20px;
 @lobibox-confirm-footer-bg              : lighten(@color-confirm, 10%);
 
 @lobibox-success-border                 : 1px solid @color-success;
-@lobibox-success-header-color           : gray-lighter;
+@lobibox-success-header-color           : @gray-lighter;
 @lobibox-success-header-bg              : @color-success;
 @lobibox-success-footer-bg              : lighten(@color-success, 10%);
 
 @lobibox-error-border                   : 1px solid @color-error;
-@lobibox-error-header-color             : gray-lighter;
+@lobibox-error-header-color             : @gray-lighter;
 @lobibox-error-header-bg                : @color-error;
 @lobibox-error-footer-bg                : lighten(@color-error, 10%);
 
 @lobibox-info-border                    : 1px solid @color-info;
-@lobibox-info-header-color              : gray-lighter;
+@lobibox-info-header-color              : @gray-lighter;
 @lobibox-info-header-bg                 : @color-info;
 @lobibox-info-footer-bg                 : lighten(@color-info, 10%);
 
 @lobibox-warning-border                 : 1px solid @color-warning;
-@lobibox-warning-header-color           : gray-lighter;
+@lobibox-warning-header-color           : @gray-lighter;
 @lobibox-warning-header-bg              : @color-warning;
 @lobibox-warning-footer-bg              : lighten(@color-warning, 10%);
 
@@ -68,6 +64,7 @@
 @lobibox-prompt-footer-bg               : lighten(@lobibox-prompt-header-bg, 10%);
 
 @lobibox-window-brand-color             : #225EB8;
+@lobibox-window-header-color            : @gray-lighter;
 @lobibox-window-border                  : 3px solid @lobibox-window-brand-color;
 @lobibox-window-border-radius           : 6px;
 @lobibox-window-title-font-size         : 18px;

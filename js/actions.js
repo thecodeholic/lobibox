@@ -95,6 +95,9 @@ $(document).ready(function(){
             closeButton : true,
             draggable   : true,
             placeholder : "Please enter your email",
+            afterPosition   : function(exert){
+//                exert.$input.focus();
+            },
             callback    : function(exert, type, ev){
                 window.console.log(exert);
                 exert.destroy();
@@ -116,21 +119,21 @@ $(document).ready(function(){
             height      : 640,
             url         : 'content.html',
             autoload    : false,
-            beforeCreate: function(){
-                window.console.log("before create");
-            },
-            beforeShow  : function(){
-                window.console.log("before show");
-            },
-            onShow      : function(exert){
-               window.console.log("on show", exert); 
-            },
-            beforePosition: function(){
-                window.console.log("before position");
-            },
-            afterPosition: function(){
-                window.console.log("after position");
-            },
+//            beforeCreate: function(){
+//                window.console.log("before create");
+//            },
+//            beforeShow  : function(){
+//                window.console.log("before show");
+//            },
+//            onShow      : function(exert){
+//               window.console.log("on show", exert); 
+//            },
+//            beforePosition: function(){
+//                window.console.log("before position");
+//            },
+//            afterPosition: function(){
+//                window.console.log("after position");
+//            },
 //            params      : {
 //                name    : 'zura'
 //            },

@@ -1,5 +1,8 @@
 (function(){
     
+    /**
+     * Base prototype for all messageboxes and window
+     */
     LobiBoxBase = {
         $type       : null,
         $el         : null,
@@ -56,7 +59,7 @@
         },
         addCloseButton: function(){
             var me = this;
-            var closeBtn = $('<button class="btn-close">&times;</button>');
+            var closeBtn = $('<span class="btn-close">&times;</span>');
             me.$el.find('.lobibox-header').append(closeBtn);
             closeBtn.on('click', function(ev){
                 me.destroy();
@@ -207,11 +210,22 @@
             var me = this;
             me.$el.find('.lobibox-body').html(msg);
         },
+        /**
+         * Add backdrop in case if backdrop does not exist
+         * 
+         * @returns {void}
+         */
         _addBackdrop: function(){
             if ($('.lobibox-backdrop').length === 0){
                 $('body').append('<div class="lobibox-backdrop"></div>');
             }
         },
+        /**
+         * This method shows messagebox, trigger corresponding events 
+         * and adds backdrop if backdrop option is true
+         * 
+         * @returns {void}
+         */
         show: function(){
             var me = this;
             
@@ -299,19 +313,18 @@
         afterPosition   : null
     };
 //------------------------------------------------------------------------------
+////-------------------------LobiboxPrompt------------------------------------------
 //------------------------------------------------------------------------------
-    LobiboxPrompt.prototype = LobiBoxBase;
-    LobiboxPrompt.constructor = LobiboxPrompt;
     function LobiboxPrompt (type, options){
         this.$input         = null;
         this.$type          = type;
         this.$options = this._processInput(options);
         
         this._init(type);
-        window.console.log(this);
+        this.debug(this);
     };
     
-    LobiboxPrompt.prototype = $.extend({}, LobiboxPrompt.prototype, {
+    LobiboxPrompt.prototype = $.extend({}, LobiBoxBase, {
         constructor: LobiboxPrompt,
         
         _processInput: function(options){
@@ -332,8 +345,9 @@
             
             me.show();
             me.setMessage(me._createInput());
-            
+//            me.$input.focus();
             me.position();
+            me.$input.focus();
         },
         _createInput: function(){
              var me = this;
@@ -356,17 +370,16 @@
         value       : ''
     };
 //------------------------------------------------------------------------------
+////-------------------------LobiboxConfirm-------------------------------------
 //------------------------------------------------------------------------------
-    LobiBoxConfirm.prototype = LobiBoxBase;
-    LobiBoxConfirm.constructor = LobiBoxConfirm;
     function LobiBoxConfirm (type, options){
         this.$type      = type;
         this.$options   = this._processInput(options);
         this._init();
-        window.console.log(this);
+        this.debug(this);
     };
     
-    LobiBoxConfirm.prototype = $.extend({}, LobiBoxConfirm.prototype, {
+    LobiBoxConfirm.prototype = $.extend({}, LobiBoxBase, {
         constructor: LobiBoxConfirm,
         
         _processInput: function(options){
@@ -396,18 +409,17 @@
         
     };
 //------------------------------------------------------------------------------
+//-------------------------LobiboxInfo------------------------------------------
 //------------------------------------------------------------------------------
-    LobiBoxInfo.prototype = LobiBoxBase;
-    LobiBoxInfo.constructor = LobiBoxInfo;
     function LobiBoxInfo (type, options){
         this.$type      = type;
         this.$options   = this._processInput(options);
         
         this._init();
-        window.console.log(this);
+        this.debug(this);
     };
     
-    LobiBoxInfo.prototype = $.extend({}, LobiBoxInfo.prototype, {
+    LobiBoxInfo.prototype = $.extend({}, LobiBoxBase, {
         constructor: LobiBoxInfo,
         
         _processInput: function(options){
@@ -434,13 +446,14 @@
         
     };
 //------------------------------------------------------------------------------
+////-------------------------LobiboxWindow------------------------------------------
 //------------------------------------------------------------------------------
     function LobiBoxWindow(type, options) {
         this.$type = type;
         this.$options = this._processInput(options);
 
         this._init();
-        window.console.log(this);
+        this.debug(this);
     }
     ;
 
@@ -452,6 +465,9 @@
             
             if (options.content && typeof options.content === 'function'){
                 options.content = options.content();
+            }
+            if (options.content instanceof jQuery){
+                options.content = options.content.clone();
             }
             options = $.extend({}, LobiBoxWindow.DEFAULT_OPTIONS, options);
             return options;
