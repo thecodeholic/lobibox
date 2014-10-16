@@ -3,7 +3,7 @@
     /**
      * Base prototype for all messageboxes and window
      */
-    LobiBoxBase = {
+    LobiboxBase = {
         $type       : null,
         $el         : null,
         $options    : null,
@@ -15,23 +15,23 @@
         _processInput: function(options){
             var me = this;
             if ( ! options.title){
-                options.title = Exert.locales.titles[me.$type];
+                options.title = Lobibox.locales.titles[me.$type];
             }
             if ($.isArray(options.buttons)){
                 var btns = {};
                 for (var i=0; i<options.buttons.length; i++){
-                    var btn = LobiBoxBase.OPTIONS.buttons[options.buttons[i]];
+                    var btn = LobiboxBase.OPTIONS.buttons[options.buttons[i]];
                     
                     btns[options.buttons[i]] = btn;
                 }
                 options.buttons = btns;
             }
-            options.customBtnClass = options.customBtnClass ? options.customBtnClass : LobiBoxBase.DEFAULT_OPTIONS.customBtnClass;
+            options.customBtnClass = options.customBtnClass ? options.customBtnClass : LobiboxBase.DEFAULT_OPTIONS.customBtnClass;
             for (var i in options.buttons){
                 var btn = options.buttons[i];
                 if (options.buttons.hasOwnProperty(i)){
-                    if (LobiBoxBase.OPTIONS.buttons[i]){
-                        btn = $.extend({}, LobiBoxBase.OPTIONS.buttons[i], btn);
+                    if (LobiboxBase.OPTIONS.buttons[i]){
+                        btn = $.extend({}, LobiboxBase.OPTIONS.buttons[i], btn);
                         options.buttons[i] = btn;
                     }else{
                         btn['class'] = options.customBtnClass;
@@ -39,7 +39,7 @@
                 }
                  
             }
-            options = $.extend({}, LobiBoxBase.DEFAULT_OPTIONS, options);
+            options = $.extend({}, LobiboxBase.DEFAULT_OPTIONS, options);
             return options;
         },
         _init: function(){
@@ -81,7 +81,7 @@
             this.detachEvents();
             if ($('.lobibox[data-is-modal=true]').length === 0){
                 $('.lobibox-backdrop').remove();
-                $('body').removeClass(LobiBoxBase.OPTIONS.bodyClass);
+                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
             }
         },
         detachEvents: function(){
@@ -127,7 +127,7 @@
         _createButton: function(type, op){
             var me = this;
             var btn = $('<button></button>')
-                    .addClass(LobiBoxBase.DEFAULT_OPTIONS.btnClass)
+                    .addClass(LobiboxBase.DEFAULT_OPTIONS.btnClass)
                     .addClass(op['class'])
                     .attr('data-type', type)
                     .html(op.text);
@@ -160,24 +160,24 @@
         },
         _createMarkup: function(){
             var me = this;
-            var exert = $('<div class="lobibox"></div>');
-            exert.attr('data-is-modal', me.$options.modal);
+            var lobibox = $('<div class="lobibox"></div>');
+            lobibox.attr('data-is-modal', me.$options.modal);
             var header = $('<div class="lobibox-header"></div>')
                     .append('<span class="lobibox-title"></span>')
                     ;
             var body = $('<div class="lobibox-body"></div>');
-            exert.append(header);
-            exert.append(body);
+            lobibox.append(header);
+            lobibox.append(body);
             if (me.$options.buttons && ! $.isEmptyObject(me.$options.buttons)){
                 var footer = $('<div class="lobibox-footer"></div>');
                 footer.append(me._generateButtons());
-                exert.append(footer);
-                if (LobiBoxBase.OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1){
+                lobibox.append(footer);
+                if (LobiboxBase.OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1){
                     footer.addClass('text-'+me.$options.buttonsAlign);
                 }
             }
-            me.$el = exert
-                    .addClass(LobiBoxBase.OPTIONS.modalClasses[me.$type])
+            me.$el = lobibox
+                    .addClass(LobiboxBase.OPTIONS.modalClasses[me.$type])
                     ;
         },
         _setSize: function(){
@@ -242,7 +242,7 @@
             var me = this;
             
             me._triggerEvent('beforeShow');
-            $('body').append(me.$el).addClass(LobiBoxBase.OPTIONS.bodyClass);
+            $('body').append(me.$el).addClass(LobiboxBase.OPTIONS.bodyClass);
             if (me.$options.modal){
                 me._addBackdrop();
             }
@@ -266,7 +266,7 @@
         
     };
     
-    LobiBoxBase.OPTIONS = {
+    LobiboxBase.OPTIONS = {
         bodyClass       : 'lobibox-open',
         modalClasses : {
             'error'     : 'lobibox-error',
@@ -283,30 +283,30 @@
             ok: {
                 'class': 'lobibox-btn-default',
                 attrs: {},
-                text: Exert.locales.buttons.ok,
+                text: Lobibox.locales.buttons.ok,
                 closeMessagebox: false
             },
             cancel: {
                 'class': 'lobibox-btn-cancel',
                 attrs: {},
-                text: Exert.locales.buttons.cancel,
+                text: Lobibox.locales.buttons.cancel,
                 closeMessagebox: true
             },
             yes: {
                 'class': 'lobibox-btn-yes',
-                text: Exert.locales.buttons.yes,
+                text: Lobibox.locales.buttons.yes,
                 closeMessagebox: false
             },
             no: {
                 'class': 'lobibox-btn-no',
                 attrs: {},
-                text: Exert.locales.buttons.no,
+                text: Lobibox.locales.buttons.no,
                 closeMessagebox: true
             }
         }
     };
 
-    LobiBoxBase.DEFAULT_OPTIONS = {
+    LobiboxBase.DEFAULT_OPTIONS = {
         width           : 340,
         height          : 'auto',
         closeButton     : true,
@@ -327,25 +327,25 @@
 //------------------------------------------------------------------------------
 ////-------------------------LobiboxPrompt------------------------------------------
 //------------------------------------------------------------------------------
-    function LobiboxPrompt (type, options){
+    function LobiboxPrompt (options){
         this.$input         = null;
-        this.$type          = type;
+        this.$type          = 'prompt';
         this.$options = this._processInput(options);
         
-        this._init(type);
+        this._init(this.$type);
         this.debug(this);
     };
     
-    LobiboxPrompt.prototype = $.extend({}, LobiBoxBase, {
+    LobiboxPrompt.prototype = $.extend({}, LobiboxBase, {
         constructor: LobiboxPrompt,
         
         _processInput: function(options){
             var me = this;
             
-            options = LobiBoxBase._processInput.call(me, options);
+            options = LobiboxBase._processInput.call(me, options);
             options.buttons = {
-                ok: LobiBoxBase.OPTIONS.buttons.ok,
-                cancel: LobiBoxBase.OPTIONS.buttons.cancel
+                ok: LobiboxBase.OPTIONS.buttons.ok,
+                cancel: LobiboxBase.OPTIONS.buttons.cancel
             };
             options = $.extend({}, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
@@ -353,7 +353,7 @@
         _init: function(){
             var me = this;
             
-            LobiBoxBase._init.call(me);
+            LobiboxBase._init.call(me);
             
             me.show();
             me.setMessage(me._createInput());
@@ -399,32 +399,32 @@
 //------------------------------------------------------------------------------
 ////-------------------------LobiboxConfirm-------------------------------------
 //------------------------------------------------------------------------------
-    function LobiBoxConfirm (type, options){
-        this.$type      = type;
+    function LobiboxConfirm (options){
+        this.$type      = 'confirm';
         this.$options   = this._processInput(options);
         this._init();
         this.debug(this);
     };
     
-    LobiBoxConfirm.prototype = $.extend({}, LobiBoxBase, {
-        constructor: LobiBoxConfirm,
+    LobiboxConfirm.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxConfirm,
         
         _processInput: function(options){
             var me = this;
             
-            options = LobiBoxBase._processInput.call(me, options); 
+            options = LobiboxBase._processInput.call(me, options); 
             options.buttons = {
-                yes: LobiBoxBase.OPTIONS.buttons.yes,
-                no: LobiBoxBase.OPTIONS.buttons.no
+                yes: LobiboxBase.OPTIONS.buttons.yes,
+                no: LobiboxBase.OPTIONS.buttons.no
             };
-            options = $.extend({}, LobiBoxConfirm.DEFAULT_OPTIONS, options);
+            options = $.extend({}, LobiboxConfirm.DEFAULT_OPTIONS, options);
             return options;
         },
         
         _init: function(){
             var me = this;
             
-            LobiBoxBase._init.call(me);
+            LobiboxBase._init.call(me);
             me.show();
             me.setMessage(me.$options.msg);
             
@@ -432,13 +432,13 @@
         }
     });
     
-    LobiBoxConfirm.DEFAULT_OPTIONS = {
+    LobiboxConfirm.DEFAULT_OPTIONS = {
         
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxInfo------------------------------------------
 //------------------------------------------------------------------------------
-    function LobiBoxInfo (type, options){
+    function LobiboxInfo (type, options){
         this.$type      = type;
         this.$options   = this._processInput(options);
         
@@ -446,21 +446,21 @@
         this.debug(this);
     };
     
-    LobiBoxInfo.prototype = $.extend({}, LobiBoxBase, {
-        constructor: LobiBoxInfo,
+    LobiboxInfo.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxInfo,
         
         _processInput: function(options){
             var me = this;
-            options = LobiBoxBase._processInput.call(me, options); 
+            options = LobiboxBase._processInput.call(me, options); 
              
-            options = $.extend({}, LobiBoxInfo.DEFAULT_OPTIONS, options);
+            options = $.extend({}, LobiboxInfo.DEFAULT_OPTIONS, options);
             return options;
         },
         
         _init: function(){
             var me = this;
             
-            LobiBoxBase._init.call(me);
+            LobiboxBase._init.call(me);
             me.show();
             me.setMessage(me.$options.msg);
             
@@ -469,13 +469,13 @@
         }
     });
     
-    LobiBoxInfo.DEFAULT_OPTIONS = {
+    LobiboxInfo.DEFAULT_OPTIONS = {
         
     };
 //------------------------------------------------------------------------------
 ////-------------------------LobiboxWindow------------------------------------------
 //------------------------------------------------------------------------------
-    function LobiBoxWindow(type, options) {
+    function LobiboxWindow(type, options) {
         this.$type = type;
         this.$options = this._processInput(options);
 
@@ -484,11 +484,11 @@
     }
     ;
 
-    LobiBoxWindow.prototype = $.extend({}, LobiBoxBase, {
-        constructor: LobiBoxInfo,
+    LobiboxWindow.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxInfo,
         _processInput: function(options) {
             var me = this;
-            options = LobiBoxBase._processInput.call(me, options);
+            options = LobiboxBase._processInput.call(me, options);
             
             if (options.content && typeof options.content === 'function'){
                 options.content = options.content();
@@ -496,13 +496,13 @@
             if (options.content instanceof jQuery){
                 options.content = options.content.clone();
             }
-            options = $.extend({}, LobiBoxWindow.DEFAULT_OPTIONS, options);
+            options = $.extend({}, LobiboxWindow.DEFAULT_OPTIONS, options);
             return options;
         },
         _init: function() {
             var me = this;
 
-            LobiBoxBase._init.call(me);
+            LobiboxBase._init.call(me);
             me.setContent(me.$options.content);
             if (me.$options.url && me.$options.autoload){
                 if ( ! me.$options.showAfterLoad){
@@ -565,7 +565,7 @@
         }
     });
 
-    LobiBoxWindow.DEFAULT_OPTIONS = {
+    LobiboxWindow.DEFAULT_OPTIONS = {
         content         : '',
         url             : false,
         autoload        : true,
@@ -576,31 +576,23 @@
     
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-    //create exert object
-    window.Exert = window.Exert || {};
+    //create lobibox object
+    window.Lobibox = window.Lobibox || {};
     
-    /*
-     * This method shows message with type and with give options
-     * 
-     * @param string type of the messageBox
-     * @param Object options
-     * @returns void
-     */
-    window.Exert.messageBox = function(type, options) {
-        if (type === 'prompt'){
-            return new LobiboxPrompt(type, options);
-        }else if (type === 'confirm'){
-            return new LobiBoxConfirm(type, options);
-        }
-        else if (["success", "error", "warning", "info"].indexOf(type) > -1){
-            return new LobiBoxInfo(type, options);
-        }else{
-            return new LobiBoxBase(type, options);
+    window.Lobibox.prompt = function(options){
+        return new LobiboxPrompt(options);
+    };
+    window.Lobibox.confirm = function(options){
+        return new LobiboxConfirm(options);
+    };
+    window.Lobibox.alert = function(type, options) {
+       if (["success", "error", "warning", "info"].indexOf(type) > -1){
+            return new LobiboxInfo(type, options);
         }
     };
     
-    window.Exert.window = function(options){
-        return new LobiBoxWindow('window', options);
+    window.Lobibox.window = function(options){
+        return new LobiboxWindow('window', options);
     };
 
 })();

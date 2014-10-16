@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('#error').click(function(){
-        Exert.messageBox('error',{
+        Lobibox.alert('error',{
             title   : "შეცდომა",
             msg     : "რაღაც არ გამოვიდა!!!",
             buttons: ['ok', 'yes', 'no', 'cancel'],
@@ -18,7 +18,7 @@ $(document).ready(function(){
             },
             callback: function(exert, type, event){
                 if (type === 'ok'){
-                    Exert.notify('success', {
+                    Lobibox.notify('success', {
                         title: "OKOK",
                         msg: "You clicked OK button",
                         delay: 5000,
@@ -26,7 +26,7 @@ $(document).ready(function(){
                         position: 'top left'
                     });
                 }else if (type === 'cancel'){
-                    Exert.notify('error', {
+                    Lobibox.notify('error', {
                         title: 'My Title',
                         msg: "Lorem Iecently with desktop versions of Lorem versions of Lorem versions of Lorem Ipsum.",
                         delay: 0,
@@ -34,13 +34,13 @@ $(document).ready(function(){
                         imgUrl: 'DSC00118.JPG'
                     });
                 }else if (type === 'yes'){
-                    Exert.notify('warning', {
+                    Lobibox.notify('warning', {
                         msg: "You clicked Yes button",
                         delay: 0,
                         closeOnClick: true
                     });
                 }else if (type === 'no'){
-                    Exert.notify('info', {
+                    Lobibox.notify('info', {
                         title: 'This is Info',
                         msg: "You clicked No button",
                         delay: 0,
@@ -51,7 +51,7 @@ $(document).ready(function(){
         });
     });
     $('#success').click(function(){
-        Exert.messageBox('success',{
+        Lobibox.alert('success',{
             title       : 'Success Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted.",
             closeButton : true,
@@ -59,7 +59,7 @@ $(document).ready(function(){
         });
     });
     $('#info').click(function(){
-        Exert.messageBox('info',{
+        Lobibox.alert('info',{
             title       : 'Info Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
             closeButton : true,
@@ -67,15 +67,15 @@ $(document).ready(function(){
         });
     });
     $('#warning').click(function(){
-        Exert.messageBox('warning',{
+        Lobibox.alert('warning',{
             title       : 'Warning Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
             closeButton : true,
-            modal       : false,
+            modal       : false
         });
     });
     $('#yesNo').click(function(){
-        Exert.messageBox('confirm',{
+        Lobibox.confirm({
 //            title       : 'Question',
             msg         : "Are you sure you want to delete this user?",
             closeButton : true,
@@ -90,7 +90,7 @@ $(document).ready(function(){
     });
     
     $('#prompt').click(function(){
-        Exert.messageBox('prompt',{
+        Lobibox.prompt({
             title       : 'Please enter you email',
             closeButton : true,
             draggable   : true,
@@ -105,23 +105,35 @@ $(document).ready(function(){
         });
     });
     $('#promptColor').click(function(){
-        Exert.messageBox('prompt',{
+        Lobibox.prompt({
             title       : 'Please Choose color',
             type        : 'color',
             label       : 'Please Choose color',
-            closeOnEsc  : true
+            closeOnEsc  : true,
+            callback    : function(exert, type, ev){
+                exert.destroy();
+                if (type === 'ok'){
+                    window.console.log(exert.getValue());
+                }
+            }
         });
     });
     $('#promptNumber').click(function(){
-        Exert.messageBox('prompt',{
+        Lobibox.prompt({
             title       : 'How old are you?',
             placeholder : 'Age',
-            type        : 'number'
+            type        : 'number',
+            callback    : function(exert, type, ev){
+                exert.destroy();
+                if (type === 'ok'){
+                    window.console.log(exert.getValue());
+                }
+            }
         });
     });
     
     $('#multilinePrompt').click(function(){
-        Exert.messageBox('prompt',{
+        Lobibox.prompt({
             title       : 'Comment',
             closeButton : true,
             draggable   : true,
@@ -139,7 +151,7 @@ $(document).ready(function(){
     });
     
     $('#window').click(function(){
-        var v = Exert.window({
+        var v = Lobibox.window({
             title       : 'Window title',
             content     : function(){
                 return $('#windowContent').clone().removeAttr('style');

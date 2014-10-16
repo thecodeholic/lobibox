@@ -1,6 +1,6 @@
 (function(){
-    window.Exert = window.Exert || {};
-    window.Exert.locales = {
+    window.Lobibox = window.Lobibox || {};
+    window.Lobibox.locales = {
         buttons : {
             close   : 'Close',
             ok      : 'OK',
