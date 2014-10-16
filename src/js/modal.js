@@ -56,12 +56,19 @@
             if (me.$options.closeButton){
                 me.addCloseButton();
             }
+            if (me.$options.closeOnEsc){
+                $(document).on('keyup.lobibox', function(ev){
+                    if (ev.which === 27){
+                        me.destroy();
+                    }
+                });
+            }
         },
         addCloseButton: function(){
             var me = this;
             var closeBtn = $('<span class="btn-close">&times;</span>');
             me.$el.find('.lobibox-header').append(closeBtn);
-            closeBtn.on('click', function(ev){
+            closeBtn.on('click.lobibox', function(ev){
                 me.destroy();
             });
         },
@@ -71,24 +78,29 @@
         },
         destroy: function(){
             this.$el.remove();
+            this.detachEvents();
             if ($('.lobibox[data-is-modal=true]').length === 0){
                 $('.lobibox-backdrop').remove();
                 $('body').removeClass(LobiBoxBase.OPTIONS.bodyClass);
             }
         },
+        detachEvents: function(){
+            $(document).off('mousemove.lobibox');
+            $(document).off('keyup.lobibox');
+        },
         enableDrag: function(){
             var el = this.$el;
             var heading = el.find('.lobibox-header');
-            heading.on('mousedown', function(ev) {
+            heading.on('mousedown.lobibox', function(ev) {
                 var offset = el.offset();
                 el.attr('offset-left', ev.clientX - offset.left);
                 el.attr('offset-top', ev.clientY - offset.top);
                 el.attr('allow-drag', 'true');
             });
-            heading.on('mouseup', function(ev) {
+            heading.on('mouseup.lobibox', function(ev) {
                 el.attr('allow-drag', 'false');
             });
-            $(document).on('mousemove.exert', function(ev) {
+            $(document).on('mousemove.lobibox', function(ev) {
                 if (el.attr('allow-drag') === 'true') {
                     var left = ev.clientX - parseInt(el.attr('offset-left'), 10);
                     var top = ev.clientY - parseInt(el.attr('offset-top'), 10);
@@ -120,7 +132,7 @@
                     .attr('data-type', type)
                     .html(op.text);
             if (me.$options.callback && typeof me.$options.callback === 'function') {
-                btn.on('click', function(ev){
+                btn.on('click.lobibox', function(ev){
                     var bt = $(this);
                     me.$options.callback(me, bt.data('type'), ev);
                             if (op.closeMessagebox){
@@ -304,7 +316,7 @@
         modal           : true,
         debug           : true,
         buttonsAlign    : 'center',
-        
+        closeOnEsc      : false,
         //events
         beforeCreate    : null,
         beforeShow      : null,

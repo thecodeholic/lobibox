@@ -95,6 +95,7 @@ $(document).ready(function(){
             closeButton : true,
             draggable   : true,
             placeholder : "Please enter your email",
+            closeOnEsc  : true,
             callback    : function(exert, type, ev){
                 exert.destroy();
                 if (type === 'ok'){
@@ -107,7 +108,8 @@ $(document).ready(function(){
         Exert.messageBox('prompt',{
             title       : 'Please Choose color',
             type        : 'color',
-            label       : 'Please Choose color'
+            label       : 'Please Choose color',
+            closeOnEsc  : true
         });
     });
     $('#promptNumber').click(function(){
