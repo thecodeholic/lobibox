@@ -276,6 +276,7 @@
             'confirm'   : 'lobibox-confirm',
             'progress'  : 'lobibox-progress',
             'prompt'    : 'lobibox-prompt',
+            'default'   : 'lobibox-default',
             'window'    : 'lobibox-window'
         },
         buttonsAlign: ['left', 'center', 'right'],
@@ -325,7 +326,7 @@
         afterPosition   : null
     };
 //------------------------------------------------------------------------------
-////-------------------------LobiboxPrompt------------------------------------------
+//-------------------------LobiboxPrompt----------------------------------------
 //------------------------------------------------------------------------------
     function LobiboxPrompt (options){
         this.$input         = null;
@@ -397,7 +398,7 @@
         label       : false
     };
 //------------------------------------------------------------------------------
-////-------------------------LobiboxConfirm-------------------------------------
+//-------------------------LobiboxConfirm---------------------------------------
 //------------------------------------------------------------------------------
     function LobiboxConfirm (options){
         this.$type      = 'confirm';
@@ -473,7 +474,67 @@
         
     };
 //------------------------------------------------------------------------------
-////-------------------------LobiboxWindow------------------------------------------
+//-------------------------LobiboxProgress------------------------------------------
+//------------------------------------------------------------------------------
+    function LobiboxProgress (options){
+        this.$type      = 'progress';
+        this.$options   = this._processInput(options);
+        this.$progress  = 0;
+        
+        this._init();
+        this.debug(this);
+    };
+    
+    LobiboxProgress.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxProgress,
+        
+        _processInput: function(options){
+            var me = this;
+            options = LobiboxBase._processInput.call(me, options); 
+             
+            options = $.extend({}, LobiboxProgress.DEFAULT_OPTIONS, options);
+            return options;
+        },
+        _init: function(){
+            var me = this;
+            
+            LobiboxBase._init.call(me);
+            me.show();
+            me.setMessage(me._createProgressbar());
+            
+            me.position();
+        },
+        _createProgressbar: function(){
+            var me = this;
+            var outer = $('<div class="lobibox-progress-bar-wrapper"></div>')
+                    .append('<div class="lobibox-progress-bar"></div>')
+                    ;
+            if (me.$options.showLabel){
+                outer.append('<span class="lobibox-progress-text"></span>');
+            }
+            return outer;
+        },
+        setProgress: function(progress){
+            var me = this;
+            progress = Math.min(100, Math.max(0, progress));
+            me.$progress = progress;
+            me._triggerEvent('progressUpdated');
+            
+            me.$el.find('.lobibox-progress-bar').css('width', progress+"%");
+            if (me.$options.showLabel){
+                me.$el.find('.lobibox-progress-text').html(progress+"%");
+            }
+        },
+        getProgress: function(){
+            return this.$progress;
+        }
+    });
+    
+    LobiboxProgress.DEFAULT_OPTIONS = {
+        showLabel       : true
+    };
+//------------------------------------------------------------------------------
+//-------------------------LobiboxWindow----------------------------------------
 //------------------------------------------------------------------------------
     function LobiboxWindow(type, options) {
         this.$type = type;
@@ -584,6 +645,9 @@
     };
     window.Lobibox.confirm = function(options){
         return new LobiboxConfirm(options);
+    };
+    window.Lobibox.progress = function(options){
+        return new LobiboxProgress(options);
     };
     window.Lobibox.alert = function(type, options) {
        if (["success", "error", "warning", "info"].indexOf(type) > -1){

@@ -58,6 +58,18 @@ $(document).ready(function(){
             modal       : false
         });
     });
+    $('#progress').click(function(){
+        Lobibox.progress({
+            title       : 'Progress Popup',
+            closeButton : true,
+            onShow      : function(exert){
+                var i = 1;
+                setInterval(function(){
+                    exert.setProgress(i++);
+                },30);
+            }
+        });
+    });
     $('#info').click(function(){
         Lobibox.alert('info',{
             title       : 'Info Popup',

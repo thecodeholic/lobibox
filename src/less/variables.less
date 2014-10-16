@@ -8,6 +8,7 @@
 @color-warning                          : #CE812E;
 @color-info                             : #2E79B4;
 @color-confirm                          : #3C2D2D;
+@color-default                          : rgba(0, 0, 0, 0.7);
 
 @gray-lighter                           : lighten(#000, 93.5%);
 @very-light                             : #FFFFFF;
@@ -15,19 +16,29 @@
 
 @lobibox-font-family                    : "Helvetica Neue",Helvetica,Arial,sans-serif;
 
-@lobibox-close-btn-color                : @very-dark;
-@lobibox-close-btn-hover-color          : darken(@lobibox-close-btn-color, 20%);
-@lobibox-close-btn-font-size            : 20px;
-@lobibox-title-font-size                : 24px;
-@lobibox-body-padding                   : 10px;
+@lobibox-border                         : 1px solid @color-default;
 
 @lobibox-header-padding                 : 5px;
 @lobibox-header-border-radius           : 4px;
 @lobibox-header-font-size               : 16px;
+@lobibox-header-bg                      : @color-default;
+@lobibox-header-color                   : @gray-lighter;
+
+@lobibox-title-font-size                : 24px;
+
+@lobibox-close-btn-color                : @very-dark;
+@lobibox-close-btn-hover-color          : darken(@lobibox-close-btn-color, 20%);
+@lobibox-close-btn-font-size            : 20px;
+@lobibox-close-btn-opacity              : 0.3;
+@lobibox-close-btn-hover-opacity        : 0.5;
+
+@lobibox-body-padding                   : 10px;
+@lobibox-body-bg                        : rgba(255, 255, 255, 0.98);
 
 @lobibox-footer-border-radius           : 4px;
 @lobibox-footer-padding                 : 6px;
 @lobibox-footer-height                  : 38px;
+@lobibox-footer-bg                      : @color-default;
 
 @lobibox-confirm-header-color           : @gray-lighter;
 @lobibox-confirm-header-bg              : @color-confirm;
@@ -63,6 +74,14 @@
 @lobibox-prompt-input-focus-bg          : #EEE;
 @lobibox-prompt-input-min-height        : 38px;
 @lobibox-prompt-footer-bg               : lighten(@lobibox-prompt-header-bg, 10%);
+
+@lobibox-progress-body-padding          : 15px;
+@lobibox-progress-element-height        : 20px;
+@lobibox-progress-element-border-radius : 10px;
+@lobibox-progress-element-bg            : darken(@gray-lighter, 10%);
+@lobibox-progress-element-wrapper-border: 1px solid darken(@lobibox-progress-element-bg, 7%);
+@lobibox-progress-element-active-bg     : #4BAC89;
+@lobibox-progress-text-color            : rgba(0, 0, 0, 0.7);
 
 @lobibox-window-brand-color             : #225EB8;
 @lobibox-window-header-color            : @gray-lighter;
