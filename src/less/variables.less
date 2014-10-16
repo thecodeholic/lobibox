@@ -16,7 +16,8 @@
 
 @lobibox-font-family                    : "Helvetica Neue",Helvetica,Arial,sans-serif;
 
-@lobibox-border                         : 1px solid @color-default;
+@lobibox-border-width                   : 1px;
+@lobibox-border                         : @lobibox-border-width solid @color-default;
 
 @lobibox-header-padding                 : 5px;
 @lobibox-header-border-radius           : 4px;
@@ -45,22 +46,22 @@
 @lobibox-confirm-body-padding           : 20px;
 @lobibox-confirm-footer-bg              : lighten(@color-confirm, 10%);
 
-@lobibox-success-border                 : 1px solid @color-success;
+@lobibox-success-border                 : @lobibox-border-width solid @color-success;
 @lobibox-success-header-color           : @gray-lighter;
 @lobibox-success-header-bg              : @color-success;
 @lobibox-success-footer-bg              : lighten(@color-success, 10%);
 
-@lobibox-error-border                   : 1px solid @color-error;
+@lobibox-error-border                   : @lobibox-border-width solid @color-error;
 @lobibox-error-header-color             : @gray-lighter;
 @lobibox-error-header-bg                : @color-error;
 @lobibox-error-footer-bg                : lighten(@color-error, 10%);
 
-@lobibox-info-border                    : 1px solid @color-info;
+@lobibox-info-border                    : @lobibox-border-width solid @color-info;
 @lobibox-info-header-color              : @gray-lighter;
 @lobibox-info-header-bg                 : @color-info;
 @lobibox-info-footer-bg                 : lighten(@color-info, 10%);
 
-@lobibox-warning-border                 : 1px solid @color-warning;
+@lobibox-warning-border                 : @lobibox-border-width solid @color-warning;
 @lobibox-warning-header-color           : @gray-lighter;
 @lobibox-warning-header-bg              : @color-warning;
 @lobibox-warning-footer-bg              : lighten(@color-warning, 10%);

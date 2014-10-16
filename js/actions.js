@@ -62,6 +62,9 @@ $(document).ready(function(){
         Lobibox.progress({
             title       : 'Progress Popup',
             closeButton : true,
+            progressCompleted: function(){
+                window.console.log("completed");
+            },
             onShow      : function(exert){
                 var i = 1;
                 setInterval(function(){

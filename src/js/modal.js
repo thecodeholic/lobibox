@@ -78,16 +78,15 @@
         },
         destroy: function(){
             this.$el.remove();
-            this.detachEvents();
             if ($('.lobibox[data-is-modal=true]').length === 0){
                 $('.lobibox-backdrop').remove();
                 $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
             }
         },
-        detachEvents: function(){
-            $(document).off('mousemove.lobibox');
-            $(document).off('keyup.lobibox');
-        },
+//        detachEvents: function(){
+//            $(document).off('mousemove.lobibox');
+//            $(document).off('keyup.lobibox');
+//        },
         enableDrag: function(){
             var el = this.$el;
             var heading = el.find('.lobibox-header');
@@ -516,10 +515,15 @@
         },
         setProgress: function(progress){
             var me = this;
+            if (me.$progress === 100){
+                return;
+            }
             progress = Math.min(100, Math.max(0, progress));
             me.$progress = progress;
             me._triggerEvent('progressUpdated');
-            
+            if (me.$progress === 100){
+                me._triggerEvent('progressCompleted');
+            }
             me.$el.find('.lobibox-progress-bar').css('width', progress+"%");
             if (me.$options.showLabel){
                 me.$el.find('.lobibox-progress-text').html(progress+"%");
@@ -531,7 +535,9 @@
     });
     
     LobiboxProgress.DEFAULT_OPTIONS = {
-        showLabel       : true
+        showLabel           : true,
+        progressUpdated     : null,
+        progressCompleted   : null
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxWindow----------------------------------------
