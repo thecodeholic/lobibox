@@ -13,6 +13,7 @@ $(document).ready(function(){
             closeButton: true,
             width: 400,
             modal: false,
+            iconClass   : 'glyphicon glyphicon-remove-sign',
             footer: {
                 buttonsAlign: 'center'
             },
@@ -55,7 +56,9 @@ $(document).ready(function(){
             title       : 'Success Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted.",
             closeButton : true,
-            modal       : false
+            iconClass   : 'glyphicon glyphicon-ok-sign',
+//            iconClass   : 'fa fa-check-circle'
+//            buttons     : ['yes', 'no']
         });
     });
     $('#progress').click(function(){
@@ -71,7 +74,7 @@ $(document).ready(function(){
                 setInterval(function(){
                     exert.setProgress(i);
                     i = i+0.1;
-                },300);
+                },30);
             }
         });
     });
@@ -80,7 +83,10 @@ $(document).ready(function(){
             title       : 'Info Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
             closeButton : true,
-            modal       : false
+            modal       : false,
+            width       : 400,
+//            iconClass   : 'glyphicon glyphicon-info-sign',
+            iconClass   : 'fa fa-info-circle'
         });
     });
     $('#warning').click(function(){
@@ -88,7 +94,8 @@ $(document).ready(function(){
             title       : 'Warning Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
             closeButton : true,
-            modal       : false
+            modal       : false,
+            iconClass   : 'glyphicon glyphicon-exclamation-sign'
         });
     });
     $('#yesNo').click(function(){
@@ -98,6 +105,8 @@ $(document).ready(function(){
             closeButton : true,
             draggable   : true,
 //            modal       : false,
+//            iconClass   : 'glyphicon glyphicon-question-sign',
+            iconClass   : 'fa fa-question-circle',
             callback    : function(exert, type, ev){
                 window.console.log(exert);
                 exert.destroy();

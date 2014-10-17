@@ -307,7 +307,7 @@
     };
 
     LobiboxBase.DEFAULT_OPTIONS = {
-        width           : 340,
+        width           : 400,
         height          : 'auto',
         closeButton     : true,
         draggable       : true,
@@ -317,6 +317,11 @@
         debug           : true,
         buttonsAlign    : 'center',
         closeOnEsc      : false,
+//        infoIconClass   : false,
+//        errorIconClass  : false,
+//        successIconClass: false,
+//        warningIconClass: false
+        
         //events
         beforeCreate    : null,
         beforeShow      : null,
@@ -426,7 +431,14 @@
             
             LobiboxBase._init.call(me);
             me.show();
-            me.setMessage(me.$options.msg);
+            var d = $('<div></div>');
+            if (me.$options.iconClass){
+                d.append($('<div class="lobibox-icon-wrapper"></div>')
+                    .append('<i class="lobibox-icon '+me.$options.iconClass+'"></i>'))
+                    ;
+            }
+            d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
+            me.setMessage(d.html());
             
             me.position();
         }
@@ -459,18 +471,24 @@
         
         _init: function(){
             var me = this;
-            
             LobiboxBase._init.call(me);
             me.show();
-            me.setMessage(me.$options.msg);
             
+            var d = $('<div></div>');
+            if (me.$options.iconClass){
+                d.append($('<div class="lobibox-icon-wrapper"></div>')
+                    .append('<i class="lobibox-icon '+me.$options.iconClass+'"></i>'))
+                    ;
+            }
+            d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
+            
+            me.setMessage(d.html());
             me.position();
-            
         }
     });
     
     LobiboxInfo.DEFAULT_OPTIONS = {
-        
+        iconClass       : false
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxProgress------------------------------------------

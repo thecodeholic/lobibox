@@ -48,9 +48,25 @@ body{
     }
     .lobibox-body{
         overflow: hidden;
+        display: table;
         position: relative;
+        width: 100%;
         padding: @lobibox-body-padding;
         background-color: @lobibox-body-bg;
+        font-size: @lobibox-body-font-size;
+        .lobibox-icon-wrapper{
+            float: left; 
+            display: table-cell;
+            vertical-align: middle;
+            padding-top: @lobibox-icon-padding-top;
+            font-size: @lobibox-icon-font-size;
+        }
+        .lobibox-body-text-wrapper{
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            padding-left: @lobibox-text-padding-left;
+        }
     }
     .lobibox-footer{
         text-align: center;
@@ -78,7 +94,10 @@ body{
             background-color: @lobibox-confirm-header-bg;
         }
         .lobibox-body{
-            padding: @lobibox-confirm-body-padding;
+            /*padding: @lobibox-confirm-body-padding;*/
+            .lobibox-icon{
+                color: @lobibox-confirm-icon-color
+            }
         }
         .lobibox-footer{
             background-color: @lobibox-confirm-footer-bg;
@@ -90,6 +109,11 @@ body{
             color: @lobibox-success-header-color;
             background-color: @lobibox-success-header-bg;
         }
+        .lobibox-body{
+            .lobibox-icon{
+                color: @lobibox-success-icon-color
+            }
+        }
         .lobibox-footer{
             background-color: @lobibox-success-footer-bg;
         }
@@ -99,6 +123,11 @@ body{
         .lobibox-header{
             color: @lobibox-error-header-color;
             background-color: @lobibox-error-header-bg;
+        }
+        .lobibox-body{
+            .lobibox-icon{
+                color: @lobibox-error-icon-color
+            }
         }
         .lobibox-footer{
             background-color: @lobibox-error-footer-bg;
@@ -110,6 +139,11 @@ body{
             color: @lobibox-info-header-color;
             background-color: @lobibox-info-header-bg;
         }
+        .lobibox-body{
+            .lobibox-icon{
+                color: @lobibox-info-icon-color
+            }
+        }
         .lobibox-footer{
             background-color: @lobibox-info-footer-bg;
         }
@@ -119,6 +153,11 @@ body{
         .lobibox-header{
             color: @lobibox-warning-header-color;
             background-color: @lobibox-warning-header-bg;
+        }
+        .lobibox-body{
+            .lobibox-icon{
+                color: @lobibox-warning-icon-color
+            }
         }
         .lobibox-footer{
             background-color: @lobibox-warning-footer-bg;
