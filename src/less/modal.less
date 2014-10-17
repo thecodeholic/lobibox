@@ -70,7 +70,7 @@ body{
     }
     .lobibox-footer{
         text-align: center;
-        height: @lobibox-footer-height;
+        /*height: @lobibox-footer-height;*/
         padding: @lobibox-footer-padding;
         background-color: @lobibox-footer-bg;
         &.text-center{
@@ -94,7 +94,7 @@ body{
             background-color: @lobibox-confirm-header-bg;
         }
         .lobibox-body{
-            /*padding: @lobibox-confirm-body-padding;*/
+            padding: @lobibox-confirm-body-padding;
             .lobibox-icon{
                 color: @lobibox-confirm-icon-color
             }
@@ -104,64 +104,16 @@ body{
         }
     }
     &.lobibox-success{
-        border: @lobibox-success-border;
-        .lobibox-header{
-            color: @lobibox-success-header-color;
-            background-color: @lobibox-success-header-bg;
-        }
-        .lobibox-body{
-            .lobibox-icon{
-                color: @lobibox-success-icon-color
-            }
-        }
-        .lobibox-footer{
-            background-color: @lobibox-success-footer-bg;
-        }
+        .lobibox-alert-variant(@lobibox-success-border; @lobibox-success-header-color; @lobibox-success-header-bg; @lobibox-success-icon-color; @lobibox-success-footer-bg);
     }
     &.lobibox-error{
-        border: @lobibox-error-border;
-        .lobibox-header{
-            color: @lobibox-error-header-color;
-            background-color: @lobibox-error-header-bg;
-        }
-        .lobibox-body{
-            .lobibox-icon{
-                color: @lobibox-error-icon-color
-            }
-        }
-        .lobibox-footer{
-            background-color: @lobibox-error-footer-bg;
-        }
+        .lobibox-alert-variant(@lobibox-error-border; @lobibox-error-header-color; @lobibox-error-header-bg; @lobibox-error-icon-color; @lobibox-error-footer-bg);
     }
     &.lobibox-info{
-        border: @lobibox-info-border;
-        .lobibox-header{
-            color: @lobibox-info-header-color;
-            background-color: @lobibox-info-header-bg;
-        }
-        .lobibox-body{
-            .lobibox-icon{
-                color: @lobibox-info-icon-color
-            }
-        }
-        .lobibox-footer{
-            background-color: @lobibox-info-footer-bg;
-        }
+        .lobibox-alert-variant(@lobibox-info-border; @lobibox-info-header-color; @lobibox-info-header-bg; @lobibox-info-icon-color; @lobibox-info-footer-bg);
     }
     &.lobibox-warning{
-        border: @lobibox-warning-border;
-        .lobibox-header{
-            color: @lobibox-warning-header-color;
-            background-color: @lobibox-warning-header-bg;
-        }
-        .lobibox-body{
-            .lobibox-icon{
-                color: @lobibox-warning-icon-color
-            }
-        }
-        .lobibox-footer{
-            background-color: @lobibox-warning-footer-bg;
-        }
+        .lobibox-alert-variant(@lobibox-warning-border; @lobibox-warning-header-color; @lobibox-warning-header-bg; @lobibox-warning-icon-color; @lobibox-warning-footer-bg);
     }
     &.lobibox-prompt{
         border: none;
@@ -190,6 +142,7 @@ body{
     &.lobibox-progress{
         .lobibox-body{
             padding: @lobibox-progress-body-padding;
+            font-size: @lobibox-progress-text-font-size;
             .lobibox-progress-bar-wrapper{
                 position: relative;
                 height: @lobibox-progress-element-height;

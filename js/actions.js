@@ -57,7 +57,6 @@ $(document).ready(function(){
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted.",
             closeButton : true,
             iconClass   : 'glyphicon glyphicon-ok-sign',
-//            iconClass   : 'fa fa-check-circle'
 //            buttons     : ['yes', 'no']
         });
     });
@@ -81,12 +80,10 @@ $(document).ready(function(){
     $('#info').click(function(){
         Lobibox.alert('info',{
             title       : 'Info Popup',
-            msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. Blessed suffices linden fled, receipt brink region, lured wrath dew neutral",
+            msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. ",
             closeButton : true,
             modal       : false,
-            width       : 400,
-//            iconClass   : 'glyphicon glyphicon-info-sign',
-            iconClass   : 'fa fa-info-circle'
+            iconClass   : 'glyphicon glyphicon-info-sign'
         });
     });
     $('#warning').click(function(){
@@ -105,8 +102,7 @@ $(document).ready(function(){
             closeButton : true,
             draggable   : true,
 //            modal       : false,
-//            iconClass   : 'glyphicon glyphicon-question-sign',
-            iconClass   : 'fa fa-question-circle',
+            iconClass   : 'glyphicon glyphicon-question-sign',
             callback    : function(exert, type, ev){
                 window.console.log(exert);
                 exert.destroy();
