@@ -501,7 +501,7 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
     function LobiboxProgress (options){
         this.$type      = 'progress';
-        
+        this.$progressBarElement = null,
         options = $.extend({}, Lobibox.progress.DEFAULT_OPTIONS, options);
         
         this.$options   = this._processInput(options);
@@ -526,24 +526,29 @@ var Lobibox = Lobibox || {};
             
             LobiboxBase._init.call(me);
             me.show();
-            me.setMessage(me._createProgressbar());
-            
-            me.position();
-        },
-        _createProgressbar: function(){
-            var me = this;
-            var outer = $('<div class="lobibox-progress-bar-wrapper"></div>')
-                    .append('<div class="lobibox-progress-bar"></div>')
-                    ;
-            if (me.$options.showProgressLabel){
-                outer.append('<span class="lobibox-progress-text"></span>');
+            if (me.$options.progressBarHTML){
+                me.$progressBarElement = $(me.$options.progressBarHTML);
+            }else{
+                me.$progressBarElement = me._createProgressbar();
             }
             var label;
             if (me.$options.label){
                 label = $('<label>'+me.$options.label+'</label>');
             }
-            var innerHTML = $('<div></div>').append(label, outer);
-            return innerHTML;
+            var innerHTML = $('<div></div>').append(label, me.$progressBarElement);
+            me.setMessage(innerHTML);
+            me.position();
+        },
+        _createProgressbar: function(){
+            var me = this;
+            var outer = $('<div class="lobibox-progress-bar-wrapper lobibox-progress-outer"></div>')
+                    .append('<div class="lobibox-progress-bar lobibox-progress-element"></div>')
+                    ;
+            if (me.$options.showProgressLabel){
+                outer.append('<span class="lobibox-progress-text" data-role="progress-text"></span>');
+            }
+           
+            return outer;
         },
         setProgress: function(progress){
             var me = this;
@@ -556,9 +561,9 @@ var Lobibox = Lobibox || {};
             if (me.$progress === 100){
                 me._triggerEvent('progressCompleted');
             }
-            me.$el.find('.lobibox-progress-bar').css('width', progress+"%");
+            me.$el.find('.lobibox-progress-element').css('width', progress+"%");
             if (me.$options.showProgressLabel){
-                me.$el.find('.lobibox-progress-text').html(progress+"%");
+                me.$el.find('[data-role="progress-text"]').html(progress+"%");
             }
         },
         getProgress: function(){
@@ -569,6 +574,8 @@ var Lobibox = Lobibox || {};
     LobiboxProgress.DEFAULT_OPTIONS = {
         showProgressLabel   : true,
         label               : false,
+        progressBarHTML     : false, 
+        //Events
         progressUpdated     : null,
         progressCompleted   : null
     };
