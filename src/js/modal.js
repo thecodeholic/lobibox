@@ -1,5 +1,6 @@
+//create lobibox object
+var Lobibox = Lobibox || {};
 (function(){
-    
     /**
      * Base prototype for all messageboxes and window
      */
@@ -133,10 +134,10 @@
             if (me.$options.callback && typeof me.$options.callback === 'function') {
                 btn.on('click.lobibox', function(ev){
                     var bt = $(this);
+                    if (op.closeMessagebox) {
+                        me.destroy();
+                    }
                     me.$options.callback(me, bt.data('type'), ev);
-                            if (op.closeMessagebox){
-                                me.destroy();
-                            }
                 });
             } else if (op.closeMessagebox){
                 btn.click(function() {
@@ -317,10 +318,6 @@
         debug           : true,
         buttonsAlign    : 'center',
         closeOnEsc      : false,
-//        infoIconClass   : false,
-//        errorIconClass  : false,
-//        successIconClass: false,
-//        warningIconClass: false
         
         //events
         beforeCreate    : null,
@@ -335,6 +332,9 @@
     function LobiboxPrompt (options){
         this.$input         = null;
         this.$type          = 'prompt';
+        
+        options = $.extend({}, Lobibox.prompt.DEFAULT_OPTIONS, options);
+        
         this.$options = this._processInput(options);
         
         this._init(this.$type);
@@ -406,6 +406,9 @@
 //------------------------------------------------------------------------------
     function LobiboxConfirm (options){
         this.$type      = 'confirm';
+        
+        options = $.extend({}, Lobibox.confirm.DEFAULT_OPTIONS, options);
+        
         this.$options   = this._processInput(options);
         this._init();
         this.debug(this);
@@ -448,24 +451,27 @@
         
     };
 //------------------------------------------------------------------------------
-//-------------------------LobiboxInfo------------------------------------------
+//-------------------------LobiboxAlert------------------------------------------
 //------------------------------------------------------------------------------
-    function LobiboxInfo (type, options){
+    function LobiboxAlert (type, options){
         this.$type      = type;
+        
+        options = $.extend({}, Lobibox.alert.DEFAULT_OPTIONS, Lobibox[type].DEFAULT_OPTIONS, options);
+        
         this.$options   = this._processInput(options);
         
         this._init();
         this.debug(this);
     };
     
-    LobiboxInfo.prototype = $.extend({}, LobiboxBase, {
-        constructor: LobiboxInfo,
+    LobiboxAlert.prototype = $.extend({}, LobiboxBase, {
+        constructor: LobiboxAlert,
         
         _processInput: function(options){
             var me = this;
             options = LobiboxBase._processInput.call(me, options); 
              
-            options = $.extend({}, LobiboxInfo.DEFAULT_OPTIONS, options);
+            options = $.extend({}, LobiboxAlert.DEFAULT_OPTIONS, options);
             return options;
         },
         
@@ -487,14 +493,17 @@
         }
     });
     
-    LobiboxInfo.DEFAULT_OPTIONS = {
+    LobiboxAlert.DEFAULT_OPTIONS = {
         iconClass       : false
     };
 //------------------------------------------------------------------------------
-//-------------------------LobiboxProgress------------------------------------------
+//-------------------------LobiboxProgress--------------------------------------
 //------------------------------------------------------------------------------
     function LobiboxProgress (options){
         this.$type      = 'progress';
+        
+        options = $.extend({}, Lobibox.progress.DEFAULT_OPTIONS, options);
+        
         this.$options   = this._processInput(options);
         this.$progress  = 0;
         
@@ -568,6 +577,9 @@
 //------------------------------------------------------------------------------
     function LobiboxWindow(type, options) {
         this.$type = type;
+        
+        options = $.extend({}, Lobibox.window.DEFAULT_OPTIONS, options);
+        
         this.$options = this._processInput(options);
 
         this._init();
@@ -576,7 +588,7 @@
     ;
 
     LobiboxWindow.prototype = $.extend({}, LobiboxBase, {
-        constructor: LobiboxInfo,
+        constructor: LobiboxWindow,
         _processInput: function(options) {
             var me = this;
             options = LobiboxBase._processInput.call(me, options);
@@ -639,6 +651,15 @@
             var me = this;
             return me.$options.content;
         },
+        setTitle: function(title){
+            var me = this;
+            me.$el.find('.lobibox-title').html(title);
+            return me;
+        },
+        getTitle: function(){
+            var me = this;
+            return me.$el.find('.lobibox-title').html();
+        },
         load: function(callback){
             var me = this;
             if ( ! me.$options.url){
@@ -667,25 +688,47 @@
     
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-    //create lobibox object
-    window.Lobibox = window.Lobibox || {};
     
-    window.Lobibox.prompt = function(options){
+    //User can set default options for messageboxes
+    Lobibox.DEFAULT_OPTIONS = {
+        window: LobiboxWindow.DEFAULT_OPTIONS
+    };
+    //User can set default properties for prompt in the following way
+    //Lobibox.prompt.DEFAULT_OPTIONS = object;
+    Lobibox.prompt = function(options){
         return new LobiboxPrompt(options);
     };
-    window.Lobibox.confirm = function(options){
+    //User can set default properties for confirm in the following way
+    //Lobibox.confirm.DEFAULT_OPTIONS = object;
+    Lobibox.confirm = function(options){
         return new LobiboxConfirm(options);
     };
-    window.Lobibox.progress = function(options){
+    //User can set default properties for progress in the following way
+    //Lobibox.progress.DEFAULT_OPTIONS = object;
+    Lobibox.progress = function(options){
         return new LobiboxProgress(options);
     };
-    window.Lobibox.alert = function(type, options) {
+    //Create empty objects in order user to be able to set default options in the following way
+    //Lobibox.error.DEFAULT_OPTIONS = object;
+    //Lobibox.success.DEFAULT_OPTIONS = object;
+    //Lobibox.warning.DEFAULT_OPTIONS = object;
+    //Lobibox.info.DEFAULT_OPTIONS = object;
+    
+    Lobibox.error = {};
+    Lobibox.success = {};
+    Lobibox.warning = {};
+    Lobibox.info = {};
+    
+    //User can set default properties for alert in the following way
+    //Lobibox.alert.DEFAULT_OPTIONS = object;
+    Lobibox.alert = function(type, options) {
        if (["success", "error", "warning", "info"].indexOf(type) > -1){
-            return new LobiboxInfo(type, options);
+            return new LobiboxAlert(type, options);
         }
     };
-    
-    window.Lobibox.window = function(options){
+    //User can set default properties for window in the following way
+    //Lobibox.window.DEFAULT_OPTIONS = object;
+    Lobibox.window = function(options){
         return new LobiboxWindow('window', options);
     };
 

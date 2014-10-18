@@ -1,4 +1,23 @@
 $(document).ready(function(){
+    Lobibox.alert.DEFAULT_OPTIONS = {
+        width: 700
+    };
+    Lobibox.info.DEFAULT_OPTIONS = {
+        iconClass: 'glyphicon glyphicon-info-sign'
+    };
+    Lobibox.error.DEFAULT_OPTIONS = {
+        iconClass: 'glyphicon glyphicon-remove-sign'
+    };
+    Lobibox.progress.DEFAULT_OPTIONS = {
+        width: 500
+    };
+    Lobibox.confirm.DEFAULT_OPTIONS = {
+        width: 500
+    };
+     Lobibox.prompt.DEFAULT_OPTIONS = {
+        width: 500,
+        lines: 5
+    };
     $('#error').click(function(){
         Lobibox.alert('error',{
             title   : "შეცდომა",
@@ -10,10 +29,9 @@ $(document).ready(function(){
 //                    closeMessagebox: true
 //                }
 //            },
-            closeButton: true,
-            width: 400,
+//            width: 400,
             modal: false,
-            iconClass   : 'glyphicon glyphicon-remove-sign',
+//            iconClass   : 'glyphicon glyphicon-remove-sign',
             footer: {
                 buttonsAlign: 'center'
             },
@@ -55,7 +73,6 @@ $(document).ready(function(){
         Lobibox.alert('success',{
             title       : 'Success Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted.",
-            closeButton : true,
             iconClass   : 'glyphicon glyphicon-ok-sign',
 //            buttons     : ['yes', 'no']
         });
@@ -63,7 +80,6 @@ $(document).ready(function(){
     $('#progress').click(function(){
         Lobibox.progress({
             title       : 'Please wait',
-            closeButton : true,
             label       : 'Uploading files...',
             progressCompleted: function(){
                 window.console.log("completed");
@@ -81,9 +97,7 @@ $(document).ready(function(){
         Lobibox.alert('info',{
             title       : 'Info Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. ",
-            closeButton : true,
-            modal       : false,
-            iconClass   : 'glyphicon glyphicon-info-sign'
+//            iconClass   : 'glyphicon glyphicon-info-sign'
         });
     });
     $('#warning').click(function(){
@@ -161,7 +175,6 @@ $(document).ready(function(){
             draggable   : true,
             placeholder : "Please tell us your oppinion",
             multiline   : true,
-            lines       : 6,
             width       : 400,
             callback    : function(exert, type, ev){
                 exert.destroy();
@@ -171,26 +184,32 @@ $(document).ready(function(){
             }
         });
     });
-    
+    Lobibox.window.DEFAULT_OPTIONS = {
+        loadMethod: 'POST',
+        width: 600
+    };
     $('#window').click(function(){
         var v = Lobibox.window({
             title       : 'Window title',
             content     : function(){
                 return $('#windowContent').clone().removeAttr('style');
             },
-            width       : 480,
+//            width       : 480,
             height      : 640,
             url         : 'content.html',
             autoload    : false,
+            modal       : false,
 //            beforeCreate: function(){
 //                window.console.log("before create");
 //            },
 //            beforeShow  : function(){
 //                window.console.log("before show");
 //            },
-//            onShow      : function(exert){
-//               window.console.log("on show", exert); 
-//            },
+            onShow      : function(exert){
+               setTimeout(function(){
+                   exert.setTitle("gamarjoba");
+               },2000);
+            },
 //            beforePosition: function(){
 //                window.console.log("before position");
 //            },
@@ -200,7 +219,10 @@ $(document).ready(function(){
 //            params      : {
 //                name    : 'zura'
 //            },
-             buttons: {
+            buttons: {
+                print: {
+                    text: 'print'
+                },
                 save: {
                     text: 'Save'
                 },
