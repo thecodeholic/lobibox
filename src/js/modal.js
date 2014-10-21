@@ -4,7 +4,7 @@ var Lobibox = Lobibox || {};
     /**
      * Base prototype for all messageboxes and window
      */
-    LobiboxBase = {
+    var LobiboxBase = {
         $type       : null,
         $el         : null,
         $options    : null,
@@ -562,9 +562,7 @@ var Lobibox = Lobibox || {};
                 me._triggerEvent('progressCompleted');
             }
             me.$el.find('.lobibox-progress-element').css('width', progress+"%");
-            if (me.$options.showProgressLabel){
-                me.$el.find('[data-role="progress-text"]').html(progress+"%");
-            }
+            me.$el.find('[data-role="progress-text"]').html(progress+"%");
         },
         getProgress: function(){
             return this.$progress;

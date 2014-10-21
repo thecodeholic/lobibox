@@ -81,9 +81,9 @@ $(document).ready(function(){
         Lobibox.progress({
             title       : 'Please wait',
             label       : 'Uploading files...',
-            progressBarHTML : '<div class="progress lobibox-progress-outer">\n\
-                                <div class="progress-bar progress-bar-danger progress-bar-striped lobibox-progress-element" data-role="progress-text" role="progressbar"></div>\n\
-                                </div>',
+//            progressBarHTML : '<div class="progress lobibox-progress-outer">\n\
+//                                <div class="progress-bar progress-bar-danger progress-bar-striped lobibox-progress-element" data-role="progress-text" role="progressbar"></div>\n\
+//                                </div>',
             progressCompleted: function(){
                 window.console.log("completed");
             },
@@ -91,12 +91,12 @@ $(document).ready(function(){
                 var i = 0;
                 var inter = setInterval(function(){
                     window.console.log(i);
-                    if (i >= 50){
+                    if (i > 50){
                         inter = clearInterval(inter);
                     }
+                    i = i+0.1;
                     exert.setProgress(i);
-                    i = i+1;
-                },50);
+                },10);
             }
         });
     });
