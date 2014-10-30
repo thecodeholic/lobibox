@@ -205,7 +205,7 @@ $(document).ready(function(){
             height      : 640,
             url         : 'content.html',
             autoload    : false,
-            modal       : false,
+//            modal       : false,
 //            beforeCreate: function(){
 //                window.console.log("before create");
 //            },
