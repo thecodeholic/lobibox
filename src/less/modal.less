@@ -1,6 +1,6 @@
 /* 
     Created on : Sep 19, 2014, 1:47:04 PM
-    Author     : Zura
+    Author     : @arboshiki
 */
 
 
@@ -22,13 +22,15 @@ body{
     border-bottom-right-radius: @lobibox-footer-border-radius;
     .lobibox-header{
         font-size: @lobibox-header-font-size;
+        font-weight: normal;
         border-top-left-radius: @lobibox-header-border-radius/2;
         border-top-right-radius: @lobibox-header-border-radius/2;
-        padding: @lobibox-header-padding;
+        padding: @lobibox-header-padding-vertical @lobibox-header-padding-horizontal;
         background-color: @lobibox-header-bg;
         color: @lobibox-header-color;
+        font-size: @lobibox-title-font-size;
         .lobibox-title{
-            font-size: @lobibox-title-font-size;
+            
         }
         .btn-close{
             float: right;
@@ -36,13 +38,8 @@ body{
             cursor: pointer;
             border: none;
             outline: 0;
-            opacity: @lobibox-close-btn-opacity;
-            color: @lobibox-close-btn-color;
-            font-weight: bold;
-            font-size: @lobibox-close-btn-font-size;
             &:hover{
-                opacity: @lobibox-close-btn-hover-opacity;
-                color: @lobibox-close-btn-hover-color;
+                
             }
         }
     }
@@ -51,7 +48,7 @@ body{
         display: table;
         position: relative;
         width: 100%;
-        padding: @lobibox-body-padding;
+        padding: @lobibox-body-padding-vertical @lobibox-body-padding-horizontal;
         background-color: @lobibox-body-bg;
         font-size: @lobibox-body-font-size;
         .lobibox-icon-wrapper{
@@ -94,7 +91,7 @@ body{
             background-color: @lobibox-confirm-header-bg;
         }
         .lobibox-body{
-            padding: @lobibox-confirm-body-padding;
+            padding: @lobibox-confirm-body-padding-vertical @lobibox-confirm-body-padding-horizontal;
             .lobibox-icon{
                 color: @lobibox-confirm-icon-color
             }
