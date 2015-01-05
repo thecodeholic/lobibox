@@ -3,44 +3,43 @@
     Author     : @arboshiki
 */
 
-.exert-notify-wrapper{
-    z-index: 20000;
+.lobibox-notify-wrapper{
+    z-index: 5000;
     position: fixed;
     &.top{
-        top: @notify-wrapper-offset-top;
+        top: @lobibox-notify-wrapper-offset-top;
     }
     &.bottom{
-        bottom: @notify-wrapper-offset-bottom;
+        bottom: @lobibox-notify-wrapper-offset-bottom;
     }
     &.left{
-        left: @notify-wrapper-offset-left;
+        left: @lobibox-notify-wrapper-offset-left;
     }
     &.right{
-        right: @notify-wrapper-offset-right;
+        right: @lobibox-notify-wrapper-offset-right;
     }
-    .exert-notify{
-        padding: @notify-padding;
-        margin: @notify-margin;
-        font-family: @notify-font-family;
-        border-radius: @notify-border-radius;
+    .lobibox-notify{
+        margin-bottom: 7px;
+        border-radius: @lobibox-notify-border-radius;
         position: relative;
         color: #fff;
         opacity: 0.9;
         border: 1px solid transparent;
         .transition(0.1s all linear); 
-        .box-shadow(@notify-box-shadow);
-        .exert-notify-icon{
-            float: left;
-            font-size: @notify-icon-font-size;
-            margin: @notify-icon-margin;
+        .box-shadow(@lobibox-notify-box-shadow);
+        .lobibox-notify-icon{
+            position: absolute;
+            left: 20px;
+            top: 10px;
+            font-size: @lobibox-notify-icon-font-size;
         }
-        .exert-notify-title{
-            font-size: @notify-title-font-size;
+        .lobibox-notify-title{
+            font-size: @lobibox-notify-title-font-size;
         }
-        .exert-notify-msg{
-            margin-left: @notify-msg-margin-left;
+        .lobibox-notify-body{
+            margin: 10px 20px 10px 100px;
         }
-        .exert-close{
+        .lobibox-close{
             position: absolute;
             right: 10px;
             top: 5px;
@@ -52,7 +51,7 @@
                 opacity: 0.4;
             }
         }
-        .exert-delay-indicator{
+        .lobibox-delay-indicator{
             position: absolute;
             left: 0;
             right: 0;
@@ -68,35 +67,35 @@
             cursor: pointer;
             opacity: 1;
         }
-        &.error{
-            background-color: @color-error;
-            .exert-delay-indicator{
+        &.lobibox-notify-error{
+            background-color: @brand-danger;
+            .lobibox-delay-indicator{
                 >div{
-                    background-color: darken(@color-error, 15%);
+                    background-color: darken(@brand-danger, 15%);
                 }
             }
         }
-        &.success{
-            background-color: @color-success;
-            .exert-delay-indicator{
+        &.lobibox-notify-success{
+            background-color: @brand-success;
+            .lobibox-delay-indicator{
                 >div{
-                    background-color: darken(@color-success, 15%);
+                    background-color: darken(@brand-success, 15%);
                 }
             }
         }
-        &.warning{
-            background-color: @color-warning;
-            .exert-delay-indicator{
+        &.lobibox-notify-warning{
+            background-color: @brand-warning;
+            .lobibox-delay-indicator{
                 >div{
-                    background-color: darken(@color-warning, 15%);
+                    background-color: darken(@brand-warning, 15%);
                 }
             }
         }
-        &.info{
-            background-color: @color-info;
-            .exert-delay-indicator{
+        &.lobibox-notify-info{
+            background-color: @brand-info;
+            .lobibox-delay-indicator{
                 >div{
-                    background-color: darken(@color-info, 15%);
+                    background-color: darken(@brand-info, 15%);
                 }
             }
         }

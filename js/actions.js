@@ -247,5 +247,24 @@ $(document).ready(function(){
             }
         });
     });
-    
+    $('#notifyInfo').click(function(){
+        Lobibox.notify('info', {
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
+        });
+    });
+    $('#notifyWarning').click(function(){
+        Lobibox.notify('warning', {
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+        });
+    });
+    $('#notifyError').click(function(){
+        Lobibox.notify('error', {
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
+        });
+    });
+    $('#notifySuccess').click(function(){
+        Lobibox.notify('success', {
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+        });
+    });
 });
