@@ -23,35 +23,6 @@ var Lobibox = Lobibox || {};
             if ( ! options.icon){
                 options.icon = DEFAULTS[me.$type].icon;
             }
-            
-            options = _processPosition(options);
-            return options;
-        };
-        var _processPosition = function(options){
-            var pos = {};
-            if (typeof options.position === 'string'){
-                 if (["top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"].indexOf(options.position) > -1){
-                    var s = options.position.split(" ");
-                    if (s.length !== 2){
-                        throw { name: 'ExertNotifyError', message: "Incorrect position was provided" };
-                    }
-                    if (s[1] === 'left'){
-                        pos.left = DEFAULTS.offsetLeft;
-                    }else if (s[1] === 'right'){
-                        pos.right = DEFAULTS.offsetRight;
-                    }else if (s[1] === 'middle'){
-                        pos.left = ($(window).width() - options.width) / 2;
-                    }
-                    if (s[0] === 'top'){
-                        pos.top = DEFAULTS.offsetTop;
-                    }else if (s[0] === 'bottom'){
-                        pos.bottom =  DEFAULTS.offsetBottom;
-                    }
-                    options.position = pos;
-                }else{
-                    throw { name: 'ExertNotifyError', message: "Incorrect position was provided" };
-                }
-            }
             return options;
         };
         var _init = function(){
@@ -78,28 +49,20 @@ var Lobibox = Lobibox || {};
             me.$el = notify;
             _addCloseButton();
             _addCloseOnClick();
-//            _givePosition();
             _addDelay();
             _appendInWrapper();
             
         };
         var _appendInWrapper = function(){
             var selector = '.lobibox-notify-wrapper';
-            var classes = [];
-            for (var i in me.$options.position){
-                if (me.$options.position.hasOwnProperty(i)){
-                    classes.push(i);
-                }
-            }
-            selector += "."+classes[0];
-            for (var i = 1; i<classes.length; i++){
-                selector +="."+classes[i];
-            }
+            var classes = me.$options.position.split(" ");
+            selector += "."+classes.join('.');
             var wr = $(selector);
             if (wr.length === 0){
-                wr = $('<div class="lobibox-notify-wrapper '+classes.join(" ")+'"></div>');
+                wr = $('<div class="lobibox-notify-wrapper '+me.$options.position+'"></div>');
                 $('body').append(wr);
             }
+            wr.css(me.$options.position);
             wr.prepend(me.$el);
         };
         var _addCloseButton = function(){
@@ -113,34 +76,36 @@ var Lobibox = Lobibox || {};
             });
         };
         var _addCloseOnClick = function(){
-            if (me.$options.closeOnClick){
-                me.$el.click(function(){
-                    me.remove();
-                });
+            if ( ! me.$options.closeOnClick){
+                return;
             }
-        };
-        var _givePosition = function(){
-            me.$el.css(me.$options.position);
+            me.$el.click(function(){
+                me.remove();
+            });
         };
         var _addDelay = function(){
             if ( ! me.$options.delay){
                 return;
             }
-            var delay = $('<div class="lobibox-delay-indicator"><div></div></div>');
-            me.$el.append(delay);
+            if (me.$options.delayIndicator){
+                var delay = $('<div class="lobibox-delay-indicator"><div></div></div>');
+                me.$el.append(delay);
+            }
             var time = 0;
             var interval = 1000/30;
             var timer = setInterval(function(){
                 time += interval;
                 var width = 100 * time / me.$options.delay;
                 if (width >= 100){
+                    width = 100;
+                    me.remove();
                     timer = clearInterval(timer);
                 }
-                delay.find('div').css('width', width+"%");
-            },interval);
-            setTimeout(function(){
-                me.remove(); 
-            }, me.$options.delay);
+                if (me.$options.delayIndicator){
+                    delay.find('div').css('width', width+"%");
+                }
+               
+            }, interval);
         };
 //------------------------------------------------------------------------------
 //----------------PROTOTYPE FUNCTIONS-------------------------------------------
@@ -172,11 +137,11 @@ var Lobibox = Lobibox || {};
         msg: '',
         img: null, //This is only for large notifications
         closable: true,
-        delay: false,
+        delay: 5000,
+        delayIndicator: true,
         closeOnClick: true,
         width: 400,
-        //This property may also be object with available keys ["left", "top", "right", "bottom"]where value is css value
-        position: "bottom right" //values "top left", "top right", "top middle", "bottom left", "bottom right", "bottom middle"
+        position: "bottom right" //values "top left", "top right", "bottom left", "bottom right"
     };
     var LOCALES = window.Lobibox.locales;
     var TITLE_LOCALES = LOCALES.titles;

@@ -25,12 +25,13 @@
         color: #fff;
         opacity: 0.9;
         border: 1px solid transparent;
-        .transition(0.1s all linear); 
         .box-shadow(@lobibox-notify-box-shadow);
+        .transition(0.1s all linear); 
         .lobibox-notify-icon{
             position: absolute;
             left: 20px;
             top: 10px;
+            line-height: 1;
             font-size: @lobibox-notify-icon-font-size;
         }
         .lobibox-notify-title{
@@ -66,6 +67,7 @@
         &:hover{
             cursor: pointer;
             opacity: 1;
+            .box-shadow(@lobibox-notify-hover-box-shadow);
         }
         &.lobibox-notify-error{
             background-color: @brand-danger;
