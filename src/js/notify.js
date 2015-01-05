@@ -18,6 +18,8 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
         var _processInput = function(options){
             options = $.extend({}, LobiboxNotify.DEFAULT_OPTIONS, options);
+            $.extend(true, DEFAULTS, PRIVATE_OPTIONS, Lobibox.notify.DEFAULT_OPTIONS);
+            
             if ( ! options.title){
                 options.title = DEFAULTS[me.$type].title;
             }
@@ -150,46 +152,39 @@ var Lobibox = Lobibox || {};
         sound: null,
         position: "bottom right" //values "top left", "top right", "bottom left", "bottom right"
     };
+    //User can set default options to this variable
+    Lobibox.notify.DEFAULT_OPTIONS = {};
     var LOCALES = window.Lobibox.locales;
     var TITLE_LOCALES = LOCALES.titles;
-    var DEFAULTS = {
-        'class'         : 'lobibox-animated',
+    //This variable is necessary.
+    var PRIVATE_OPTIONS = {
+        'class': 'lobibox-animated',
         success: {
-            'class'     : 'lobibox-notify-success',
-            'title'     : TITLE_LOCALES.success,
-            'icon'      : 'glyphicon glyphicon-ok-sign',
-            sound       : 'sounds/sound2.wav',
+            'class': 'lobibox-notify-success',
+            'title': TITLE_LOCALES.success,
+            'icon': 'glyphicon glyphicon-ok-sign',
+            sound: 'sounds/sound2.wav'
         },
         error: {
-            'class'     : 'lobibox-notify-error',
-            'title'     : TITLE_LOCALES.error,
-            'icon'      : 'glyphicon glyphicon-remove-sign',
-            sound       : 'sounds/sound4.wav',
+            'class': 'lobibox-notify-error',
+            'title': TITLE_LOCALES.error,
+            'icon': 'glyphicon glyphicon-remove-sign',
+            sound: 'sounds/sound4.wav'
         },
         warning: {
-            'class'     : 'lobibox-notify-warning',
-            'title'     : TITLE_LOCALES.warning,
-            'icon'      : 'glyphicon glyphicon-exclamation-sign',
-            sound       : 'sounds/sound5.mp3'
+            'class': 'lobibox-notify-warning',
+            'title': TITLE_LOCALES.warning,
+            'icon': 'glyphicon glyphicon-exclamation-sign',
+            sound: 'sounds/sound5.mp3'
         },
         info: {
-            'class'     : 'lobibox-notify-info',
-            'title'     : TITLE_LOCALES.info,
-            'icon'      : 'glyphicon glyphicon-info-sign',
-            sound       : 'sounds/sound6.wav'
-        },
-        confirm: {
-            'title'     : TITLE_LOCALES.success,
-            'icon'      : 'glyphicon glyphicon-question-sign'
-        },
-        offsetLeft      : 10,
-        offsetRight     : 10,
-        offsetTop       : 10,
-        offsetBottom    : 10,
-        showAnimations : ['jumpUp'],
-        hideAnimations : ['zoomOutDown']
+            'class': 'lobibox-notify-info',
+            'title': TITLE_LOCALES.info,
+            'icon': 'glyphicon glyphicon-info-sign',
+            sound: 'sounds/sound6.wav'
+        }
     };
-
+    var DEFAULTS = $.extend({}, PRIVATE_OPTIONS);
 })();
 
 

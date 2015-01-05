@@ -14,9 +14,15 @@ $(document).ready(function(){
     Lobibox.confirm.DEFAULT_OPTIONS = {
         width: 500
     };
-     Lobibox.prompt.DEFAULT_OPTIONS = {
+    Lobibox.prompt.DEFAULT_OPTIONS = {
         width: 500,
         lines: 5
+    };
+    Lobibox.notify.DEFAULT_OPTIONS = {
+        warning: {
+            'title': 'jandaba',
+            'icon': 'fa fa-exclamation-circle',
+        }
     };
     $('#error').click(function(){
         Lobibox.alert('error',{
