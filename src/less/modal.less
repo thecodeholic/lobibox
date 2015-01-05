@@ -12,34 +12,24 @@ body{
 }
 .lobibox{
     position: absolute;
-    z-index: 2001;
+    z-index: 4001;
     box-sizing: content-box;
-    font-family: @lobibox-font-family;
-    border: @lobibox-border;
-    border-top-left-radius: @lobibox-header-border-radius;
-    border-top-right-radius: @lobibox-header-border-radius;
-    border-bottom-left-radius: @lobibox-footer-border-radius;
-    border-bottom-right-radius: @lobibox-footer-border-radius;
+    .box-shadow(@lobibox-box-shadow);
+    border-radius: @lobibox-border-radius;
     .lobibox-header{
         font-size: @lobibox-header-font-size;
-        font-weight: normal;
-        border-top-left-radius: @lobibox-header-border-radius/2;
-        border-top-right-radius: @lobibox-header-border-radius/2;
         padding: @lobibox-header-padding-vertical @lobibox-header-padding-horizontal;
-        background-color: @lobibox-header-bg;
         color: @lobibox-header-color;
-        font-size: @lobibox-title-font-size;
-        .lobibox-title{
-            
-        }
+        .border-top-radius(@lobibox-border-radius/2);
         .btn-close{
             float: right;
             background-color: transparent;
             cursor: pointer;
             border: none;
             outline: 0;
+            .transition(all 0.3s);
             &:hover{
-                
+                text-shadow: @lobibox-close-btn-hover-text-shadow;
             }
         }
     }
@@ -52,11 +42,14 @@ body{
         background-color: @lobibox-body-bg;
         font-size: @lobibox-body-font-size;
         .lobibox-icon-wrapper{
-            float: left; 
-            display: table-cell;
-            vertical-align: middle;
-            padding-top: @lobibox-icon-padding-top;
+            position: relative;
+            height: 100%;
+            display: table;
             font-size: @lobibox-icon-font-size;
+            .lobibox-icon{
+                display: table-cell;
+                vertical-align: middle;
+            }
         }
         .lobibox-body-text-wrapper{
             display: table-cell;
@@ -67,9 +60,7 @@ body{
     }
     .lobibox-footer{
         text-align: center;
-        /*height: @lobibox-footer-height;*/
         padding: @lobibox-footer-padding;
-        background-color: @lobibox-footer-bg;
         &.text-center{
             text-align: center;
         }
@@ -81,8 +72,7 @@ body{
         }
     }
     &>div:last-child{
-        border-bottom-left-radius: @lobibox-footer-border-radius/2;
-        border-bottom-right-radius: @lobibox-footer-border-radius/2;
+        .border-bottom-radius(@lobibox-border-radius/2);
     }
     &.lobibox-confirm{
         border: none;
@@ -91,7 +81,6 @@ body{
             background-color: @lobibox-confirm-header-bg;
         }
         .lobibox-body{
-            padding: @lobibox-confirm-body-padding-vertical @lobibox-confirm-body-padding-horizontal;
             .lobibox-icon{
                 color: @lobibox-confirm-icon-color
             }
@@ -137,6 +126,9 @@ body{
         }
     }
     &.lobibox-progress{
+        .lobibox-header{
+            background-color: @lobibox-progress-header-bg;
+        }
         .lobibox-body{
             padding: @lobibox-progress-body-padding;
             font-size: @lobibox-progress-text-font-size;
