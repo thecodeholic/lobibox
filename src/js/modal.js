@@ -50,7 +50,7 @@ var Lobibox = Lobibox || {};
             
             me._createMarkup();
             me.setTitle(me.$options.title);
-            if (me.$options.draggable){
+            if (me.$options.draggable && ! me.isMobileScreen()){
                 me.$el.addClass('draggable');
                 me.enableDrag();
             }
@@ -109,16 +109,16 @@ var Lobibox = Lobibox || {};
                         top: top
                     });
                     el.css({
-                        right: $(document).width() - (left + el.width() + 2),
-                        bottom: $(document).height() - (top + el.height() + 2)
+                        right: $(document).outerWidth() - (left + el.outerWidth() + 2),
+                        bottom: $(document).outerHeight() - (top + el.outerHeight() + 2)
                     });
                 }
             });
         },
         _calculatePosition: function(){
             var me = this;
-            var left = ($(window).width() - me.$el.width())/2;
-            var top  = ($(window).height() - me.$el.height())/2;
+            var left = ($(window).outerWidth() - me.$el.outerWidth())/2;
+            var top  = ($(window).outerHeight() - me.$el.outerHeight())/2;
             return {
                 left: left,
                 top: top
@@ -184,21 +184,29 @@ var Lobibox = Lobibox || {};
             var me = this;
             me.setWidth(me.$options.width);
             if (me.$options.height === 'auto'){
-                me.setHeight(me.$el.height());
+                me.setHeight(me.$el.outerHeight());
             }else{
                 me.setHeight(me.$options.height);
             }
         },
         setWidth: function(width){
+            width = this._calculateWidth(width);
             this.$el.css('width', width);
         },
         setHeight: function(height){
             var me = this;
+            height = me._calculateHeight(height);
+            me.$el.css('height', height);
+            var bHeight = me._calculateBodyHeight(me.$el.innerHeight());
+            
+            me.$el.find('.lobibox-body').css('height', bHeight);
+        },
+        _calculateBodyHeight: function(height){
+            var me = this;
             var headerHeight = me.$el.find('.lobibox-header').outerHeight();
             var footerHeight = me.$el.find('.lobibox-footer').outerHeight();
-            var h = height - (headerHeight ? headerHeight : 0) - (footerHeight ? footerHeight : 0);
-            me.$el.css('height', height);
-            me.$el.find('.lobibox-body').css('height', h);
+            return height - (headerHeight ? headerHeight : 0) - (footerHeight ? footerHeight : 0);
+            
         },
         setSize: function(width, height){
             var me = this;
@@ -251,17 +259,28 @@ var Lobibox = Lobibox || {};
         position: function(){
             var me = this;
             
-            me._triggerEvent('beforePosition');
             me._setSize();
             var pos = me._calculatePosition();
             me.setPosition(pos.left, pos.top);
-            me._triggerEvent('afterPosition');
         },
         _triggerEvent: function(type){
             var me = this;
             if (me.$options[type] && typeof me.$options[type] === 'function'){
                 me.$options[type](me);
             }
+        },
+        isMobileScreen: function(){
+            if ($(window).outerWidth() < 768){
+                return true;
+            }
+            return false;
+        },
+        _calculateWidth: function(width){
+            window.console.log(width, $(window).outerWidth());
+            return Math.min($(window).outerWidth(), width);           
+        },
+        _calculateHeight: function(height){
+            return Math.min($(window).outerHeight(), height);
         }
         
     };
