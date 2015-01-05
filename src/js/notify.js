@@ -29,6 +29,7 @@ var Lobibox = Lobibox || {};
             var notify = $('<div class="lobibox-notify"></div>');
             //Add class to notify box
             notify.addClass(DEFAULTS[me.$type]['class']);
+            notify.addClass(DEFAULTS['class']);
             notify.addClass(me.$options.showClass);
             
             if (me.$options.icon){

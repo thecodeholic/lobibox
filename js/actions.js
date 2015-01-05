@@ -255,7 +255,6 @@ $(document).ready(function(){
     $('#notifyWarning').click(function(){
         Lobibox.notify('warning', {
             title: "გაფრთხილება",
-            closable: false,
             closeOnClick: false,
             delay: 15000,
             width: 500,
@@ -266,6 +265,8 @@ $(document).ready(function(){
     $('#notifyError').click(function(){
         Lobibox.notify('error', {
             delayIndicator: false,
+            showClass: 'flipInX',
+            hideClass: 'bounceOut',
             title: 'Without loading indicator',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
         });
