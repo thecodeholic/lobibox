@@ -8,6 +8,7 @@ var Lobibox = Lobibox || {};
         this.$type;
         this.$options;
         this.$el;
+        this.$sound;
 //------------------------------------------------------------------------------
 //-----------------PRIVATE VARIABLES--------------------------------------------
 //------------------------------------------------------------------------------        
@@ -22,6 +23,9 @@ var Lobibox = Lobibox || {};
             }
             if ( ! options.icon){
                 options.icon = DEFAULTS[me.$type].icon;
+            }
+            if ( ! options.sound){
+                options.sound = DEFAULTS[me.$type].sound;
             }
             return options;
         };
@@ -52,7 +56,8 @@ var Lobibox = Lobibox || {};
             _addCloseOnClick();
             _addDelay();
             _appendInWrapper();
-            
+            var snd = new Audio(me.$options.sound); // buffers automatically when created
+            snd.play();
         };
         var _appendInWrapper = function(){
             var selector = '.lobibox-notify-wrapper';
@@ -133,7 +138,7 @@ var Lobibox = Lobibox || {};
     };
     LobiboxNotify.DEFAULT_OPTIONS = {
         title: null,
-        showClass: 'jumpUp',
+        showClass: 'flipInX',
         hideClass: 'zoomOutDown',
         msg: '',
         img: null, //This is only for large notifications
@@ -142,6 +147,7 @@ var Lobibox = Lobibox || {};
         delayIndicator: true,
         closeOnClick: true,
         width: 400,
+        sound: null,
         position: "bottom right" //values "top left", "top right", "bottom left", "bottom right"
     };
     var LOCALES = window.Lobibox.locales;
@@ -151,22 +157,26 @@ var Lobibox = Lobibox || {};
         success: {
             'class'     : 'lobibox-notify-success',
             'title'     : TITLE_LOCALES.success,
-            'icon'      : 'glyphicon glyphicon-ok-sign'
+            'icon'      : 'glyphicon glyphicon-ok-sign',
+            sound       : 'sounds/sound2.wav',
         },
         error: {
             'class'     : 'lobibox-notify-error',
             'title'     : TITLE_LOCALES.error,
-            'icon'      : 'glyphicon glyphicon-remove-sign'
+            'icon'      : 'glyphicon glyphicon-remove-sign',
+            sound       : 'sounds/sound4.wav',
         },
         warning: {
             'class'     : 'lobibox-notify-warning',
             'title'     : TITLE_LOCALES.warning,
-            'icon'      : 'glyphicon glyphicon-exclamation-sign'
+            'icon'      : 'glyphicon glyphicon-exclamation-sign',
+            sound       : 'sounds/sound5.mp3'
         },
         info: {
             'class'     : 'lobibox-notify-info',
             'title'     : TITLE_LOCALES.info,
-            'icon'      : 'glyphicon glyphicon-info-sign'
+            'icon'      : 'glyphicon glyphicon-info-sign',
+            sound       : 'sounds/sound6.wav'
         },
         confirm: {
             'title'     : TITLE_LOCALES.success,
