@@ -32,15 +32,16 @@ var Lobibox = Lobibox || {};
             return options;
         };
         var _init = function(){
-            var notify = $('<div class="lobibox-notify"></div>');
-            //Add class to notify box
-            notify.addClass(DEFAULTS[me.$type]['class']);
-            notify.addClass(DEFAULTS['class']);
-            notify.addClass(me.$options.showClass);
             
-            if (me.$options.icon){
-                var icon = $('<div class="lobibox-notify-icon"><i class="'+me.$options.icon+'"></i></div>');
-                notify.append(icon);
+            var notify = _createNotify();
+            var iconWrapper = $('<div class="lobibox-notify-icon"></div>').appendTo(notify);
+            
+            if (me.$options.img){
+                var img = iconWrapper.append('<img src="'+me.$options.img+'"/>');
+                iconWrapper.append(img);
+            }else if (me.$options.icon){
+                var icon = iconWrapper.append('<i class="'+me.$options.icon+'"></i>');
+                iconWrapper.append(icon);
             }
             var title = $('<div class="lobibox-notify-title">'+me.$options.title+'<div>');
             var msg = $('<div class="lobibox-notify-msg">'+me.$options.msg+'</div>');
@@ -60,6 +61,14 @@ var Lobibox = Lobibox || {};
             _appendInWrapper();
             var snd = new Audio(me.$options.sound); // buffers automatically when created
             snd.play();
+        };
+        var _createNotify = function(){
+            var notify = $('<div class="lobibox-notify"></div>');
+            //Add class to notify box
+            notify.addClass(DEFAULTS[me.$type]['class']);
+            notify.addClass(DEFAULTS['class']);
+            notify.addClass(me.$options.showClass);
+            return notify;
         };
         var _appendInWrapper = function(){
             var selector = '.lobibox-notify-wrapper';
