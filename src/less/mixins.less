@@ -18,3 +18,18 @@
         background-color: @footer-bg;
     }
 }
+
+.lobibox-notify-variant(@bg; @color){
+    border-color: darken(@bg, 7%);
+    background-color: fadeout(@bg, 10%);
+    color: @color;
+    .lobibox-delay-indicator{
+        >div{
+            background-color: darken(@bg, 15%);
+        }
+    }
+    &:hover{
+        background-color: @bg;
+        border-color: #FFF;
+    }
+}

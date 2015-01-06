@@ -262,9 +262,9 @@ $(document).ready(function(){
         Lobibox.notify('warning', {
             title: "გაფრთხილება",
             closeOnClick: false,
-            delay: 15000,
+            delay: 300000,
             width: 500,
-            position: 'top middle',
+            position: 'top right',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });

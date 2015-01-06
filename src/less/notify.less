@@ -18,88 +18,74 @@
     &.right{
         right: @lobibox-notify-wrapper-offset-right;
     }
-    .lobibox-notify{
-        margin-bottom: 7px;
-        border-radius: @lobibox-notify-border-radius;
-        position: relative;
-        color: #fff;
-        opacity: 0.9;
-        border: 1px solid transparent;
-        .box-shadow(@lobibox-notify-box-shadow);
-        .transition(0.1s all linear); 
-        .lobibox-notify-icon{
-            position: absolute;
-            left: 20px;
-            top: 10px;
-            line-height: 1;
-            font-size: @lobibox-notify-icon-font-size;
-        }
-        .lobibox-notify-title{
-            font-size: @lobibox-notify-title-font-size;
-        }
-        .lobibox-notify-body{
-            margin: 10px 20px 10px 100px;
-        }
-        .lobibox-close{
-            position: absolute;
-            right: 10px;
-            top: 5px;
-            font-size: 16px;
-            color: #fff;
-            &:hover{
-                font-weight: bold;
-                color: #000;
-                opacity: 0.4;
-            }
-        }
-        .lobibox-delay-indicator{
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -1px;
-            height: 5px;
-            >div{
-                position: relative;
-                height: 5px;
-                width: 0%;
-            }
-        }
+}
+
+.lobibox-notify{
+    position: relative;
+    font-family: @lobibox-notify-font-family;
+    margin: @lobibox-notify-margin-vertical 0;
+    border-radius: @lobibox-notify-border-radius;
+    border: @lobibox-notify-border-width solid @lobibox-notify-border-color;
+    .box-shadow(@lobibox-notify-box-shadow);
+    .transition(all @lobibox-notify-transition-duration);
+    .lobibox-notify-icon{
+        position: absolute;
+        line-height: @lobibox-notify-icon-width;
+        text-align: center;
+        font-size: @lobibox-notify-icon-font-size;
+        left: @lobibox-notify-icon-left;
+        top: @lobibox-notify-icon-top;
+        width: @lobibox-notify-icon-width;
+    }
+    .lobibox-notify-body{
+        margin: @lobibox-notify-body-margin;
+    }
+    .lobibox-notify-title{
+        font-size: @lobibox-notify-title-font-size;
+    }
+    .lobibox-close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: @lobibox-notify-close-font-size;
+        line-height: @lobibox-notify-close-size;
+        .square(@lobibox-notify-close-size);
+        .transition(all @lobibox-notify-transition-duration);
         &:hover{
-            cursor: pointer;
-            opacity: 1;
-            .box-shadow(@lobibox-notify-hover-box-shadow);
+            background-color: @lobibox-notify-close-hover-bg;
+            font-weight: bold;
         }
-        &.lobibox-notify-error{
-            background-color: @brand-danger;
-            .lobibox-delay-indicator{
-                >div{
-                    background-color: darken(@brand-danger, 15%);
-                }
-            }
+    }
+    .lobibox-delay-indicator{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: @lobibox-notify-delay-indicator;
+        >div{
+            position: relative;
+            height: 100%;
+            width: 0%;
         }
-        &.lobibox-notify-success{
-            background-color: @brand-success;
-            .lobibox-delay-indicator{
-                >div{
-                    background-color: darken(@brand-success, 15%);
-                }
-            }
-        }
-        &.lobibox-notify-warning{
-            background-color: @brand-warning;
-            .lobibox-delay-indicator{
-                >div{
-                    background-color: darken(@brand-warning, 15%);
-                }
-            }
-        }
-        &.lobibox-notify-info{
-            background-color: @brand-info;
-            .lobibox-delay-indicator{
-                >div{
-                    background-color: darken(@brand-info, 15%);
-                }
-            }
-        }
+    }
+
+    &.lobibox-notify-error{
+        .lobibox-notify-variant(@lobibox-notify-danger-bg; @lobibox-notify-danger-color);
+    }
+    &.lobibox-notify-success{
+        .lobibox-notify-variant(@lobibox-notify-success-bg; @lobibox-notify-success-color);
+    }
+    &.lobibox-notify-warning{
+        .lobibox-notify-variant(@lobibox-notify-warning-bg; @lobibox-notify-warning-color);
+    }
+    &.lobibox-notify-info{
+        .lobibox-notify-variant(@lobibox-notify-info-bg; @lobibox-notify-info-color);
+    }
+    
+    &:hover{
+        cursor: pointer;
+        .box-shadow(@lobibox-notify-hover-box-shadow);
     }
 }
