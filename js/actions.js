@@ -274,6 +274,7 @@ $(document).ready(function(){
             delayIndicator: false,
             showClass: 'flipInX',
             hideClass: 'bounceOut',
+            size: 'large',
             title: 'Without loading indicator',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
         });
