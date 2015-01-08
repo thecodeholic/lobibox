@@ -42,7 +42,7 @@ var Lobibox = Lobibox || {};
             if ( ! options.title){
                 options.title = DEFAULTS[me.$type].title;
             }
-            if ( ! options.icon){
+            if (options.icon === true){
                 options.icon = DEFAULTS[me.$type].icon;
             }
             if ( ! options.sound){
@@ -246,6 +246,7 @@ var Lobibox = Lobibox || {};
         size: 'normal', //normal, mini, large
         showClass: 'flipInX',
         hideClass: 'zoomOutDown',
+        icon: true,
         msg: '',
         img: null, //This is only for large notifications
         closable: true,

@@ -256,7 +256,6 @@ $(document).ready(function(){
     $('#notifyInfo').click(function(){
         Lobibox.notify('info', {
             img: 'f1584484856.png',
-            size: 'large',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
         });
     });
@@ -266,17 +265,16 @@ $(document).ready(function(){
             closeOnClick: false,
             delay: 15000,
             width: 500,
-            size: 'large',
-//            position: 'top right',
+            position: 'bottom left',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });
     $('#notifyError').click(function(){
         Lobibox.notify('error', {
+            icon: null,
             delayIndicator: false,
             showClass: 'flipInX',
             hideClass: 'bounceOut',
-            size: 'large',
             title: 'Without loading indicator',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
         });
@@ -285,9 +283,50 @@ $(document).ready(function(){
         Lobibox.notify('success', {
             title: 'Static',
             delay: false,
+            img: 'f1584484856.png',
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+        });
+    });
+    
+    
+    
+    $('#notifyTabInfo').click(function(){
+        Lobibox.notify('info', {
+            img: 'f1584484856.png',
+            size: 'large',
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
+        });
+    });
+    $('#notifyTabWarning').click(function(){
+        Lobibox.notify('warning', {
+            title: "გაფრთხილება",
+            closeOnClick: false,
+            delay: 15000,
+            width: 500,
+            size: 'large',
+            position: 'bottom left',
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+        });
+    });
+    $('#notifyTabError').click(function(){
+        Lobibox.notify('error', {
+            icon: null,
+            delayIndicator: false,
+            showClass: 'flipInX',
+            hideClass: 'bounceOut',
+            size: 'large',
+            title: 'Without loading indicator',
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
+        });
+    });
+    $('#notifyTabSuccess').click(function(){
+        Lobibox.notify('success', {
+            title: 'Static',
+            delay: false,
             size: 'large',
             img: 'f1584484856.png',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });
+    
 });
