@@ -13,14 +13,11 @@ body{
 .lobibox{
     position: absolute;
     z-index: 4001;
-    /*box-sizing: border-box;*/
     .box-shadow(@lobibox-box-shadow);
-    border-radius: @lobibox-border-radius;
     .lobibox-header{
         font-size: @lobibox-header-font-size;
         padding: @lobibox-header-padding-vertical @lobibox-header-padding-horizontal;
         color: @lobibox-header-color;
-        .border-top-radius(@lobibox-border-radius/2);
         .btn-close{
             float: right;
             background-color: transparent;
@@ -70,9 +67,6 @@ body{
         &.text-right{
             text-align: right;
         }
-    }
-    &>div:last-child{
-        .border-bottom-radius(@lobibox-border-radius/2);
     }
     &.lobibox-confirm{
         border: none;
@@ -219,7 +213,7 @@ body{
 
 .lobibox-backdrop{
     position: fixed;
-    z-index: 2000;
+    z-index: 4000;
     left: 0;
     top: 0;
     width: 100%;

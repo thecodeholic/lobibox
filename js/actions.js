@@ -1,29 +1,33 @@
 $(document).ready(function(){
-    Lobibox.alert.DEFAULT_OPTIONS = {
-        width: 700
-    };
-    Lobibox.info.DEFAULT_OPTIONS = {
-        iconClass: 'glyphicon glyphicon-info-sign'
-    };
-    Lobibox.error.DEFAULT_OPTIONS = {
-        iconClass: 'glyphicon glyphicon-remove-sign'
-    };
-    Lobibox.progress.DEFAULT_OPTIONS = {
-        width: 500
-    };
-    Lobibox.confirm.DEFAULT_OPTIONS = {
-        width: 500
-    };
-    Lobibox.prompt.DEFAULT_OPTIONS = {
-        width: 500,
-        lines: 5
-    };
-    Lobibox.notify.DEFAULT_OPTIONS = {
-        warning: {
-            'title': 'jandaba',
-            'icon': 'fa fa-exclamation-circle',
-        }
-    };
+//    Lobibox.alert.DEFAULT_OPTIONS = {
+//        width: 700
+//    };
+//    Lobibox.info.DEFAULT_OPTIONS = {
+//        iconClass: 'glyphicon glyphicon-info-sign'
+//    };
+//    Lobibox.error.DEFAULT_OPTIONS = {
+//        iconClass: 'glyphicon glyphicon-remove-sign'
+//    };
+//    Lobibox.progress.DEFAULT_OPTIONS = {
+//        width: 500
+//    };
+//    Lobibox.confirm.DEFAULT_OPTIONS = {
+//        width: 500
+//    };
+//    Lobibox.prompt.DEFAULT_OPTIONS = {
+//        width: 500,
+//        lines: 5
+//    };
+//    Lobibox.notify.DEFAULT_OPTIONS = {
+//        warning: {
+//            'title': 'jandaba',
+//            'icon': 'fa fa-exclamation-circle',
+//        }
+//    };
+//    Lobibox.window.DEFAULT_OPTIONS = {
+//        loadMethod: 'POST',
+//        width: 600
+//    };
     $('#error').click(function(){
         Lobibox.alert('error',{
             title   : "შეცდომა",
@@ -79,7 +83,7 @@ $(document).ready(function(){
         Lobibox.alert('success',{
             title       : 'Success Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted.",
-            iconClass   : 'glyphicon glyphicon-ok-sign',
+//            iconClass   : 'glyphicon glyphicon-ok-sign',
 //            buttons     : ['yes', 'no']
         });
     });
@@ -110,7 +114,7 @@ $(document).ready(function(){
         Lobibox.alert('info',{
             title       : 'Info Popup',
             msg         : "Lorem ipsum dolor sit amet paradise variety yonder neque sweep porches general, bagdat buried flows granted. Linden grudge plunge, float metus libraries mind feet ribald reports for callow fare every. ",
-//            iconClass   : 'glyphicon glyphicon-info-sign'
+            iconClass   : false
         });
     });
     $('#warning').click(function(){
@@ -126,10 +130,6 @@ $(document).ready(function(){
         Lobibox.confirm({
 //            title       : 'Question',
             msg         : "Are you sure you want to delete this user?",
-            closeButton : true,
-            draggable   : true,
-//            modal       : false,
-            iconClass   : 'glyphicon glyphicon-question-sign',
             callback    : function(exert, type, ev){
                 window.console.log(exert);
                 exert.destroy();
@@ -197,10 +197,6 @@ $(document).ready(function(){
             }
         });
     });
-    Lobibox.window.DEFAULT_OPTIONS = {
-        loadMethod: 'POST',
-        width: 600
-    };
     $('#window').click(function(){
         var v = Lobibox.window({
             title       : 'Window title',
@@ -208,7 +204,7 @@ $(document).ready(function(){
                 return $('#windowContent').clone().removeAttr('style');
             },
 //            width       : 480,
-            height      : 640,
+//            height      : 640,
             url         : 'content.html',
             autoload    : false,
 //            modal       : false,
@@ -310,7 +306,7 @@ $(document).ready(function(){
     });
     $('#notifyTabError').click(function(){
         Lobibox.notify('error', {
-            icon: null,
+//            icon: null,
             delayIndicator: false,
             showClass: 'flipInX',
             hideClass: 'bounceOut',

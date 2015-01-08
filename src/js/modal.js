@@ -327,16 +327,16 @@ var Lobibox = Lobibox || {};
     };
 
     LobiboxBase.DEFAULT_OPTIONS = {
-        width           : 400,
+        width           : 600,
         height          : 'auto',
         closeButton     : true,
-        draggable       : true,
+        draggable       : false,
         btnClass        : 'lobibox-btn',
         customBtnClass  : 'lobibox-btn-default',
         modal           : true,
         debug           : true,
         buttonsAlign    : 'center',
-        closeOnEsc      : false,
+        closeOnEsc      : true,
         
         //events
         beforeCreate    : null,
@@ -366,12 +366,13 @@ var Lobibox = Lobibox || {};
         _processInput: function(options){
             var me = this;
             
-            options = LobiboxBase._processInput.call(me, options);
-            options.buttons = {
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            window.console.log(mergedOptions, options);
+            mergedOptions.buttons = {
                 ok: LobiboxBase.OPTIONS.buttons.ok,
                 cancel: LobiboxBase.OPTIONS.buttons.cancel
             };
-            options = $.extend({}, LobiboxPrompt.DEFAULT_OPTIONS, options);
+            options = $.extend({}, mergedOptions, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
         },
         _init: function(){
@@ -413,6 +414,7 @@ var Lobibox = Lobibox || {};
     });
     
     LobiboxPrompt.DEFAULT_OPTIONS = {
+        width       : 400,
         placeholder : '',
         value       : '',
         multiline   : false,
@@ -439,12 +441,12 @@ var Lobibox = Lobibox || {};
         _processInput: function(options){
             var me = this;
             
-            options = LobiboxBase._processInput.call(me, options); 
-            options.buttons = {
+            var mergedOptions = LobiboxBase._processInput.call(me, options); 
+            mergedOptions.buttons = {
                 yes: LobiboxBase.OPTIONS.buttons.yes,
                 no: LobiboxBase.OPTIONS.buttons.no
             };
-            options = $.extend({}, LobiboxConfirm.DEFAULT_OPTIONS, options);
+            options = $.extend({}, mergedOptions, LobiboxConfirm.DEFAULT_OPTIONS, options);
             return options;
         },
         
@@ -467,7 +469,8 @@ var Lobibox = Lobibox || {};
     });
     
     LobiboxConfirm.DEFAULT_OPTIONS = {
-        
+        width : 500,
+        iconClass : 'glyphicon glyphicon-question-sign'
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxAlert------------------------------------------
@@ -488,9 +491,14 @@ var Lobibox = Lobibox || {};
         
         _processInput: function(options){
             var me = this;
-            options = LobiboxBase._processInput.call(me, options); 
-             
-            options = $.extend({}, LobiboxAlert.DEFAULT_OPTIONS, options);
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
+            
+            options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
+            
+            if (options.iconClass === true){
+                options.iconClass = LobiboxAlert.OPTIONS[me.$type].iconClass;
+            }
+            
             return options;
         },
         
@@ -511,9 +519,22 @@ var Lobibox = Lobibox || {};
             me.position();
         }
     });
-    
+    LobiboxAlert.OPTIONS = {
+        warning: {
+            iconClass: 'glyphicon glyphicon-question-sign'
+        },
+        info:{
+            iconClass: 'glyphicon glyphicon-info-sign'
+        },
+        success: {
+            iconClass: 'glyphicon glyphicon-ok-sign'
+        },
+        error: {
+            iconClass: 'glyphicon glyphicon-remove-sign'
+        }
+    };
     LobiboxAlert.DEFAULT_OPTIONS = {
-        iconClass       : false
+        iconClass       : true
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxProgress--------------------------------------
@@ -535,9 +556,9 @@ var Lobibox = Lobibox || {};
         
         _processInput: function(options){
             var me = this;
-            options = LobiboxBase._processInput.call(me, options); 
+            var mergedOptions = LobiboxBase._processInput.call(me, options); 
              
-            options = $.extend({}, LobiboxProgress.DEFAULT_OPTIONS, options);
+            options = $.extend({}, mergedOptions, LobiboxProgress.DEFAULT_OPTIONS, options);
             return options;
         },
         _init: function(){
@@ -622,7 +643,7 @@ var Lobibox = Lobibox || {};
         constructor: LobiboxWindow,
         _processInput: function(options) {
             var me = this;
-            options = LobiboxBase._processInput.call(me, options);
+            var mergedOptions = LobiboxBase._processInput.call(me, options);
             
             if (options.content && typeof options.content === 'function'){
                 options.content = options.content();
@@ -630,7 +651,7 @@ var Lobibox = Lobibox || {};
             if (options.content instanceof jQuery){
                 options.content = options.content.clone();
             }
-            options = $.extend({}, LobiboxWindow.DEFAULT_OPTIONS, options);
+            options = $.extend({}, mergedOptions, LobiboxWindow.DEFAULT_OPTIONS, options);
             return options;
         },
         _init: function() {
@@ -709,8 +730,11 @@ var Lobibox = Lobibox || {};
     });
 
     LobiboxWindow.DEFAULT_OPTIONS = {
+        width           : 480,
+        height          : 600,
         content         : '',
         url             : false,
+        draggable       : true,
         autoload        : true,
         loadMethod      : 'GET',
         showAfterLoad   : true,
