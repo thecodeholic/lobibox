@@ -127,7 +127,7 @@ var Lobibox = Lobibox || {};
         _createButton: function(type, op){
             var me = this;
             var btn = $('<button></button>')
-                    .addClass(LobiboxBase.DEFAULT_OPTIONS.btnClass)
+                    .addClass('lobibox-btn')
                     .addClass(op['class'])
                     .attr('data-type', type)
                     .html(op.text);
@@ -304,36 +304,35 @@ var Lobibox = Lobibox || {};
             ok: {
                 'class': 'lobibox-btn-default',
                 attrs: {},
-                text: Lobibox.locales.buttons.ok,
+                text: Lobibox.locales.buttons.ok
             },
             cancel: {
                 'class': 'lobibox-btn-cancel',
                 attrs: {},
-                text: Lobibox.locales.buttons.cancel,
+                text: Lobibox.locales.buttons.cancel
             },
             yes: {
                 'class': 'lobibox-btn-yes',
-                text: Lobibox.locales.buttons.yes,
+                text: Lobibox.locales.buttons.yes
             },
             no: {
                 'class': 'lobibox-btn-no',
                 attrs: {},
-                text: Lobibox.locales.buttons.no,
+                text: Lobibox.locales.buttons.no
             }
         }
     };
 
     LobiboxBase.DEFAULT_OPTIONS = {
         width           : 600,
-        height          : 'auto',
-        closeButton     : true,
-        draggable       : false,
-        btnClass        : 'lobibox-btn',
-        customBtnClass  : 'lobibox-btn-default',
+        height          : 'auto',  // Height is automatically given calculated by width
+        closeButton     : true,  // Show close button or not
+        draggable       : false,  // Make messagebox draggable 
+        customBtnClass  : 'lobibox-btn-default', // Class for custom buttons
         modal           : true,
         debug           : true,
-        buttonsAlign    : 'center',
-        closeOnEsc      : true,
+        buttonsAlign    : 'center', // Position where buttons should be aligned
+        closeOnEsc      : true,  // Close messagebox on Esc press
         
         //events
         beforeCreate    : null,
@@ -364,7 +363,6 @@ var Lobibox = Lobibox || {};
             var me = this;
             
             var mergedOptions = LobiboxBase._processInput.call(me, options);
-            window.console.log(mergedOptions, options);
             mergedOptions.buttons = {
                 ok: LobiboxBase.OPTIONS.buttons.ok,
                 cancel: LobiboxBase.OPTIONS.buttons.cancel
@@ -411,13 +409,13 @@ var Lobibox = Lobibox || {};
     });
     
     LobiboxPrompt.DEFAULT_OPTIONS = {
-        width       : 400,
-        placeholder : '',
-        value       : '',
-        multiline   : false,
-        lines       : 3,
-        type        : 'text',
-        label       : false
+        width: 400,
+        placeholder: '',    // Placeholder of the textfield
+        value: '',          // Value which is given to textfield when messagebox is created
+        multiline: false,   // Set this true for multiline prompt
+        lines: 3,           // This works only for multiline prompt. Number of lines
+        type: 'text',       // Prompt type. Available types (text|number|color)
+        label: ''           // Set some text which will be shown exactly on top of textfield
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxConfirm---------------------------------------
@@ -466,75 +464,83 @@ var Lobibox = Lobibox || {};
     });
     
     LobiboxConfirm.DEFAULT_OPTIONS = {
-        width : 500,
-        iconClass : 'glyphicon glyphicon-question-sign'
+        width           : 500,
+        iconClass       : 'glyphicon glyphicon-question-sign'
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxAlert------------------------------------------
 //------------------------------------------------------------------------------
-    function LobiboxAlert (type, options){
-        this.$type      = type;
-        
-        options = $.extend({}, Lobibox.alert.DEFAULT_OPTIONS, Lobibox[type].DEFAULT_OPTIONS, options);
-        
-        this.$options   = this._processInput(options);
-        
-        this._init();
-        this.debug(this);
-    };
-    
-    LobiboxAlert.prototype = $.extend({}, LobiboxBase, {
-        constructor: LobiboxAlert,
-        
-        _processInput: function(options){
-            var me = this;
-            var mergedOptions = LobiboxBase._processInput.call(me, options);
-            mergedOptions.buttons = {
-                ok: LobiboxBase.OPTIONS.buttons.ok
-            };
-            options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
-            
-            if (options.iconClass === true){
-                options.iconClass = LobiboxAlert.OPTIONS[me.$type].iconClass;
+    (function(){
+        function LobiboxAlert (type, options){
+            this.$type      = type;
+
+            options = $.extend({}, Lobibox.alert.DEFAULT_OPTIONS, Lobibox[type].DEFAULT_OPTIONS, options);
+
+            this.$options   = this._processInput(options);
+
+            this._init();
+            this.debug(this);
+        };
+
+        LobiboxAlert.prototype = $.extend({}, LobiboxBase, {
+            constructor: LobiboxAlert,
+
+            _processInput: function(options){
+                
+                DEFAULTS = $.extend({}, LobiboxAlert.DEFAULT_OPTIONS, Lobibox.alert.DEFAULTS);
+                
+                var me = this;
+                var mergedOptions = LobiboxBase._processInput.call(me, options);
+                mergedOptions.buttons = {
+                    ok: LobiboxBase.OPTIONS.buttons.ok
+                };
+                options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
+
+                if (options.iconClass === true){
+                    options.iconClass = DEFAULTS[me.$type].iconClass;
+                }
+
+                return options;
+            },
+
+            _init: function(){
+                var me = this;
+                LobiboxBase._init.call(me);
+                me.show();
+
+                var d = $('<div></div>');
+                if (me.$options.iconClass){
+                    d.append($('<div class="lobibox-icon-wrapper"></div>')
+                        .append('<i class="lobibox-icon '+me.$options.iconClass+'"></i>'))
+                        ;
+                }
+                d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
+
+                me.setMessage(d.html());
+                me.position();
             }
-            
-            return options;
-        },
-        
-        _init: function(){
-            var me = this;
-            LobiboxBase._init.call(me);
-            me.show();
-            
-            var d = $('<div></div>');
-            if (me.$options.iconClass){
-                d.append($('<div class="lobibox-icon-wrapper"></div>')
-                    .append('<i class="lobibox-icon '+me.$options.iconClass+'"></i>'))
-                    ;
+        });
+        LobiboxAlert.OPTIONS = {
+            warning: {
+                iconClass: 'glyphicon glyphicon-question-sign'
+            },
+            info:{
+                iconClass: 'glyphicon glyphicon-info-sign'
+            },
+            success: {
+                iconClass: 'glyphicon glyphicon-ok-sign'
+            },
+            error: {
+                iconClass: 'glyphicon glyphicon-remove-sign'
             }
-            d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
-            
-            me.setMessage(d.html());
-            me.position();
-        }
+        };
+        //User can set default options by this variable
+        Lobibox.alert.DEFAULTS = {};
+        LobiboxAlert.DEFAULT_OPTIONS = {
+            iconClass       : true  // This means that alert messageboxes have icon by default taken from DEFAULTS object
+        };
+        var DEFAULTS = $.extend({}, LobiboxAlert.DEFAULT_OPTIONS, Lobibox.alert.DEFAULTS);
     });
-    LobiboxAlert.OPTIONS = {
-        warning: {
-            iconClass: 'glyphicon glyphicon-question-sign'
-        },
-        info:{
-            iconClass: 'glyphicon glyphicon-info-sign'
-        },
-        success: {
-            iconClass: 'glyphicon glyphicon-ok-sign'
-        },
-        error: {
-            iconClass: 'glyphicon glyphicon-remove-sign'
-        }
-    };
-    LobiboxAlert.DEFAULT_OPTIONS = {
-        iconClass       : true
-    };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxProgress--------------------------------------
 //------------------------------------------------------------------------------
@@ -617,9 +623,10 @@ var Lobibox = Lobibox || {};
     
     LobiboxProgress.DEFAULT_OPTIONS = {
         width               : 500,
-        showProgressLabel   : true,
-        label               : false,
-        progressBarHTML     : false, 
+        showProgressLabel   : true,  // Show percentage of progress
+        label               : '',  // Show progress label
+        progressBarHTML     : false,  //Template of progress bar
+        
         //Events
         progressUpdated     : null,
         progressCompleted   : null
@@ -732,15 +739,15 @@ var Lobibox = Lobibox || {};
     LobiboxWindow.DEFAULT_OPTIONS = {
         width           : 480,
         height          : 600,
-        content         : '',
-        url             : false,
-        draggable       : true,
-        autoload        : true,
-        loadMethod      : 'GET',
-        showAfterLoad   : true,
-        params          : {}
+        content         : '',  // HTML Content of window
+        url             : false,  // URL which will be used to load content
+        draggable       : true,  // Override default option
+        autoload        : true,  // Auto load from given url when window is created
+        loadMethod      : 'GET',  // Ajax method to load content
+        showAfterLoad   : true,  // Show window after content is loaded or show and then load content
+        params          : {}  // Parameters which will be send by ajax for loading content
     };
-    
+     
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
     
