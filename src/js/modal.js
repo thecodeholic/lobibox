@@ -134,16 +134,13 @@ var Lobibox = Lobibox || {};
             if (me.$options.callback && typeof me.$options.callback === 'function') {
                 btn.on('click.lobibox', function(ev){
                     var bt = $(this);
-                    if (op.closeMessagebox) {
-                        me.destroy();
-                    }
+                    me.destroy();
                     me.$options.callback(me, bt.data('type'), ev);
                 });
-            } else if (op.closeMessagebox){
-                btn.click(function() {
-                    me.destroy();
-                });
             }
+            btn.click(function() {
+                me.destroy();
+            });
             return btn;
         },
         _generateButtons: function(){
@@ -304,24 +301,20 @@ var Lobibox = Lobibox || {};
                 'class': 'lobibox-btn-default',
                 attrs: {},
                 text: Lobibox.locales.buttons.ok,
-                closeMessagebox: false
             },
             cancel: {
                 'class': 'lobibox-btn-cancel',
                 attrs: {},
                 text: Lobibox.locales.buttons.cancel,
-                closeMessagebox: true
             },
             yes: {
                 'class': 'lobibox-btn-yes',
                 text: Lobibox.locales.buttons.yes,
-                closeMessagebox: false
             },
             no: {
                 'class': 'lobibox-btn-no',
                 attrs: {},
                 text: Lobibox.locales.buttons.no,
-                closeMessagebox: true
             }
         }
     };
@@ -492,7 +485,9 @@ var Lobibox = Lobibox || {};
         _processInput: function(options){
             var me = this;
             var mergedOptions = LobiboxBase._processInput.call(me, options);
-            
+            mergedOptions.buttons = {
+                ok: LobiboxBase.OPTIONS.buttons.ok
+            };
             options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
             
             if (options.iconClass === true){
