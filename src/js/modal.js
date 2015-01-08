@@ -1,6 +1,50 @@
 //create lobibox object
 var Lobibox = Lobibox || {};
 (function(){
+    
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+    //User can set default properties for prompt in the following way
+    //Lobibox.prompt.DEFAULT_OPTIONS = object;
+    Lobibox.prompt = function (options) {
+        return new LobiboxPrompt(options);
+    };
+    //User can set default properties for confirm in the following way
+    //Lobibox.confirm.DEFAULT_OPTIONS = object;
+    Lobibox.confirm = function (options) {
+        return new LobiboxConfirm(options);
+    };
+    //User can set default properties for progress in the following way
+    //Lobibox.progress.DEFAULT_OPTIONS = object;
+    Lobibox.progress = function (options) {
+        return new LobiboxProgress(options);
+    };
+    //Create empty objects in order user to be able to set default options in the following way
+    //Lobibox.error.DEFAULT_OPTIONS = object;
+    //Lobibox.success.DEFAULT_OPTIONS = object;
+    //Lobibox.warning.DEFAULT_OPTIONS = object;
+    //Lobibox.info.DEFAULT_OPTIONS = object;
+
+    Lobibox.error = {};
+    Lobibox.success = {};
+    Lobibox.warning = {};
+    Lobibox.info = {};
+
+    //User can set default properties for alert in the following way
+    //Lobibox.alert.DEFAULT_OPTIONS = object;
+    Lobibox.alert = function (type, options) {
+        if (["success", "error", "warning", "info"].indexOf(type) > -1) {
+            return new LobiboxAlert(type, options);
+        }
+    };
+    //User can set default properties for window in the following way
+    //Lobibox.window.DEFAULT_OPTIONS = object;
+    Lobibox.window = function (options) {
+        return new LobiboxWindow('window', options);
+    };
+
+    
     /**
      * Base prototype for all messageboxes and window
      */
@@ -55,7 +99,7 @@ var Lobibox = Lobibox || {};
                 me.enableDrag();
             }
             if (me.$options.closeButton){
-                me.addCloseButton();
+                me._addCloseButton();
             }
             if (me.$options.closeOnEsc){
                 $(document).on('keyup.lobibox', function(ev){
@@ -65,56 +109,7 @@ var Lobibox = Lobibox || {};
                 });
             }
         },
-        addCloseButton: function(){
-            var me = this;
-            var closeBtn = $('<span class="btn-close">&times;</span>');
-            me.$el.find('.lobibox-header').append(closeBtn);
-            closeBtn.on('click.lobibox', function(ev){
-                me.destroy();
-            });
-        },
-        hide: function(){
-            this.$el.hide();
-            $('.lobibox-backdrop').remove();
-        },
-        destroy: function(){
-            this.$el.remove();
-            if ($('.lobibox[data-is-modal=true]').length === 0){
-                $('.lobibox-backdrop').remove();
-                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
-            }
-        },
-//        detachEvents: function(){
-//            $(document).off('mousemove.lobibox');
-//            $(document).off('keyup.lobibox');
-//        },
-        enableDrag: function(){
-            var el = this.$el;
-            var heading = el.find('.lobibox-header');
-            heading.on('mousedown.lobibox', function(ev) {
-                var offset = el.offset();
-                el.attr('offset-left', ev.clientX - offset.left);
-                el.attr('offset-top', ev.clientY - offset.top);
-                el.attr('allow-drag', 'true');
-            });
-            heading.on('mouseup.lobibox', function(ev) {
-                el.attr('allow-drag', 'false');
-            });
-            $(document).on('mousemove.lobibox', function(ev) {
-                if (el.attr('allow-drag') === 'true') {
-                    var left = ev.clientX - parseInt(el.attr('offset-left'), 10);
-                    var top = ev.clientY - parseInt(el.attr('offset-top'), 10);
-                    el.css({
-                        left: left,
-                        top: top
-                    });
-                    el.css({
-                        right: $(document).outerWidth() - (left + el.outerWidth() + 2),
-                        bottom: $(document).outerHeight() - (top + el.outerHeight() + 2)
-                    });
-                }
-            });
-        },
+        
         _calculatePosition: function(){
             var me = this;
             var left = ($(window).outerWidth() - me.$el.outerWidth())/2;
@@ -127,7 +122,7 @@ var Lobibox = Lobibox || {};
         _createButton: function(type, op){
             var me = this;
             var btn = $('<button></button>')
-                    .addClass(LobiboxBase.DEFAULT_OPTIONS.btnClass)
+                    .addClass('lobibox-btn')
                     .addClass(op['class'])
                     .attr('data-type', type)
                     .html(op.text);
@@ -186,46 +181,12 @@ var Lobibox = Lobibox || {};
                 me.setHeight(me.$options.height);
             }
         },
-        setWidth: function(width){
-            width = this._calculateWidth(width);
-            this.$el.css('width', width);
-        },
-        setHeight: function(height){
-            var me = this;
-            height = me._calculateHeight(height);
-            me.$el.css('height', height);
-            var bHeight = me._calculateBodyHeight(me.$el.innerHeight());
-            
-            me.$el.find('.lobibox-body').css('height', bHeight);
-        },
         _calculateBodyHeight: function(height){
             var me = this;
             var headerHeight = me.$el.find('.lobibox-header').outerHeight();
             var footerHeight = me.$el.find('.lobibox-footer').outerHeight();
             return height - (headerHeight ? headerHeight : 0) - (footerHeight ? footerHeight : 0);
             
-        },
-        setSize: function(width, height){
-            var me = this;
-            me.$el.css({
-                width   : width,
-                height  : height
-            });
-        },
-        setPosition: function(left, top){
-            var me = this;
-            me.$el.css({
-                left: left,
-                top: top
-            });
-        },
-        setTitle: function(title){
-            var me = this;
-            me.$el.find('.lobibox-title').html(title);
-        },
-        setMessage: function(msg){
-            var me = this;
-            me.$el.find('.lobibox-body').html(msg);
         },
         /**
          * Add backdrop in case if backdrop does not exist
@@ -237,40 +198,11 @@ var Lobibox = Lobibox || {};
                 $('body').append('<div class="lobibox-backdrop"></div>');
             }
         },
-        /**
-         * This method shows messagebox, trigger corresponding events 
-         * and adds backdrop if backdrop option is true
-         * 
-         * @returns {void}
-         */
-        show: function(){
-            var me = this;
-            
-            me._triggerEvent('beforeShow');
-            $('body').append(me.$el).addClass(LobiboxBase.OPTIONS.bodyClass);
-            if (me.$options.modal){
-                me._addBackdrop();
-            }
-            me._triggerEvent('onShow');
-        },
-        position: function(){
-            var me = this;
-            
-            me._setSize();
-            var pos = me._calculatePosition();
-            me.setPosition(pos.left, pos.top);
-        },
         _triggerEvent: function(type){
             var me = this;
             if (me.$options[type] && typeof me.$options[type] === 'function'){
                 me.$options[type](me);
             }
-        },
-        isMobileScreen: function(){
-            if ($(window).outerWidth() < 768){
-                return true;
-            }
-            return false;
         },
         _calculateWidth: function(width){
             width = Math.min($(window).outerWidth(), width);
@@ -281,8 +213,119 @@ var Lobibox = Lobibox || {};
         },
         _calculateHeight: function(height){
             return Math.min($(window).outerHeight(), height);
+        },
+        _addCloseButton: function () {
+            var me = this;
+            var closeBtn = $('<span class="btn-close">&times;</span>');
+            me.$el.find('.lobibox-header').append(closeBtn);
+            closeBtn.on('click.lobibox', function (ev) {
+                me.destroy();
+            });
+        },
+        _position: function () {
+            var me = this;
+
+            me._setSize();
+            var pos = me._calculatePosition();
+            me.setPosition(pos.left, pos.top);
+        },
+//------------------------------------------------------------------------------
+//--------------------------PUBLIC METHODS--------------------------------------
+//------------------------------------------------------------------------------
+        hide: function () {
+            this.$el.hide();
+            $('.lobibox-backdrop').remove();
+        },
+        destroy: function () {
+            this.$el.remove();
+            if ($('.lobibox[data-is-modal=true]').length === 0) {
+                $('.lobibox-backdrop').remove();
+                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
+            }
+        },
+        enableDrag: function () {
+            var el = this.$el;
+            var heading = el.find('.lobibox-header');
+            heading.on('mousedown.lobibox', function (ev) {
+                var offset = el.offset();
+                el.attr('offset-left', ev.clientX - offset.left);
+                el.attr('offset-top', ev.clientY - offset.top);
+                el.attr('allow-drag', 'true');
+            });
+            heading.on('mouseup.lobibox', function (ev) {
+                el.attr('allow-drag', 'false');
+            });
+            $(document).on('mousemove.lobibox', function (ev) {
+                if (el.attr('allow-drag') === 'true') {
+                    var left = ev.clientX - parseInt(el.attr('offset-left'), 10);
+                    var top = ev.clientY - parseInt(el.attr('offset-top'), 10);
+                    el.css({
+                        left: left,
+                        top: top
+                    });
+                    el.css({
+                        right: $(document).outerWidth() - (left + el.outerWidth() + 2),
+                        bottom: $(document).outerHeight() - (top + el.outerHeight() + 2)
+                    });
+                }
+            });
+        },
+        setWidth: function (width) {
+            width = this._calculateWidth(width);
+            this.$el.css('width', width);
+        },
+        setHeight: function (height) {
+            var me = this;
+            height = me._calculateHeight(height);
+            me.$el.css('height', height);
+            var bHeight = me._calculateBodyHeight(me.$el.innerHeight());
+
+            me.$el.find('.lobibox-body').css('height', bHeight);
+        },
+        setSize: function (width, height) {
+            var me = this;
+            me.$el.css({
+                width: width,
+                height: height
+            });
+        },
+        setPosition: function (left, top) {
+            var me = this;
+            me.$el.css({
+                left: left,
+                top: top
+            });
+        },
+        setTitle: function (title) {
+            var me = this;
+            me.$el.find('.lobibox-title').html(title);
+        },
+        setMessage: function (msg) {
+            var me = this;
+            me.$el.find('.lobibox-body').html(msg);
+        },
+        /**
+         * This method shows messagebox, trigger corresponding events 
+         * and adds backdrop if modal option is true
+         * 
+         * @returns {void}
+         */
+        show: function () {
+            var me = this;
+            me._triggerEvent('beforeShow');
+            $('body').append(me.$el).addClass(LobiboxBase.OPTIONS.bodyClass);
+            if (me.$options.modal) {
+                me._addBackdrop();
+            }
+            me._triggerEvent('onShow');
+            return me;
+        },
+        isMobileScreen: function () {
+            if ($(window).outerWidth() < 768) {
+                return true;
+            }
+            return false;
         }
-        
     };
     
     LobiboxBase.OPTIONS = {
@@ -304,36 +347,35 @@ var Lobibox = Lobibox || {};
             ok: {
                 'class': 'lobibox-btn-default',
                 attrs: {},
-                text: Lobibox.locales.buttons.ok,
+                text: Lobibox.locales.buttons.ok
             },
             cancel: {
                 'class': 'lobibox-btn-cancel',
                 attrs: {},
-                text: Lobibox.locales.buttons.cancel,
+                text: Lobibox.locales.buttons.cancel
             },
             yes: {
                 'class': 'lobibox-btn-yes',
-                text: Lobibox.locales.buttons.yes,
+                text: Lobibox.locales.buttons.yes
             },
             no: {
                 'class': 'lobibox-btn-no',
                 attrs: {},
-                text: Lobibox.locales.buttons.no,
+                text: Lobibox.locales.buttons.no
             }
         }
     };
 
     LobiboxBase.DEFAULT_OPTIONS = {
         width           : 600,
-        height          : 'auto',
-        closeButton     : true,
-        draggable       : false,
-        btnClass        : 'lobibox-btn',
-        customBtnClass  : 'lobibox-btn-default',
+        height          : 'auto',  // Height is automatically given calculated by width
+        closeButton     : true,  // Show close button or not
+        draggable       : false,  // Make messagebox draggable 
+        customBtnClass  : 'lobibox-btn-default', // Class for custom buttons
         modal           : true,
         debug           : true,
-        buttonsAlign    : 'center',
-        closeOnEsc      : true,
+        buttonsAlign    : 'center', // Position where buttons should be aligned
+        closeOnEsc      : true,  // Close messagebox on Esc press
         
         //events
         beforeCreate    : null,
@@ -364,7 +406,6 @@ var Lobibox = Lobibox || {};
             var me = this;
             
             var mergedOptions = LobiboxBase._processInput.call(me, options);
-            window.console.log(mergedOptions, options);
             mergedOptions.buttons = {
                 ok: LobiboxBase.OPTIONS.buttons.ok,
                 cancel: LobiboxBase.OPTIONS.buttons.cancel
@@ -380,7 +421,7 @@ var Lobibox = Lobibox || {};
             me.show();
             me.setMessage(me._createInput());
 //            me.$input.focus();
-            me.position();
+            me._position();
             me.$input.focus();
         },
         _createInput: function(){
@@ -411,13 +452,13 @@ var Lobibox = Lobibox || {};
     });
     
     LobiboxPrompt.DEFAULT_OPTIONS = {
-        width       : 400,
-        placeholder : '',
-        value       : '',
-        multiline   : false,
-        lines       : 3,
-        type        : 'text',
-        label       : false
+        width: 400,
+        placeholder: '',    // Placeholder of the textfield
+        value: '',          // Value which is given to textfield when messagebox is created
+        multiline: false,   // Set this true for multiline prompt
+        lines: 3,           // This works only for multiline prompt. Number of lines
+        type: 'text',       // Prompt type. Available types (text|number|color)
+        label: ''           // Set some text which will be shown exactly on top of textfield
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxConfirm---------------------------------------
@@ -461,51 +502,52 @@ var Lobibox = Lobibox || {};
             d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
             me.setMessage(d.html());
             
-            me.position();
+            me._position();
         }
     });
     
     LobiboxConfirm.DEFAULT_OPTIONS = {
-        width : 500,
-        iconClass : 'glyphicon glyphicon-question-sign'
+        width           : 500,
+        iconClass       : 'glyphicon glyphicon-question-sign'
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxAlert------------------------------------------
 //------------------------------------------------------------------------------
     function LobiboxAlert (type, options){
         this.$type      = type;
-        
+
         options = $.extend({}, Lobibox.alert.DEFAULT_OPTIONS, Lobibox[type].DEFAULT_OPTIONS, options);
-        
+
         this.$options   = this._processInput(options);
-        
+
         this._init();
         this.debug(this);
     };
-    
+
     LobiboxAlert.prototype = $.extend({}, LobiboxBase, {
         constructor: LobiboxAlert,
-        
+
         _processInput: function(options){
+            ALERT_OPTIONS = $.extend({}, LobiboxAlert.OPTIONS, Lobibox.alert.DEFAULTS);
+
             var me = this;
             var mergedOptions = LobiboxBase._processInput.call(me, options);
             mergedOptions.buttons = {
                 ok: LobiboxBase.OPTIONS.buttons.ok
             };
             options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
-            
             if (options.iconClass === true){
-                options.iconClass = LobiboxAlert.OPTIONS[me.$type].iconClass;
+                options.iconClass = ALERT_OPTIONS[me.$type].iconClass;
             }
-            
+
             return options;
         },
-        
+
         _init: function(){
             var me = this;
             LobiboxBase._init.call(me);
             me.show();
-            
+
             var d = $('<div></div>');
             if (me.$options.iconClass){
                 d.append($('<div class="lobibox-icon-wrapper"></div>')
@@ -513,9 +555,9 @@ var Lobibox = Lobibox || {};
                     ;
             }
             d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
-            
+
             me.setMessage(d.html());
-            me.position();
+            me._position();
         }
     });
     LobiboxAlert.OPTIONS = {
@@ -532,9 +574,12 @@ var Lobibox = Lobibox || {};
             iconClass: 'glyphicon glyphicon-remove-sign'
         }
     };
+    //User can set default options by this variable
+    Lobibox.alert.DEFAULTS = {};
     LobiboxAlert.DEFAULT_OPTIONS = {
-        iconClass       : true
+        iconClass       : true  // This means that alert messageboxes have icon by default taken from DEFAULTS object
     };
+    var ALERT_OPTIONS = $.extend({}, LobiboxAlert.DEFAULT_OPTIONS, Lobibox.alert.DEFAULTS);
 //------------------------------------------------------------------------------
 //-------------------------LobiboxProgress--------------------------------------
 //------------------------------------------------------------------------------
@@ -576,7 +621,7 @@ var Lobibox = Lobibox || {};
             }
             var innerHTML = $('<div></div>').append(label, me.$progressBarElement);
             me.setMessage(innerHTML);
-            me.position();
+            me._position();
         },
         _createProgressbar: function(){
             var me = this;
@@ -617,9 +662,10 @@ var Lobibox = Lobibox || {};
     
     LobiboxProgress.DEFAULT_OPTIONS = {
         width               : 500,
-        showProgressLabel   : true,
-        label               : false,
-        progressBarHTML     : false, 
+        showProgressLabel   : true,  // Show percentage of progress
+        label               : '',  // Show progress label
+        progressBarHTML     : false,  //Template of progress bar
+        
         //Events
         progressUpdated     : null,
         progressCompleted   : null
@@ -662,17 +708,17 @@ var Lobibox = Lobibox || {};
             if (me.$options.url && me.$options.autoload){
                 if ( ! me.$options.showAfterLoad){
                     me.show();
-                    me.position();
+                    me._position();
                 }
                 me.load(function(){
                     if (me.$options.showAfterLoad) {
                         me.show();
-                        me.position();
+                        me._position();
                     }
                 });
             }else{
                 me.show();
-                me.position();
+                me._position();
             }
         },
         setParams: function(p){
@@ -732,61 +778,19 @@ var Lobibox = Lobibox || {};
     LobiboxWindow.DEFAULT_OPTIONS = {
         width           : 480,
         height          : 600,
-        content         : '',
-        url             : false,
-        draggable       : true,
-        autoload        : true,
-        loadMethod      : 'GET',
-        showAfterLoad   : true,
-        params          : {}
+        content         : '',  // HTML Content of window
+        url             : false,  // URL which will be used to load content
+        draggable       : true,  // Override default option
+        autoload        : true,  // Auto load from given url when window is created
+        loadMethod      : 'GET',  // Ajax method to load content
+        showAfterLoad   : true,  // Show window after content is loaded or show and then load content
+        params          : {}  // Parameters which will be send by ajax for loading content
     };
-    
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
     
     //User can set default options for messageboxes
     Lobibox.DEFAULT_OPTIONS = {
         window: LobiboxWindow.DEFAULT_OPTIONS
     };
-    //User can set default properties for prompt in the following way
-    //Lobibox.prompt.DEFAULT_OPTIONS = object;
-    Lobibox.prompt = function(options){
-        return new LobiboxPrompt(options);
-    };
-    //User can set default properties for confirm in the following way
-    //Lobibox.confirm.DEFAULT_OPTIONS = object;
-    Lobibox.confirm = function(options){
-        return new LobiboxConfirm(options);
-    };
-    //User can set default properties for progress in the following way
-    //Lobibox.progress.DEFAULT_OPTIONS = object;
-    Lobibox.progress = function(options){
-        return new LobiboxProgress(options);
-    };
-    //Create empty objects in order user to be able to set default options in the following way
-    //Lobibox.error.DEFAULT_OPTIONS = object;
-    //Lobibox.success.DEFAULT_OPTIONS = object;
-    //Lobibox.warning.DEFAULT_OPTIONS = object;
-    //Lobibox.info.DEFAULT_OPTIONS = object;
-    
-    Lobibox.error = {};
-    Lobibox.success = {};
-    Lobibox.warning = {};
-    Lobibox.info = {};
-    
-    //User can set default properties for alert in the following way
-    //Lobibox.alert.DEFAULT_OPTIONS = object;
-    Lobibox.alert = function(type, options) {
-       if (["success", "error", "warning", "info"].indexOf(type) > -1){
-            return new LobiboxAlert(type, options);
-        }
-    };
-    //User can set default properties for window in the following way
-    //Lobibox.window.DEFAULT_OPTIONS = object;
-    Lobibox.window = function(options){
-        return new LobiboxWindow('window', options);
-    };
-
 })();
 
 
