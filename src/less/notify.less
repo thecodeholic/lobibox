@@ -19,6 +19,33 @@
         right: @lobibox-notify-wrapper-offset-right;
     }
 }
+.lobibox-notify-wrapper-large{
+    z-index: 5000;
+    position: fixed;
+    &.top{
+        top: @lobibox-notify-wrapper-offset-top;
+    }
+    &.bottom{
+        bottom: @lobibox-notify-wrapper-offset-bottom;
+    }
+    &.left{
+        left: @lobibox-notify-wrapper-offset-left;
+    }
+    &.right{
+        right: @lobibox-notify-wrapper-offset-right;
+    }
+    
+    
+    .nav-tabs{
+        
+        >li{
+            float: right;
+        }
+    }
+    .tab-content{
+        background-color: #FFF;
+    }
+}
 
 .lobibox-notify{
     position: relative;
@@ -68,7 +95,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        height: @lobibox-notify-delay-indicator;
+        height: @lobibox-notify-delay-indicator-height;
         >div{
             position: relative;
             height: 100%;

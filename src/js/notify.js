@@ -1,3 +1,22 @@
+/**
+ * Author     : @arboshiki
+ */
+/**
+ * Generates random string of n length. 
+ * String contains only letters and numbers
+ * 
+ * @param {int} n
+ * @returns {String}
+ */
+Math.randomString = function(n) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < n; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+};
 var Lobibox = Lobibox || {};
 (function(){
         
@@ -35,11 +54,38 @@ var Lobibox = Lobibox || {};
             // Create notification
             var notify = _createNotify();
             var wrapper = _createNotifyWrapper();
-            wrapper.append(notify);
-            me.$el = notify;
+            _appendInWrapper(notify, wrapper);
             
+            me.$el = notify;
             var snd = new Audio(me.$options.sound); // buffers automatically when created
             snd.play();
+        };
+        var _appendInWrapper = function($el, $wrapper){
+            if (me.$options.size === 'normal'){
+                $wrapper.append($el);
+            }else if (me.$options.size === 'large'){
+                var tabPane = _createTabPane();
+                tabPane.append($el);
+                var tabControl = _createTabControl(tabPane.attr('id'));
+                $wrapper.find('.tab-content').append(tabPane);
+                $wrapper.find('.nav-tabs').append(tabControl);
+                tabControl.find('>a').tab('show');
+            }
+        };
+        var _createTabControl = function(tabPaneId){
+            var $li = $('<li></li>');
+            $('<a href="#'+tabPaneId+'"></a>')
+                    .attr('data-toggle', 'tab')
+                    .attr('role', 'tab')
+                    .append('<i class="' + me.$options.icon + '"></i>')
+                    .appendTo($li);
+            return $li;
+        };
+        var _createTabPane = function(){
+            var $pane = $('<div></div>')
+                    .addClass('tab-pane')
+                    .attr('id', Math.randomString(10));
+            return $pane;
         };
         var _createNotifyWrapper = function(size){
             
@@ -94,8 +140,10 @@ var Lobibox = Lobibox || {};
                     .appendTo(notify);
             
             _addCloseButton(notify);
-            _addCloseOnClick(notify);
-            _addDelay(notify);
+            if (me.$options.size === 'normal'){
+                _addCloseOnClick(notify);
+                _addDelay(notify);
+            }
             
             // Give width to notification
             if (me.$options.width){
@@ -152,7 +200,17 @@ var Lobibox = Lobibox || {};
         this.remove = function(){
             me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
             setTimeout(function(){
-                me.$el.remove();
+                if (me.$options.size === 'normal'){
+                    me.$el.remove();
+                }else if (me.$options.size === 'large'){
+                    var parent = me.$el.parent();
+                    var wrapper = parent.closest('.lobibox-notify-wrapper-large');
+                    
+                    var href = '#'+parent.attr('id');
+                    wrapper.find('>.nav-tabs>li:has(a[href="'+href+'"])').remove();
+                    parent.remove();
+                    
+                }
             }, 500);
         };
 //------------------------------------------------------------------------------

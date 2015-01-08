@@ -283,6 +283,7 @@ $(document).ready(function(){
         Lobibox.notify('success', {
             title: 'Static',
             delay: false,
+            size: 'large',
             img: 'f1584484856.png',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
