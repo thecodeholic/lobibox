@@ -786,7 +786,7 @@ var Lobibox = Lobibox || {};
         showAfterLoad   : true,  // Show window after content is loaded or show and then load content
         params          : {}  // Parameters which will be send by ajax for loading content
     };
-    
+     
     //User can set default options for messageboxes
     Lobibox.DEFAULT_OPTIONS = {
         window: LobiboxWindow.DEFAULT_OPTIONS
