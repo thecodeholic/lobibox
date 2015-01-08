@@ -273,8 +273,11 @@ var Lobibox = Lobibox || {};
             return false;
         },
         _calculateWidth: function(width){
-            window.console.log(width, $(window).outerWidth());
-            return Math.min($(window).outerWidth(), width);           
+            width = Math.min($(window).outerWidth(), width);
+            if (width === $(window).outerWidth()){
+                width -= 2 * LobiboxBase.OPTIONS.horizontalOffset;
+            }
+            return width;
         },
         _calculateHeight: function(height){
             return Math.min($(window).outerHeight(), height);
@@ -283,6 +286,7 @@ var Lobibox = Lobibox || {};
     };
     
     LobiboxBase.OPTIONS = {
+        horizontalOffset: 5,
         bodyClass       : 'lobibox-open',
         modalClasses : {
             'error'     : 'lobibox-error',
@@ -612,6 +616,7 @@ var Lobibox = Lobibox || {};
     });
     
     LobiboxProgress.DEFAULT_OPTIONS = {
+        width               : 500,
         showProgressLabel   : true,
         label               : false,
         progressBarHTML     : false, 
