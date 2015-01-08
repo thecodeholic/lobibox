@@ -268,25 +268,25 @@ var Lobibox = Lobibox || {};
             'class': 'lobibox-notify-success',
             'title': TITLE_LOCALES.success,
             'icon': 'glyphicon glyphicon-ok-sign',
-            sound: 'sounds/sound2.wav'
+            sound: 'src/sounds/sound2.wav'
         },
         error: {
             'class': 'lobibox-notify-error',
             'title': TITLE_LOCALES.error,
             'icon': 'glyphicon glyphicon-remove-sign',
-            sound: 'sounds/sound4.wav'
+            sound: 'src/sounds/sound4.wav'
         },
         warning: {
             'class': 'lobibox-notify-warning',
             'title': TITLE_LOCALES.warning,
             'icon': 'glyphicon glyphicon-exclamation-sign',
-            sound: 'sounds/sound5.mp3'
+            sound: 'src/sounds/sound5.mp3'
         },
         info: {
             'class': 'lobibox-notify-info',
             'title': TITLE_LOCALES.info,
             'icon': 'glyphicon glyphicon-info-sign',
-            sound: 'sounds/sound6.wav'
+            sound: 'src/sounds/sound6.wav'
         }
     };
     var DEFAULTS = $.extend({}, PRIVATE_OPTIONS);

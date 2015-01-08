@@ -585,6 +585,13 @@ var Lobibox = Lobibox || {};
         },
         getProgress: function(){
             return this.$progress;
+        },
+        destroy: function () {
+            this.$el.remove();
+            if ($('.lobibox[data-is-modal=true]').length === 0) {
+                $('.lobibox-backdrop').remove();
+                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
+            }
         }
     });
     

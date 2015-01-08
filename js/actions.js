@@ -97,7 +97,7 @@ $(document).ready(function(){
                 var i = 0;
                 var inter = setInterval(function(){
                     window.console.log(i);
-                    if (i > 50){
+                    if (i > 100){
                         inter = clearInterval(inter);
                     }
                     i = i+0.1;
