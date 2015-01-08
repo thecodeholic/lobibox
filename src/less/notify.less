@@ -37,13 +37,69 @@
     
     
     .nav-tabs{
-        
+        border: none;
+        margin-bottom: -5px;
         >li{
             float: right;
+            >a{
+                border-radius: 0;
+                padding: 0;
+                text-align: center;
+                font-size: 18px;
+                height: 32px;
+                display: table;
+                color: #FFF;
+                margin-right: 0;
+                margin-left: 2px;
+                border: 1px solid transparent;
+                width: 28px;
+                opacity: 0.5;
+                &:hover,
+                &:active,
+                &:focus,
+                &:hover:active{
+                    color: #FFF;
+                    cursor: pointer;
+                    border: 1px solid transparent;
+                }
+                .tab-control-icon{
+                    display: table-cell;
+                    vertical-align: middle;
+                    /*line-height: 30px;*/
+                }
+            }
+            &.lobibox-notify-error{
+                >a{
+                    .lobibox-tab-control-variant(@lobibox-notify-danger-bg);
+                }
+            }
+            &.lobibox-notify-success{
+                >a{
+                    .lobibox-tab-control-variant(@lobibox-notify-success-bg);
+                }
+            }
+            &.lobibox-notify-warning{
+                >a{
+                    .lobibox-tab-control-variant(@lobibox-notify-warning-bg);
+                }
+            }
+            &.lobibox-notify-info{
+                >a{
+                    .lobibox-tab-control-variant(@lobibox-notify-info-bg);
+                }
+            }
+            &.active{
+                >a{
+                    opacity: 1;
+                }
+            }
         }
     }
     .tab-content{
         background-color: #FFF;
+        .lobibox-notify{
+            height: 150px;
+        }
     }
 }
 
@@ -97,6 +153,7 @@
         bottom: 0;
         height: @lobibox-notify-delay-indicator-height;
         >div{
+            background-color: rgba(0, 0, 0, 0.4);
             position: relative;
             height: 100%;
             width: 0%;

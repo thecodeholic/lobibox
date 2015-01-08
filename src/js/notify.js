@@ -77,8 +77,9 @@ var Lobibox = Lobibox || {};
             $('<a href="#'+tabPaneId+'"></a>')
                     .attr('data-toggle', 'tab')
                     .attr('role', 'tab')
-                    .append('<i class="' + me.$options.icon + '"></i>')
+                    .append('<i class="tab-control-icon ' + me.$options.icon + '"></i>')
                     .appendTo($li);
+            $li.addClass(DEFAULTS[me.$type]['class']);
             return $li;
         };
         var _createTabPane = function(){
@@ -87,8 +88,7 @@ var Lobibox = Lobibox || {};
                     .attr('id', Math.randomString(10));
             return $pane;
         };
-        var _createNotifyWrapper = function(size){
-            
+        var _createNotifyWrapper = function(){
             var selector;
             if (me.$options.size === 'large'){
                 selector = '.lobibox-notify-wrapper-large';
@@ -98,9 +98,7 @@ var Lobibox = Lobibox || {};
             
             var classes = me.$options.position.split(" ");
             selector += "."+classes.join('.');
-            window.console.log(selector);
             var wrapper = $(selector);
-            window.console.log(selector.replace(/\./g, ' ').trim());
             if (wrapper.length === 0){
                 wrapper = $('<div></div>')
                         .addClass(selector.replace(/\./g, ' ').trim())
@@ -194,6 +192,16 @@ var Lobibox = Lobibox || {};
                
             }, interval);
         };
+        var _findTabToActivate = function($li){
+            var $itemToActivate = $li.prev();
+            if ($itemToActivate.length === 0){
+                $itemToActivate = $li.next();
+            }
+            if ($itemToActivate.length === 0){
+                return null;
+            }
+            return $itemToActivate.find('>a');
+        };
 //------------------------------------------------------------------------------
 //----------------PROTOTYPE FUNCTIONS-------------------------------------------
 //------------------------------------------------------------------------------
@@ -207,7 +215,13 @@ var Lobibox = Lobibox || {};
                     var wrapper = parent.closest('.lobibox-notify-wrapper-large');
                     
                     var href = '#'+parent.attr('id');
-                    wrapper.find('>.nav-tabs>li:has(a[href="'+href+'"])').remove();
+                    
+                    var $li = wrapper.find('>.nav-tabs>li:has(a[href="'+href+'"])');
+                    var $itemToActivate = _findTabToActivate($li);
+                    if ($itemToActivate){
+                        $itemToActivate.tab('show');
+                    }
+                    $li.remove();
                     parent.remove();
                     
                 }

@@ -23,13 +23,17 @@
     border-color: darken(@bg, 5%);
     background-color: fadeout(@bg, 10%);
     color: @color;
-    .lobibox-delay-indicator{
-        >div{
-            background-color: darken(@bg, 15%);
-        }
-    }
     &:hover{
         background-color: @bg;
         border-color: #FFF;
+    }
+}
+
+.lobibox-tab-control-variant(@bg){
+    background-color: fadeout(@bg, 10%);
+    border-color: darken(@bg, 3%);
+    &:hover{
+        background-color: @bg;
+        border-color: darken(@bg, 5%);
     }
 }

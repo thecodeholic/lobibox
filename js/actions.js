@@ -256,6 +256,7 @@ $(document).ready(function(){
     $('#notifyInfo').click(function(){
         Lobibox.notify('info', {
             img: 'f1584484856.png',
+            size: 'large',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
         });
     });
@@ -265,7 +266,8 @@ $(document).ready(function(){
             closeOnClick: false,
             delay: 15000,
             width: 500,
-            position: 'top right',
+            size: 'large',
+//            position: 'top right',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });
