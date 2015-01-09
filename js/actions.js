@@ -265,7 +265,7 @@ $(document).ready(function(){
             delay: 15000,
             width: 500,
             sound: false,
-            position: 'bottom left',
+            position: 'bottom right',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });
