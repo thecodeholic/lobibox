@@ -65,7 +65,7 @@ var Lobibox = Lobibox || {};
             if ($.isArray(options.buttons)){
                 var btns = {};
                 for (var i=0; i<options.buttons.length; i++){
-                    var btn = LobiboxBase.OPTIONS.buttons[options.buttons[i]];
+                    var btn = BASE_OPTIONS.buttons[options.buttons[i]];
                     
                     btns[options.buttons[i]] = btn;
                 }
@@ -75,8 +75,8 @@ var Lobibox = Lobibox || {};
             for (var i in options.buttons){
                 var btn = options.buttons[i];
                 if (options.buttons.hasOwnProperty(i)){
-                    if (LobiboxBase.OPTIONS.buttons[i]){
-                        btn = $.extend({}, LobiboxBase.OPTIONS.buttons[i], btn);
+                    if (BASE_OPTIONS.buttons[i]){
+                        btn = $.extend({}, BASE_OPTIONS.buttons[i], btn);
                         options.buttons[i] = btn;
                     }else{
                         btn['class'] = options.customBtnClass;
@@ -142,12 +142,16 @@ var Lobibox = Lobibox || {};
             if (me.$options.callback && typeof me.$options.callback === 'function') {
                 btn.on('click.lobibox', function(ev){
                     var bt = $(this);
-                    me.destroy();
+                    if (BASE_OPTIONS.buttons[type] && BASE_OPTIONS.buttons[type].closeOnClick){
+                        me.destroy();
+                    }
                     me.$options.callback(me, bt.data('type'), ev);
                 });
             }
             btn.click(function() {
-                me.destroy();
+                if (BASE_OPTIONS.buttons[type] && BASE_OPTIONS.buttons[type].closeOnClick){
+                    me.destroy();
+                }
             });
             return btn;
         },
@@ -177,12 +181,12 @@ var Lobibox = Lobibox || {};
                 var footer = $('<div class="lobibox-footer"></div>');
                 footer.append(me._generateButtons());
                 lobibox.append(footer);
-                if (LobiboxBase.OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1){
+                if (BASE_OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1){
                     footer.addClass('text-'+me.$options.buttonsAlign);
                 }
             }
             me.$el = lobibox
-                    .addClass(LobiboxBase.OPTIONS.modalClasses[me.$type])
+                    .addClass(BASE_OPTIONS.modalClasses[me.$type])
                     ;
         },
         _setSize: function(){
@@ -220,7 +224,7 @@ var Lobibox = Lobibox || {};
         _calculateWidth: function(width){
             width = Math.min($(window).outerWidth(), width);
             if (width === $(window).outerWidth()){
-                width -= 2 * LobiboxBase.OPTIONS.horizontalOffset;
+                width -= 2 * BASE_OPTIONS.horizontalOffset;
             }
             return width;
         },
@@ -298,7 +302,7 @@ var Lobibox = Lobibox || {};
             this.$el.addClass('lobibox-hidden');
             if ($('.lobibox[data-is-modal=true]:not(.lobibox-hidden)').length === 0) {
                 $('.lobibox-backdrop').remove();
-                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
+                $('body').removeClass(BASE_OPTIONS.bodyClass);
             }
             return this;
         },
@@ -311,7 +315,7 @@ var Lobibox = Lobibox || {};
             this.$el.remove();
             if ($('.lobibox[data-is-modal=true]').length === 0) {
                 $('.lobibox-backdrop').remove();
-                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
+                $('body').removeClass(BASE_OPTIONS.bodyClass);
             }
             return this;
         },
@@ -403,7 +407,7 @@ var Lobibox = Lobibox || {};
             var me = this;
             me.$el.removeClass('lobibox-hidden');
             me._triggerEvent('beforeShow');
-            $('body').append(me.$el).addClass(LobiboxBase.OPTIONS.bodyClass);
+            $('body').append(me.$el).addClass(BASE_OPTIONS.bodyClass);
             if (me.$options.modal) {
                 me._addBackdrop();
             }
@@ -430,26 +434,30 @@ var Lobibox = Lobibox || {};
         buttons: {
             ok: {
                 'class': 'lobibox-btn-default',
-                attrs: {},
-                text: Lobibox.locales.buttons.ok
+                text: Lobibox.locales.buttons.ok,
+                closeOnClick: true
             },
             cancel: {
                 'class': 'lobibox-btn-cancel',
-                attrs: {},
-                text: Lobibox.locales.buttons.cancel
+                text: Lobibox.locales.buttons.cancel,
+                closeOnClick: true
             },
             yes: {
                 'class': 'lobibox-btn-yes',
-                text: Lobibox.locales.buttons.yes
+                text: Lobibox.locales.buttons.yes,
+                closeOnClick: true
             },
             no: {
                 'class': 'lobibox-btn-no',
-                attrs: {},
-                text: Lobibox.locales.buttons.no
+                text: Lobibox.locales.buttons.no,
+                closeOnClick: true
             }
         }
     };
-
+    //User can set default options by this variable
+    Lobibox.base = {};
+    Lobibox.base.DEFAULTS = {};
+    var BASE_OPTIONS = $.extend({}, LobiboxBase.OPTIONS, Lobibox.base.DEFAULTS);
     LobiboxBase.DEFAULT_OPTIONS = {
         width           : 600,
         height          : 'auto',  // Height is automatically given calculated by width
@@ -492,8 +500,8 @@ var Lobibox = Lobibox || {};
             
             var mergedOptions = LobiboxBase._processInput.call(me, options);
             mergedOptions.buttons = {
-                ok: LobiboxBase.OPTIONS.buttons.ok,
-                cancel: LobiboxBase.OPTIONS.buttons.cancel
+                ok: BASE_OPTIONS.buttons.ok,
+                cancel: BASE_OPTIONS.buttons.cancel
             };
             options = $.extend({}, mergedOptions, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
@@ -576,8 +584,8 @@ var Lobibox = Lobibox || {};
             
             var mergedOptions = LobiboxBase._processInput.call(me, options); 
             mergedOptions.buttons = {
-                yes: LobiboxBase.OPTIONS.buttons.yes,
-                no: LobiboxBase.OPTIONS.buttons.no
+                yes: BASE_OPTIONS.buttons.yes,
+                no: BASE_OPTIONS.buttons.no
             };
             options = $.extend({}, mergedOptions, LobiboxConfirm.DEFAULT_OPTIONS, options);
             return options;
@@ -628,7 +636,7 @@ var Lobibox = Lobibox || {};
             var me = this;
             var mergedOptions = LobiboxBase._processInput.call(me, options);
             mergedOptions.buttons = {
-                ok: LobiboxBase.OPTIONS.buttons.ok
+                ok: BASE_OPTIONS.buttons.ok
             };
             options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
             if (options.iconClass === true){
