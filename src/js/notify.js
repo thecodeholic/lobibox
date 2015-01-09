@@ -39,13 +39,13 @@ var Lobibox = Lobibox || {};
             options = $.extend({}, LobiboxNotify.DEFAULT_OPTIONS, options);
             $.extend(true, DEFAULTS, PRIVATE_OPTIONS, Lobibox.notify.DEFAULT_OPTIONS);
             
-            if ( ! options.title){
+            if (options.title){
                 options.title = DEFAULTS[me.$type].title;
             }
             if (options.icon === true){
                 options.icon = DEFAULTS[me.$type].icon;
             }
-            if ( ! options.sound){
+            if (options.sound === true){
                 options.sound = DEFAULTS[me.$type].sound;
             }
             return options;
@@ -57,8 +57,10 @@ var Lobibox = Lobibox || {};
             _appendInWrapper(notify, wrapper);
             
             me.$el = notify;
-            var snd = new Audio(me.$options.sound); // buffers automatically when created
-            snd.play();
+            if (me.$options.sound){
+                var snd = new Audio(me.$options.sound); // buffers automatically when created
+                snd.play();
+            }
         };
         var _appendInWrapper = function($el, $wrapper){
             if (me.$options.size === 'normal'){
@@ -242,20 +244,20 @@ var Lobibox = Lobibox || {};
         }
     };
     LobiboxNotify.DEFAULT_OPTIONS = {
-        title: null,
-        size: 'normal', //normal, mini, large
-        showClass: 'flipInX',
-        hideClass: 'zoomOutDown',
-        icon: true,
-        msg: '',
-        img: null, //This is only for large notifications
-        closable: true,
-        delay: 5000,
-        delayIndicator: true,
-        closeOnClick: true,
-        width: 400,
-        sound: null,
-        position: "bottom right" //values "top left", "top right", "bottom left", "bottom right"
+        title: true,                // Title of notification. Set this false to disable title. Leave as is for default title or set custom string
+        size: 'normal',             // normal, mini, large
+        showClass: 'flipInX',       // Show animation class. (Uses animate.css)
+        hideClass: 'zoomOutDown',   // Hide animation class (Uses animate.css)
+        icon: true,                 // Icon of notification. Set this false to disable icon. Leave as is for default icon or set custom string
+        msg: '',                    // Message of notification
+        img: null,                  // Image source string
+        closable: true,             // Make notifications closable
+        delay: 5000,                // Hide notification after this time (in miliseconds)
+        delayIndicator: true,       // Show timer indicator
+        closeOnClick: true,         // Close notifications by clicking on them
+        width: 400,                 // Width of notification box
+        sound: true,                // Sound of notification. Set this false to disable sound. Leave as is for default sound or set custom soud path
+        position: "bottom right"    // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"
     };
     //User can set default options to this variable
     Lobibox.notify.DEFAULT_OPTIONS = {};

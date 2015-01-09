@@ -261,7 +261,7 @@ $(document).ready(function(){
     });
     $('#notifyWarning').click(function(){
         Lobibox.notify('warning', {
-            title: "გაფრთხილება",
+            title: false,
             closeOnClick: false,
             delay: 15000,
             width: 500,
