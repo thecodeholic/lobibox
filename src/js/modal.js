@@ -7,8 +7,8 @@ var Lobibox = Lobibox || {};
 
     //User can set default properties for prompt in the following way
     //Lobibox.prompt.DEFAULT_OPTIONS = object;
-    Lobibox.prompt = function (options) {
-        return new LobiboxPrompt(options);
+    Lobibox.prompt = function (type, options) {
+        return new LobiboxPrompt(type, options);
     };
     //User can set default properties for confirm in the following way
     //Lobibox.confirm.DEFAULT_OPTIONS = object;
@@ -387,15 +387,16 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
 //-------------------------LobiboxPrompt----------------------------------------
 //------------------------------------------------------------------------------
-    function LobiboxPrompt (options){
+    function LobiboxPrompt (type, options){
         this.$input         = null;
         this.$type          = 'prompt';
+        this.$promptType    = type;
         
         options = $.extend({}, Lobibox.prompt.DEFAULT_OPTIONS, options);
         
         this.$options = this._processInput(options);
         
-        this._init(this.$type);
+        this._init();
         this.debug(this);
     };
     
@@ -431,12 +432,10 @@ var Lobibox = Lobibox || {};
                 me.$input = $('<textarea></textarea>');
                 me.$input.attr('rows' , me.$options.lines);
             }else{
-                me.$input = $('<input type="'+me.$options.type+'"/>');
+                me.$input = $('<input type="'+me.$promptType+'"/>');
             }
             me.$input.addClass('lobibox-input');
-            if (me.$options.placeholder){
-                me.$input.attr('placeholder', me.$options.placeholder);
-            }
+            me.$input.attr(me.$options.attrs);
             if (me.$options.label){
                 label = $('<label>'+me.$options.label+'</label>');
             }
@@ -453,7 +452,7 @@ var Lobibox = Lobibox || {};
     
     LobiboxPrompt.DEFAULT_OPTIONS = {
         width: 400,
-        placeholder: '',    // Placeholder of the textfield
+        attrs : {},         // Object of any valid attribute of input field
         value: '',          // Value which is given to textfield when messagebox is created
         multiline: false,   // Set this true for multiline prompt
         lines: 3,           // This works only for multiline prompt. Number of lines

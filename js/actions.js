@@ -139,11 +139,13 @@ $(document).ready(function(){
     });
     
     $('#prompt').click(function(){
-        Lobibox.prompt({
+        Lobibox.prompt('email', {
             title       : 'Please enter you email',
             closeButton : true,
             draggable   : true,
-            placeholder : "Please enter your email",
+            attrs: {
+                placeholder : "Please enter your email",
+            },
             closeOnEsc  : true,
             callback    : function(exert, type, ev){
                 exert.destroy();
@@ -154,9 +156,8 @@ $(document).ready(function(){
         });
     });
     $('#promptColor').click(function(){
-        Lobibox.prompt({
+        Lobibox.prompt('color', {
             title       : 'Please Choose color',
-            type        : 'color',
             label       : 'Please Choose color',
             closeOnEsc  : true,
             callback    : function(exert, type, ev){
@@ -168,10 +169,11 @@ $(document).ready(function(){
         });
     });
     $('#promptNumber').click(function(){
-        Lobibox.prompt({
+        Lobibox.prompt('number', {
             title       : 'How old are you?',
-            placeholder : 'Age',
-            type        : 'number',
+            attrs: {
+                placeholder : 'Age'
+            },
             callback    : function(exert, type, ev){
                 exert.destroy();
                 if (type === 'ok'){
@@ -182,11 +184,13 @@ $(document).ready(function(){
     });
     
     $('#multilinePrompt').click(function(){
-        Lobibox.prompt({
+        Lobibox.prompt('text', {
             title       : 'Comment',
             closeButton : true,
             draggable   : true,
-            placeholder : "Please tell us your oppinion",
+            attrs: {
+                placeholder : "Please tell us your oppinion"
+            },
             multiline   : true,
             width       : 400,
             callback    : function(exert, type, ev){
