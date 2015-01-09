@@ -108,7 +108,7 @@ var Lobibox = Lobibox || {};
                     }
                 });
             }
-            me.$el.data('lobibox', me);
+            me.$el.data('lobiboxMessage', me);
         },
         /**
          * 

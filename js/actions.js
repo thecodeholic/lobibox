@@ -261,17 +261,16 @@ $(document).ready(function(){
     });
     $('#notifyWarning').click(function(){
         Lobibox.notify('warning', {
-            title: false,
             closeOnClick: false,
             delay: 15000,
             width: 500,
+            sound: false,
             position: 'bottom left',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });
     $('#notifyError').click(function(){
         Lobibox.notify('error', {
-            icon: null,
             delayIndicator: false,
             showClass: 'flipInX',
             hideClass: 'bounceOut',

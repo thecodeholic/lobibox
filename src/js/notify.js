@@ -39,7 +39,7 @@ var Lobibox = Lobibox || {};
             options = $.extend({}, LobiboxNotify.DEFAULT_OPTIONS, options);
             $.extend(true, DEFAULTS, PRIVATE_OPTIONS, Lobibox.notify.DEFAULT_OPTIONS);
             
-            if (options.title){
+            if (options.title === true){
                 options.title = DEFAULTS[me.$type].title;
             }
             if (options.icon === true){
@@ -61,6 +61,7 @@ var Lobibox = Lobibox || {};
                 var snd = new Audio(me.$options.sound); // buffers automatically when created
                 snd.play();
             }
+            me.$el.data('lobiboxNotify', me);
         };
         var _appendInWrapper = function($el, $wrapper){
             if (me.$options.size === 'normal'){
@@ -133,12 +134,13 @@ var Lobibox = Lobibox || {};
                 iconWrapper.append(icon);
             }
             // Create body, append title and message in body and append body in notification
-            $('<div></div>')
+            var $body = $('<div></div>')
                     .addClass('lobibox-notify-body')
-                    .append('<div class="lobibox-notify-title">' + me.$options.title + '<div>')
                     .append('<div class="lobibox-notify-msg">' + me.$options.msg + '</div>')
                     .appendTo(notify);
-            
+            if (me.$options.title){
+                $body.prepend('<div class="lobibox-notify-title">' + me.$options.title + '<div>');
+            }
             _addCloseButton(notify);
             if (me.$options.size === 'normal'){
                 _addCloseOnClick(notify);
@@ -207,6 +209,11 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
 //----------------PROTOTYPE FUNCTIONS-------------------------------------------
 //------------------------------------------------------------------------------
+        /**
+         * Delete the notification
+         * 
+         * @returns {Instance}
+         */
         this.remove = function(){
             me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
             setTimeout(function(){
@@ -228,6 +235,7 @@ var Lobibox = Lobibox || {};
                     
                 }
             }, 500);
+            return me;
         };
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -244,11 +252,11 @@ var Lobibox = Lobibox || {};
         }
     };
     LobiboxNotify.DEFAULT_OPTIONS = {
-        title: true,                // Title of notification. Set this false to disable title. Leave as is for default title or set custom string
+        title: true,                // Title of notification. Leave as is for default title or set custom string. Set this false to disable title
         size: 'normal',             // normal, mini, large
         showClass: 'flipInX',       // Show animation class. (Uses animate.css)
         hideClass: 'zoomOutDown',   // Hide animation class (Uses animate.css)
-        icon: true,                 // Icon of notification. Set this false to disable icon. Leave as is for default icon or set custom string
+        icon: true,                 // Icon of notification. Leave as is for default icon or set custom string
         msg: '',                    // Message of notification
         img: null,                  // Image source string
         closable: true,             // Make notifications closable
