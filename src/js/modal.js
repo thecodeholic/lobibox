@@ -94,9 +94,9 @@ var Lobibox = Lobibox || {};
             
             me._createMarkup();
             me.setTitle(me.$options.title);
-            if (me.$options.draggable && ! me.isMobileScreen()){
+            if (me.$options.draggable && ! me._isMobileScreen()){
                 me.$el.addClass('draggable');
-                me.enableDrag();
+                me._enableDrag();
             }
             if (me.$options.closeButton){
                 me._addCloseButton();
@@ -108,12 +108,25 @@ var Lobibox = Lobibox || {};
                     }
                 });
             }
+            me.$el.data('lobibox', me);
         },
-        
-        _calculatePosition: function(){
+        /**
+         * 
+         * 
+         * @param {String} position "'top', 'center', 'bottom'"
+         * @returns {Object}
+         */
+        _calculatePosition: function(position){
             var me = this;
+            var top;
+            if (position === 'top'){
+                top = 30;
+            }else if (position === 'bottom'){
+                top = $(window).outerHeight() - me.$el.outerHeight() - 30;
+            }else{
+                top = ($(window).outerHeight() - me.$el.outerHeight())/2;
+            }
             var left = ($(window).outerWidth() - me.$el.outerWidth())/2;
-            var top  = ($(window).outerHeight() - me.$el.outerHeight())/2;
             return {
                 left: left,
                 top: top
@@ -229,21 +242,13 @@ var Lobibox = Lobibox || {};
             var pos = me._calculatePosition();
             me.setPosition(pos.left, pos.top);
         },
-//------------------------------------------------------------------------------
-//--------------------------PUBLIC METHODS--------------------------------------
-//------------------------------------------------------------------------------
-        hide: function () {
-            this.$el.hide();
-            $('.lobibox-backdrop').remove();
-        },
-        destroy: function () {
-            this.$el.remove();
-            if ($('.lobibox[data-is-modal=true]').length === 0) {
-                $('.lobibox-backdrop').remove();
-                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
+        _isMobileScreen: function () {
+            if ($(window).outerWidth() < 768) {
+                return true;
             }
+            return false;
         },
-        enableDrag: function () {
+        _enableDrag: function () {
             var el = this.$el;
             var heading = el.find('.lobibox-header');
             heading.on('mousedown.lobibox', function (ev) {
@@ -270,48 +275,133 @@ var Lobibox = Lobibox || {};
                 }
             });
         },
+        /**
+         * Set the message of messagebox
+         * 
+         * @param {String} msg "new message of messagebox"
+         * @returns {Instance}
+         */
+        _setContent: function (msg) {
+            var me = this;
+            me.$el.find('.lobibox-body').html(msg);
+            return me;
+        },
+//------------------------------------------------------------------------------
+//--------------------------PUBLIC METHODS--------------------------------------
+//------------------------------------------------------------------------------
+        /**
+         * Hide the messagebox
+         * 
+         * @returns {Instance}
+         */
+        hide: function () {
+            this.$el.addClass('lobibox-hidden');
+            if ($('.lobibox[data-is-modal=true]:not(.lobibox-hidden)').length === 0) {
+                $('.lobibox-backdrop').remove();
+                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
+            }
+            return this;
+        },
+        /**
+         * Removes the messagebox from document
+         * 
+         * @returns {Instance}
+         */
+        destroy: function () {
+            this.$el.remove();
+            if ($('.lobibox[data-is-modal=true]').length === 0) {
+                $('.lobibox-backdrop').remove();
+                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
+            }
+            return this;
+        },
+        /**
+         * Set the width of messagebox
+         * 
+         * @param {Integer} width "new width of messagebox"
+         * @returns {Instance}
+         */
         setWidth: function (width) {
             width = this._calculateWidth(width);
             this.$el.css('width', width);
+            return this;
         },
+        /**
+         * Set the height of messagebox
+         * 
+         * @param {Integer} height "new height of messagebox"
+         * @returns {Instance}
+         */
         setHeight: function (height) {
             var me = this;
             height = me._calculateHeight(height);
             me.$el.css('height', height);
             var bHeight = me._calculateBodyHeight(me.$el.innerHeight());
-
             me.$el.find('.lobibox-body').css('height', bHeight);
+            return me;
         },
+        /**
+         * Set the width and height of messagebox
+         * 
+         * @param {Integer} width "new width of messagebox"
+         * @param {Integer} height "new height of messagebox"
+         * @returns {Instance}
+         */
         setSize: function (width, height) {
             var me = this;
-            me.$el.css({
-                width: width,
-                height: height
-            });
+            me.setWidth(width);
+            me.setHeight(height);
+            return me;
         },
+        /**
+         * Set position of messagebox
+         * 
+         * @param {Integer|String} left "left coordinate of messsagebox or string representaing position. Available: ('top', 'center', 'bottom')"
+         * @param {Integer} top
+         * @returns {Instance}
+         */
         setPosition: function (left, top) {
             var me = this;
-            me.$el.css({
-                left: left,
-                top: top
-            });
+            var position;
+            if (typeof left === 'number' && typeof top === 'number'){
+                position = {
+                    left: left,
+                    top: top
+                };
+            }else if (typeof left === 'string'){
+                position = me._calculatePosition(left);
+            }
+            me.$el.css(position);
+            return me;
         },
+        /**
+         * Set the title of messagebox
+         * 
+         * @param {String} title "new title of messagebox"
+         * @returns {Instance}
+         */
         setTitle: function (title) {
             var me = this;
             me.$el.find('.lobibox-title').html(title);
-        },
-        setMessage: function (msg) {
-            var me = this;
-            me.$el.find('.lobibox-body').html(msg);
+            return me;
         },
         /**
-         * This method shows messagebox, trigger corresponding events 
-         * and adds backdrop if modal option is true
+         * Get the title of messagebox
          * 
-         * @returns {void}
+         * @returns {String}
+         */
+        getTitle: function(){
+            var me = this;
+            return me.$el.find('.lobibox-title').html();
+        },
+        /**
+         * Show messagebox
+         * 
+         * @returns {Instance}
          */
         show: function () {
             var me = this;
+            me.$el.removeClass('lobibox-hidden');
             me._triggerEvent('beforeShow');
             $('body').append(me.$el).addClass(LobiboxBase.OPTIONS.bodyClass);
             if (me.$options.modal) {
@@ -319,12 +409,6 @@ var Lobibox = Lobibox || {};
             }
             me._triggerEvent('onShow');
             return me;
-        },
-        isMobileScreen: function () {
-            if ($(window).outerWidth() < 768) {
-                return true;
-            }
-            return false;
         }
     };
     
@@ -420,7 +504,7 @@ var Lobibox = Lobibox || {};
             LobiboxBase._init.call(me);
             
             me.show();
-            me.setMessage(me._createInput());
+            me._setContent(me._createInput());
 //            me.$input.focus();
             me._position();
             me.$input.focus();
@@ -442,9 +526,21 @@ var Lobibox = Lobibox || {};
             var innerHTML = $('<div></div>').append(label, me.$input);
             return innerHTML;
         },
+        /**
+         * Set value of input
+         * 
+         * @param {Strin} val "value of input"
+         * @returns {Instance}
+         */
         setValue: function(val){
             this.$input.val(val);
+            return this;
         },
+        /**
+         * Get value of input
+         * 
+         * @returns {String}
+         */
         getValue: function(){
             return this.$input.val();
         }
@@ -499,7 +595,7 @@ var Lobibox = Lobibox || {};
                     ;
             }
             d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
-            me.setMessage(d.html());
+            me._setContent(d.html());
             
             me._position();
         }
@@ -555,7 +651,7 @@ var Lobibox = Lobibox || {};
             }
             d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
 
-            me.setMessage(d.html());
+            me._setContent(d.html());
             me._position();
         }
     });
@@ -619,7 +715,7 @@ var Lobibox = Lobibox || {};
                 label = $('<label>'+me.$options.label+'</label>');
             }
             var innerHTML = $('<div></div>').append(label, me.$progressBarElement);
-            me.setMessage(innerHTML);
+            me._setContent(innerHTML);
             me._position();
         },
         _createProgressbar: function(){
@@ -633,6 +729,12 @@ var Lobibox = Lobibox || {};
            
             return outer;
         },
+        /**
+         * Set progress value
+         * 
+         * @param {Integer} progress "progress value"
+         * @returns {Instance}
+         */
         setProgress: function(progress){
             var me = this;
             if (me.$progress === 100){
@@ -646,16 +748,15 @@ var Lobibox = Lobibox || {};
             }
             me.$el.find('.lobibox-progress-element').css('width', progress+"%");
             me.$el.find('[data-role="progress-text"]').html(progress+"%");
+            return me;
         },
+        /**
+         * Get progress value
+         * 
+         * @returns {Integer}
+         */
         getProgress: function(){
             return this.$progress;
-        },
-        destroy: function () {
-            this.$el.remove();
-            if ($('.lobibox[data-is-modal=true]').length === 0) {
-                $('.lobibox-backdrop').remove();
-                $('body').removeClass(LobiboxBase.OPTIONS.bodyClass);
-            }
         }
     });
     
@@ -720,43 +821,92 @@ var Lobibox = Lobibox || {};
                 me._position();
             }
         },
-        setParams: function(p){
+        /**
+         * Setter method for <code>params</code> option
+         * 
+         * @param {Object} params "new params"
+         * @returns {Instance}
+         */
+        setParams: function(params){
             var me = this;
-            me.$options.params = p;
+            me.$options.params = params;
             return me;
         },
+        /**
+         * Getter method for <code>params</code>
+         * 
+         * @returns {Object}
+         */
         getParams: function(){
             var me = this;
             return me.$options.params;
         },
-        setLoadMethod: function(m){
+        /**
+         * Setter method of <code>loadMethod</code> option
+         * 
+         * @param {String} method "new method"
+         * @returns {Instance}
+         */
+        setLoadMethod: function(method){
             var me = this;
-            me.$options.loadMethod = m;
+            me.$options.loadMethod = method;
             return me;
         },
+        /**
+         * Getter method for <code>loadMethod</code> option
+         * 
+         * @returns {String}
+         */
         getLoadMethod: function(){
             var me = this;
             return me.$options.loadMethod;
         },
+        /**
+         * Setter method of <code>content</code> option. 
+         * Change the content of window
+         * 
+         * @param {String} content "new content"
+         * @returns {Instance}
+         */
         setContent: function(content){
             var me = this;
             me.$options.content = content;
             me.$el.find('.lobibox-body').html('').append(content);
             return me;
         },
+        /**
+         * Getter method of <code>content</code> option
+         * 
+         * @returns {String}
+         */
         getContent: function(){
             var me = this;
             return me.$options.content;
         },
-        setTitle: function(title){
-            var me = this;
-            me.$el.find('.lobibox-title').html(title);
-            return me;
+        /**
+         * Setter method of <code>url</code> option
+         * 
+         * @param {String} url "new url"
+         * @returns {Instance}
+         */
+        setUrl : function(url){
+            this.$options.url = url;
+            return this;
         },
-        getTitle: function(){
-            var me = this;
-            return me.$el.find('.lobibox-title').html();
+        /**
+         * Getter method of <code>url</code> option
+         * 
+         * @returns {String}
+         */
+        getUrl : function(){
+            return this.$options.url;
         },
+        /**
+         * Loads content to window by ajax from specific url
+         * 
+         * @param {Function} callback "callback function"
+         * @returns {Instance}
+         */
         load: function(callback){
             var me = this;
             if ( ! me.$options.url){
@@ -771,6 +921,7 @@ var Lobibox = Lobibox || {};
                     callback(res);
                 }
             });
+            return me;
         }
     });
 
@@ -778,7 +929,7 @@ var Lobibox = Lobibox || {};
         width           : 480,
         height          : 600,
         content         : '',  // HTML Content of window
-        url             : false,  // URL which will be used to load content
+        url             : '',  // URL which will be used to load content
         draggable       : true,  // Override default option
         autoload        : true,  // Auto load from given url when window is created
         loadMethod      : 'GET',  // Ajax method to load content
