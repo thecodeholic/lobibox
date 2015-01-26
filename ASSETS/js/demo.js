@@ -435,6 +435,37 @@ $(function(){
         })();
 //------------------------------------------------------------------------------
         (function () {
+            $('#miniInfoImage').click(function () {
+                Lobibox.notify('info', {
+                    img: window.location.origin + '/ASSETS/IMG/users/1.jpg',
+                    size: 'mini',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniWarningImage').click(function () {
+                Lobibox.notify('warning', {
+                    img: window.location.origin + '/ASSETS/IMG/users/2.jpg',
+                    size: 'mini',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniErrorImage').click(function () {
+                Lobibox.notify('error', {
+                    img: window.location.origin + '/ASSETS/IMG/users/3.jpg',
+                    size: 'mini',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniSuccessImage').click(function () {
+                Lobibox.notify('success', {
+                    img: window.location.origin + '/ASSETS/IMG/users/4.jpg',
+                    size: 'mini',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+        })();
+//------------------------------------------------------------------------------
+        (function () {
             $('#miniInfoNoIcon').click(function () {
                 Lobibox.notify('info', {
                     size: 'mini',
@@ -460,6 +491,37 @@ $(function(){
                 Lobibox.notify('success', {
                     size: 'mini',
                     icon: false,
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+        })();
+//------------------------------------------------------------------------------
+        (function () {
+            $('#miniInfoTitle').click(function () {
+                Lobibox.notify('info', {
+                    size: 'mini',
+                    title: 'Lorem ipsum',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniWarningTitle').click(function () {
+                Lobibox.notify('warning', {
+                    size: 'mini',
+                    title: 'Lorem ipsum',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniErrorTitle').click(function () {
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    title: 'Lorem ipsum',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniSuccessTitle').click(function () {
+                Lobibox.notify('success', {
+                    size: 'mini',
+                    title: 'Lorem ipsum',
                     msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
                 });
             });

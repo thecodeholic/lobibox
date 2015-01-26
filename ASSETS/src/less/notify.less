@@ -25,7 +25,6 @@
 .lobibox-notify-wrapper-large{
     z-index: 5000;
     position: fixed;
-    width: 400px;
     &.top{
         top: @lobibox-notify-wrapper-offset-top;
     }
@@ -111,7 +110,10 @@
             min-height: @lobibox-notify-large-height;
             .lobibox-notify-icon{
                 width: @lobibox-notify-large-icon-width;
-                line-height: @lobibox-notify-large-icon-width;
+                font-size: @lobibox-notify-large-icon-font-size;
+                &, &>*{
+                    line-height: @lobibox-notify-large-icon-width;
+                }
             }
             .lobibox-notify-body{
                 margin: @lobibox-notify-large-body-margin-vertical @lobibox-notify-large-body-margin-horizontal;
@@ -131,12 +133,14 @@
     .transition(all @lobibox-notify-transition-duration);
     .lobibox-notify-icon{
         position: absolute;
-        line-height: @lobibox-notify-icon-width;
         text-align: center;
         font-size: @lobibox-notify-icon-font-size;
         left: @lobibox-notify-icon-left;
         top: @lobibox-notify-icon-top;
         width: @lobibox-notify-icon-width;
+        &, &>*{
+            line-height: @lobibox-notify-icon-width;
+        }
         img{
             border-radius: @lobibox-notify-img-border-radius;
             width: 100%;
@@ -197,13 +201,23 @@
         .box-shadow(@lobibox-notify-hover-box-shadow);
     }
     &.notify-mini{
+        .lobibox-notify-title{
+            font-size: @lobibox-notify-mini-title-font-size;
+            line-height: @lobibox-notify-mini-title-line-height;
+        }
+        .lobibox-notify-msg{
+            line-height: @lobibox-notify-mini-msg-line-height;
+        }
         .lobibox-notify-icon{
             left: @lobibox-notify-mini-icon-left;
             width: @lobibox-notify-mini-icon-width;
-            line-height: @lobibox-notify-mini-icon-width;
             font-size: @lobibox-notify-mini-icon-font-size;
+            &, &>*{
+                line-height: @lobibox-notify-mini-icon-width;
+            }
         }
         .lobibox-notify-body{
+            margin: @lobibox-notify-mini-body-margin-vertical @lobibox-notify-mini-body-margin-horizontal;
             margin-left: 2 * @lobibox-notify-mini-icon-left + @lobibox-notify-mini-icon-width;
         }
     }

@@ -317,7 +317,6 @@
                 <li>does not have delay</li>
                 <li>are larger in width</li>
             </ul>
-
             <div>
                 <button id="largeInfoBasic" class="btn btn-info">Info</button>
                 <button id="largeWarningBasic" class="btn btn-warning">Warning</button>
@@ -415,6 +414,7 @@
             </div>
         </fieldset>
         <fieldset>
+            <h3>With image</h3>
             <div>
                 <button id="miniInfoImage" class="btn btn-info">Info</button>
                 <button id="miniWarningImage" class="btn btn-warning">Warning</button>
@@ -444,6 +444,24 @@
     ...
     size: 'mini',
     icon: false,
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+            </div>
+        </fieldset>
+        <fieldset>
+            <h3>With title</h3>
+            <div>
+                <button id="miniInfoTitle" class="btn btn-info">Info</button>
+                <button id="miniWarningTitle" class="btn btn-warning">Warning</button>
+                <button id="miniErrorTitle" class="btn btn-danger">Error</button>
+                <button id="miniSuccessTitle" class="btn btn-success">Success</button>
+            </div>
+            <div class="highlight">
+<pre><code>Lobibox.notify(type, {
+    ...
+    size: 'mini',
+    title: 'Lorem ipsum',
     msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
 });        
 </code></pre>

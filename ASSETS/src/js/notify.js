@@ -36,6 +36,10 @@ var Lobibox = Lobibox || {};
 //-----------------PRIVATE FUNCTIONS--------------------------------------------
 //------------------------------------------------------------------------------
         var _processInput = function(options){
+            
+            if (options.size === 'mini' || options.size === 'large'){
+                options.width = options.width || DEFAULTS[options.size].width;
+            }
             options = $.extend({}, LobiboxNotify.DEFAULT_OPTIONS, options);
             $.extend(true, DEFAULTS, PRIVATE_OPTIONS, Lobibox.notify.DEFAULT_OPTIONS);
             if (options.size !== 'mini' && options.title === true){
@@ -52,6 +56,7 @@ var Lobibox = Lobibox || {};
             if (options.sound){
                 options.sound = DEFAULTS.soundPath + options.sound;
             }
+            
             return options;
         };
         var _init = function(){
@@ -287,29 +292,35 @@ var Lobibox = Lobibox || {};
     var PRIVATE_OPTIONS = {
         'class': 'animated-fast',
         soundPath: 'src/sounds/',
+        large: {
+            width: 500
+        },
+        mini: {
+            'class': 'notify-mini'
+        },
         success: {
             'class': 'lobibox-notify-success',
             'title': TITLE_LOCALES.success,
             'icon': 'glyphicon glyphicon-ok-sign',
-            sound: 'sound2.wav'
+            sound: 'sound2.ogg'
         },
         error: {
             'class': 'lobibox-notify-error',
             'title': TITLE_LOCALES.error,
             'icon': 'glyphicon glyphicon-remove-sign',
-            sound: 'sound4.wav'
+            sound: 'sound4.ogg'
         },
         warning: {
             'class': 'lobibox-notify-warning',
             'title': TITLE_LOCALES.warning,
             'icon': 'glyphicon glyphicon-exclamation-sign',
-            sound: 'sound5.mp3'
+            sound: 'sound5.ogg'
         },
         info: {
             'class': 'lobibox-notify-info',
             'title': TITLE_LOCALES.info,
             'icon': 'glyphicon glyphicon-info-sign',
-            sound: 'sound6.wav'
+            sound: 'sound6.ogg'
         }
     };
     var DEFAULTS = $.extend({}, PRIVATE_OPTIONS);
