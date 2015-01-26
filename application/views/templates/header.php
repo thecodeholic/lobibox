@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="<?php echo base_url('ASSETS/css/animate.css" ')?>"/>
         <link rel="stylesheet" href="<?php echo base_url('ASSETS/font-awesome-4.2.0/css/font-awesome.min.css')?>"/>
         <link rel="stylesheet" href="<?php echo base_url('ASSETS/src/css/lobibox.css')?>"/>
+        <link rel="stylesheet" href="<?php echo base_url('ASSETS/highlight/styles/github.css')?>"/>
+        <link rel="stylesheet" href="<?php echo base_url('ASSETS/css/demo.css')?>"/>
     </head>
     <body>
         <div class="container">

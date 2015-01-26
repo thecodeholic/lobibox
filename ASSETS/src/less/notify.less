@@ -17,6 +17,9 @@
     }
     &.right{
         right: @lobibox-notify-wrapper-offset-right;
+        .lobibox-notify{
+            margin-left: auto;
+        }
     }
 }
 .lobibox-notify-wrapper-large{
@@ -105,7 +108,15 @@
     .tab-content{
         background-color: #FFF;
         .lobibox-notify{
-            height: 150px;
+            min-height: @lobibox-notify-large-height;
+            .lobibox-notify-icon{
+                width: @lobibox-notify-large-icon-width;
+                line-height: @lobibox-notify-large-icon-width;
+            }
+            .lobibox-notify-body{
+                margin: @lobibox-notify-large-body-margin-vertical @lobibox-notify-large-body-margin-horizontal;
+                margin-left: 2 * @lobibox-notify-icon-left + @lobibox-notify-large-icon-width;
+            }
         }
     }
 }
@@ -133,17 +144,18 @@
         }
     }
     .lobibox-notify-body{
-        margin: @lobibox-notify-body-margin;
+        margin: @lobibox-notify-body-margin-vertical @lobibox-notify-body-margin-horizontal;
+        margin-left: @lobibox-notify-icon-left * 2 + @lobibox-notify-icon-width;
     }
     .lobibox-notify-title{
         font-size: @lobibox-notify-title-font-size;
     }
     .lobibox-close{
         position: absolute;
-        right: 10px;
-        top: 10px;
         text-align: center;
         border-radius: 50%;
+        right: @lobibox-notify-close-offset-right;
+        top: @lobibox-notify-close-offset-top;
         font-size: @lobibox-notify-close-font-size;
         line-height: @lobibox-notify-close-size;
         .square(@lobibox-notify-close-size);
@@ -160,10 +172,10 @@
         bottom: 0;
         height: @lobibox-notify-delay-indicator-height;
         >div{
-            background-color: rgba(0, 0, 0, 0.4);
             position: relative;
             height: 100%;
             width: 0%;
+            background-color: @lobibox-notify-delay-indicator-bg;
         }
     }
 
@@ -183,5 +195,21 @@
     &:hover{
         cursor: pointer;
         .box-shadow(@lobibox-notify-hover-box-shadow);
+    }
+    &.notify-mini{
+        .lobibox-notify-icon{
+            left: @lobibox-notify-mini-icon-left;
+            width: @lobibox-notify-mini-icon-width;
+            line-height: @lobibox-notify-mini-icon-width;
+            font-size: @lobibox-notify-mini-icon-font-size;
+        }
+        .lobibox-notify-body{
+            margin-left: 2 * @lobibox-notify-mini-icon-left + @lobibox-notify-mini-icon-width;
+        }
+    }
+    &.without-icon{
+        .lobibox-notify-body{
+            margin-left: @lobibox-notify-body-margin-horizontal;
+        }
     }
 }

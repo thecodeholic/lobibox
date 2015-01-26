@@ -259,19 +259,21 @@ $(document).ready(function(){
             }
         });
     });
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
     $('#notifyInfo').click(function(){
         Lobibox.notify('info', {
-            img: window.location.origin + '/ASSETS/IMG/f1584484856.png',
+//            img: window.location.origin + '/ASSETS/IMG/f1584484856.png',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
         });
     });
     $('#notifyWarning').click(function(){
         Lobibox.notify('warning', {
-            closeOnClick: false,
-            delay: 15000,
-            width: 500,
-            sound: false,
-            position: 'bottom right',
+//            closeOnClick: false,
+//            delay: 15000,
+//            width: 500,
+//            sound: false,
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });
@@ -280,8 +282,11 @@ $(document).ready(function(){
             delayIndicator: false,
             showClass: 'flipInX',
             hideClass: 'bounceOut',
-            title: 'Without loading indicator',
-            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
+            delay: false,
+            size: 'mini',
+            title: false,
+//            title: 'Without loading indicator',
+            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
     });
     $('#notifySuccess').click(function(){
@@ -293,7 +298,9 @@ $(document).ready(function(){
         });
     });
     
-    
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------  
     
     $('#notifyTabInfo').click(function(){
         Lobibox.notify('info', {
@@ -304,19 +311,23 @@ $(document).ready(function(){
     });
     $('#notifyTabWarning').click(function(){
         Lobibox.notify('warning', {
-            title: "გაფრთხილება",
-            closeOnClick: false,
-            delay: 15000,
-            width: 500,
             size: 'large',
-            position: 'bottom left',
             msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
         });
+//        Lobibox.notify('warning', {
+//            title: "გაფრთხილება",
+//            closeOnClick: false,
+//            delay: 15000,
+//            width: 500,
+//            size: 'large',
+//            position: 'bottom left',
+//            msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+//        });
     });
     $('#notifyTabError').click(function(){
         Lobibox.notify('error', {
 //            icon: null,
-            delayIndicator: false,
+            delayIndicator: true,
             showClass: 'flipInX',
             hideClass: 'bounceOut',
             size: 'large',

@@ -38,8 +38,10 @@ var Lobibox = Lobibox || {};
         var _processInput = function(options){
             options = $.extend({}, LobiboxNotify.DEFAULT_OPTIONS, options);
             $.extend(true, DEFAULTS, PRIVATE_OPTIONS, Lobibox.notify.DEFAULT_OPTIONS);
-            if (options.title === true){
+            if (options.size !== 'mini' && options.title === true){
                 options.title = DEFAULTS[me.$type].title;
+            }else if (options.size === 'mini' && options.title === true){
+                options.title = false;
             }
             if (options.icon === true){
                 options.icon = DEFAULTS[me.$type].icon;
@@ -67,6 +69,9 @@ var Lobibox = Lobibox || {};
         };
         var _appendInWrapper = function($el, $wrapper){
             if (me.$options.size === 'normal'){
+                $wrapper.append($el);
+            }else if (me.$options.size === 'mini'){
+                $el.addClass('notify-mini');
                 $wrapper.append($el);
             }else if (me.$options.size === 'large'){
                 var tabPane = _createTabPane();
@@ -97,7 +102,7 @@ var Lobibox = Lobibox || {};
             var selector;
             if (me.$options.size === 'large'){
                 selector = '.lobibox-notify-wrapper-large';
-            }else if (me.$options.size === 'normal'){
+            }else{
                 selector = '.lobibox-notify-wrapper';
             }
             
@@ -134,6 +139,8 @@ var Lobibox = Lobibox || {};
             } else if (me.$options.icon) {
                 var icon = iconWrapper.append('<i class="' + me.$options.icon + '"></i>');
                 iconWrapper.append(icon);
+            }else{
+                notify.addClass('without-icon');
             }
             // Create body, append title and message in body and append body in notification
             var $body = $('<div></div>')
@@ -144,7 +151,7 @@ var Lobibox = Lobibox || {};
                 $body.prepend('<div class="lobibox-notify-title">' + me.$options.title + '<div>');
             }
             _addCloseButton(notify);
-            if (me.$options.size === 'normal'){
+            if (me.$options.size === 'normal' || me.$options.size === 'mini'){
                 _addCloseOnClick(notify);
                 _addDelay(notify);
             }
@@ -217,24 +224,27 @@ var Lobibox = Lobibox || {};
          * @returns {Instance}
          */
         this.remove = function(){
-            me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
+            me.$el.removeClass(me.$options.showClass)
+                    .addClass(me.$options.hideClass);
+            var parent = me.$el.parent();
+            var wrapper = parent.closest('.lobibox-notify-wrapper-large');
+
+            var href = '#' + parent.attr('id');
+
+            var $li = wrapper.find('>.nav-tabs>li:has(a[href="' + href + '"])');
+            $li.addClass(DEFAULTS['class'])
+                    .addClass(me.$options.hideClass);
             setTimeout(function(){
                 if (me.$options.size === 'normal'){
                     me.$el.remove();
                 }else if (me.$options.size === 'large'){
-                    var parent = me.$el.parent();
-                    var wrapper = parent.closest('.lobibox-notify-wrapper-large');
                     
-                    var href = '#'+parent.attr('id');
-                    
-                    var $li = wrapper.find('>.nav-tabs>li:has(a[href="'+href+'"])');
                     var $itemToActivate = _findTabToActivate($li);
                     if ($itemToActivate){
                         $itemToActivate.tab('show');
                     }
                     $li.remove();
                     parent.remove();
-                    
                 }
             }, 500);
             return me;
