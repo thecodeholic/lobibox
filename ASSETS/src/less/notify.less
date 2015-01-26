@@ -46,6 +46,7 @@
     
     .nav-tabs{
         border: none;
+        background-color: transparent;
         margin-bottom: -7px;
         >li{
             float: right;
@@ -105,7 +106,9 @@
         }
     }
     .tab-content{
-        background-color: #FFF;
+        background-color: transparent;
+        padding: 0;
+        border: none;
         .lobibox-notify{
             min-height: @lobibox-notify-large-height;
             .lobibox-notify-icon{
@@ -202,6 +205,7 @@
     }
     &.notify-mini{
         .lobibox-notify-title{
+            margin-top: -5px;
             font-size: @lobibox-notify-mini-title-font-size;
             line-height: @lobibox-notify-mini-title-line-height;
         }
@@ -213,7 +217,10 @@
             width: @lobibox-notify-mini-icon-width;
             font-size: @lobibox-notify-mini-icon-font-size;
             &, &>*{
-                line-height: @lobibox-notify-mini-icon-width;
+                line-height: @lobibox-notify-mini-icon-line-height;
+            }
+            img{
+                margin-top: -5px;
             }
         }
         .lobibox-notify-body{
