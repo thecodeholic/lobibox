@@ -32,6 +32,7 @@ $(document).ready(function(){
         Lobibox.alert('error',{
             title   : "შეცდომა",
             msg     : "რაღაც არ გამოვიდა!!!",
+            animationClass: 'animated fadeInDown',
             buttons: ['ok', 'yes', 'no', 'cancel'],
 //            buttons: {
 //                ok : {
@@ -128,6 +129,7 @@ $(document).ready(function(){
     });
     $('#yesNo').click(function(){
         Lobibox.confirm({
+            animationClass: 'animated fadeInDown',
 //            title       : 'Question',
             msg         : "Are you sure you want to delete this user?",
             callback    : function(exert, type, ev){

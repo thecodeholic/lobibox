@@ -85,6 +85,9 @@ var Lobibox = Lobibox || {};
                  
             }
             options = $.extend({}, LobiboxBase.DEFAULT_OPTIONS, options);
+            if (options.animationClass === undefined) {
+                options.animationClass = BASE_OPTIONS.animationClass;
+            }
             return options;
         },
         _init: function(){
@@ -107,6 +110,10 @@ var Lobibox = Lobibox || {};
                         me.destroy();
                     }
                 });
+            }
+            
+            if (me.$options.animationClass){
+                me.$el.addClass(me.$options.animationClass);
             }
             me.$el.data('lobiboxMessage', me);
         },
@@ -419,6 +426,7 @@ var Lobibox = Lobibox || {};
     LobiboxBase.OPTIONS = {
         horizontalOffset: 5,
         bodyClass       : 'lobibox-open',
+        animationClass : 'animated bounceIn',
         modalClasses : {
             'error'     : 'lobibox-error',
             'success'   : 'lobibox-success',
@@ -658,7 +666,7 @@ var Lobibox = Lobibox || {};
                     ;
             }
             d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">'+me.$options.msg+'</span></div>');
-
+            window.console.log(me.$options.animationClass);
             me._setContent(d.html());
             me._position();
         }
