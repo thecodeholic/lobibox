@@ -2,12 +2,13 @@
     <!--Lobibox Popup examples-->
     <div>
         <h2>Lobibox popup examples</h2>
+        <!--Basic examples-->
         <div class="bs-example">
-            <h3>Basic example</h3>
+            <h3>Basic examples</h3>
             <!--Confirm-->
             <fieldset>
                 <div class="bs-example">
-                    <button id="popupYesNoBasic" class="btn btn-Primary">Confirm</button>
+                    <button id="popupYesNoBasic" class="btn btn-primary">Confirm</button>
                 </div>
                 <div class="highlight">
                     <pre><code>Lobibox.confirm({
@@ -35,7 +36,7 @@
             <!--Prompt-->
             <fieldset>
                 <div class="bs-example">
-                    <button id="popupPromptBasic" class="btn btn-info">Prompt</button>
+                    <button id="popupPromptBasic" class="btn btn-primary">Prompt</button>
                 </div>
                 <div class="highlight">
 <pre><code>Lobibox.prompt('text', //Any input type will be valid
@@ -52,7 +53,7 @@
             <!--Progress-->
             <fieldset>
                 <div class="bs-example">
-                    <button id="popupProgressBasic" class="btn btn-info">Progress</button>
+                    <button id="popupProgressBasic" class="btn btn-primary">Progress</button>
                 </div>
                 <div class="highlight">
 <pre><code>Lobibox.progress({
@@ -72,7 +73,32 @@
 });        
 </code></pre>
                 </div>
+                <div class="bs-example">
+                    <button id="popupProgressBootstrap" class="btn btn-primary">Bootstrap progress</button>
+                </div>
+                <div class="highlight">
+<pre><code>Lobibox.progress({
+    title: 'Please wait',
+    label: 'Uploading files...',
+    progressTpl : '&ltdiv class="progress lobibox-progress-outer">\n\
+                &lt;div class="progress-bar progress-bar-danger progress-bar-striped lobibox-progress-element" data-role="progress-text" role="progressbar">&lt;/div>\n\
+                &lt;/div>',
+    onShow: function (exert) {
+        var i = 0;
+        var inter = setInterval(function () {
+            window.console.log(i);
+            if (i > 100) {
+                inter = clearInterval(inter);
+            }
+            i = i + 0.1;
+            exert.setProgress(i);
+        }, 10);
+    }
+});  
+</code></pre>
+                </div>
             </fieldset>
+            <!--Window-->
             <fieldset>
                 <div class="bs-example">
                     <button id="popupWindowBasic" class="btn btn-primary">Window</button>
@@ -86,7 +112,293 @@
                 </div>
             </fieldset>
         </div>
-        
+        <!--Callbacks-->
+        <fieldset>
+            <div class="bs-example">
+                <h3>Callbacks</h3>
+                <div class="callout callout-info">
+                    <p>All popup boxes have <code>callback</code> option</p>
+                </div>
+                <button id="popupYesNoCallback" class="btn btn-primary">Confirm</button>
+            </div>
+            <div class="highlight">
+                <pre><code>Lobibox.confirm({
+    msg: "Are you sure you want to delete this user?",
+    callback: function (exert, type, ev) {
+        //Your code goes here
+    }
+});        
+</code></pre>
+            </div>
+        </fieldset>
+        <form id="lobibox-popup-demo-form" action>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="control-label">Popup type</label>
+                        <select class="form-control" name="popupType">
+                            <option value="confirm">Confirm</option>
+                            <option value="alert">Alert</option>
+                            <option value="prompt">Prompt</option>
+                            <option value="progress">Progress</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse"  href="#common-fieldset-wrapper">
+                            Common parameters
+                        </a>
+                    </h4>
+                </div>
+                <div id="common-fieldset-wrapper" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">title</label>
+                                        <input type="text" name="title" class="form-control" value=""/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">Base class <small>(default)</small></label>
+                                    <input type="text" name="baseClass" class="form-control" value="animated-super-fast"/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">Show class</label>
+                                    <input type="text" name="showClass" class="form-control" value="zoomIn"/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">Hide class</label>
+                                    <input type="text" name="hideClass" class="form-control" value="zoomOut"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label">Message</label>
+                                    <textarea rows="4" class="form-control" name="msg"></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Width</label>
+                                        <div class="form-group">
+                                            <input type="number" name="width" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Height</label>
+                                        <div class="form-group">
+                                            <input type="text" name="height" value="auto" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label"></label>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="closeButton" checked=""> Close button
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label"></label>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="draggable"> Draggable
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label"></label>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="modal" checked=""> Modal
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label"></label>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="closeOnEsc"> Close on escape
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#confirm-options" aria-expanded="true" aria-controls="collapseOne">
+                                Confirm options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="confirm-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <fieldset class="confirm-fieldset">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Icon Class</label>
+                                            <input type="text" class="form-control" name="iconClass" value="glyphicon glyphicon-question-sign"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#alert-options" aria-expanded="false" aria-controls="collapseTwo">
+                                Alert options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="alert-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <fieldset class="alert-fieldset" disabled="">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Alert type</label>
+                                            <select class="form-control" name="type">
+                                                <option value="success">Success</option>
+                                                <option value="error">Error</option>
+                                                <option value="info">Info</option>
+                                                <option value="warning">Warning</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Icon Class</label>
+                                            <input type="text" class="form-control" name="iconClass"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#prompt-options" aria-expanded="false" aria-controls="collapseThree">
+                                Prompt options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="prompt-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            <fieldset class="prompt-fieldset" disabled="">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Type</label>
+                                            <input type="text" class="form-control" name="type" value="text"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Placeholder</label>
+                                            <input type="text" class="form-control" name="placeholder" value=""/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Value</label>
+                                            <input type="text" class="form-control" name="value" value=""/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Label</label>
+                                            <input type="text" class="form-control" name="label"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label"></label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="multiline"> Multiline
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Lines <small class="text-muted">(For multiline)</small></label>
+                                            <input type="number" class="form-control" name="lines" value=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#progress-options" aria-expanded="false" aria-controls="collapseThree">
+                                Progress options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="progress-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            <div class="callout callout-danger">
+                                <p>Progress does not update itself.</p>
+                                <p>But you can implement it easily when uploading or waiting something</p>
+                            </div>
+                            <fieldset class="progress-fieldset" disabled="">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Label</label>
+                                        <input type="text" class="form-control" name="label" value=""/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label"></label>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="showProgressLabel" checked> Progress label
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary">Create popup</button>
+        </form>
     </div>
     <div class="container">
         <!--<h2>LobiBox alert examples</h2>-->

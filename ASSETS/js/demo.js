@@ -1,3 +1,20 @@
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
 $(function(){
     var $codes = $('.highlight code');
     $codes.each(function(index, el){
@@ -579,6 +596,31 @@ $(function(){
                     }
                 });
             });
+            $('#popupProgressBootstrap').click(function(){
+                Lobibox.progress({
+                    title: 'Please wait',
+                    label: 'Uploading files...',
+                    progressTpl : '<div class="progress lobibox-progress-outer">\n\
+                                <div class="progress-bar progress-bar-danger progress-bar-striped lobibox-progress-element" data-role="progress-text" role="progressbar"></div>\n\
+                                </div>',
+                    progressCompleted: function () {
+                        Lobibox.notify('success', {
+                            msg: 'Files were successfully uploaded'
+                        });
+                    },
+                    onShow: function (exert) {
+                        var i = 0;
+                        var inter = setInterval(function () {
+                            window.console.log(i);
+                            if (i > 100) {
+                                clearInterval(inter);
+                            }
+                            i = i + 0.2;
+                            exert.setProgress(i);
+                        }, 1000/30);
+                    }
+                });
+            });
             $('#popupWindowBasic').click(function () {
                 Lobibox.window({
                     title: 'Window title',
@@ -589,7 +631,93 @@ $(function(){
                     ].join("")
                 });
             });
-           
+        })();
+        (function () {
+            $('#popupYesNoCallback').click(function(){
+                Lobibox.confirm({
+                    msg: "Are you sure you want to delete this user?",
+                    callback: function (exert, type, ev) {
+                        if (type === 'yes'){
+                            Lobibox.notify('success', {
+                                msg: 'You have clicked "Yes" button.'
+                            });
+                        }else if (type === 'no'){
+                            Lobibox.notify('info', {
+                                msg: 'You have clicked "No" button.'
+                            });
+                        }
+                    }
+                });
+            });
+        })();
+        (function () {
+            var $form = $('#lobibox-popup-demo-form');
+            var $popupType = $form.find('[name="popupType"]');
+            $popupType.change(function(){
+                var $this = $(this);
+                $form.find('.alert-fieldset').attr('disabled', true);
+                $form.find('.prompt-fieldset').attr('disabled', true);
+                $form.find('.confirm-fieldset').attr('disabled', true);
+                $form.find('.progress-fieldset').attr('disabled', true);
+                
+                if ($this.val() === 'alert'){
+                    $form.find('.alert-fieldset').removeAttr('disabled');
+                    $form.find('[href="#alert-options"]').trigger('click');
+                }else if ($this.val() === 'prompt'){
+                    $form.find('.prompt-fieldset').removeAttr('disabled');
+                    $form.find('[href="#prompt-options"]').trigger('click');
+                }else if ($this.val() === 'confirm'){
+                    $form.find('.confirm-fieldset').removeAttr('disabled');
+                    $form.find('[href="#confirm-options"]').trigger('click');
+                }else if ($this.val() === 'progress'){
+                    $form.find('.progress-fieldset').removeAttr('disabled');
+                    $form.find('[href="#progress-options"]').trigger('click');
+                }
+            });
+            $form.submit(function(ev){
+                ev.preventDefault();
+                var params = $form.serializeObject();
+                if (params.width === ""){
+                    delete params.width;
+                }
+                if (params.title === ""){
+                    delete params.title;
+                }
+                if (params.iconClass === ""){
+                    delete params.iconClass;
+                }
+                var checks = ['closeButton', 'draggable', 'modal', 'closeOnEsc', 'showProgressLabel'];
+                for (var i in checks){
+                    if ( ! params[checks[i]]){
+                        params[checks[i]] = false;
+                    }else{
+                        params[checks[i]] = true;
+                    }
+                }
+                if (params.placeholder){
+                    params.attrs = {
+                        placeholder: params.placeholder
+                    };
+                }
+                window.console.log(params);
+                if (params.popupType === 'confirm'){
+                    Lobibox.confirm(params);
+                }else if (params.popupType === 'progress'){
+                    params.onShow = function (exert) {
+                        var i = 0;
+                        var inter = setInterval(function () {
+                            if (i > 100) {
+                                inter = clearInterval(inter);
+                            }
+                            i = i + 0.1;
+                            exert.setProgress(i);
+                        }, 10);
+                    };
+                    Lobibox.progress(params);
+                }else{
+                    Lobibox[params.popupType](params.type, params);
+                }
+            });
         })();
     })();
 });

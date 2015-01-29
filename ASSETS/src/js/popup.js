@@ -275,12 +275,11 @@ var Lobibox = Lobibox || {};
             var el = this.$el;
             var heading = el.find('.lobibox-header');
             heading.on('mousedown.lobibox', function (ev) {
-                var offset = el.offset();
-                el.attr('offset-left', ev.clientX - offset.left);
-                el.attr('offset-top', ev.clientY - offset.top);
+                el.attr('offset-left', ev.offsetX);
+                el.attr('offset-top', ev.offsetY);
                 el.attr('allow-drag', 'true');
             });
-            heading.on('mouseup.lobibox', function (ev) {
+            $(document).on('mouseup.lobibox', function (ev) {
                 el.attr('allow-drag', 'false');
             });
             $(document).on('mousemove.lobibox', function (ev) {
@@ -291,10 +290,10 @@ var Lobibox = Lobibox || {};
                         left: left,
                         top: top
                     });
-                    el.css({
-                        right: $(document).outerWidth() - (left + el.outerWidth() + 2),
-                        bottom: $(document).outerHeight() - (top + el.outerHeight() + 2)
-                    });
+//                    el.css({
+//                        right: $(document).outerWidth() - (left + el.outerWidth() + 2),
+//                        bottom: $(document).outerHeight() - (top + el.outerHeight() + 2)
+//                    });
                 }
             });
         },
@@ -462,10 +461,7 @@ var Lobibox = Lobibox || {};
     LobiboxBase.OPTIONS = {
         horizontalOffset: 5,
         bodyClass       : 'lobibox-open',
-        delayToRemove   : 200,
-        baseClass       : 'animated-super-fast',
-        showClass       : 'zoomIn',
-        hideClass       : 'zoomOut',
+        
         modalClasses : {
             'error'     : 'lobibox-error',
             'success'   : 'lobibox-success',
@@ -515,6 +511,11 @@ var Lobibox = Lobibox || {};
         debug           : true,
         buttonsAlign    : 'center', // Position where buttons should be aligned
         closeOnEsc      : true,  // Close messagebox on Esc press
+        delayToRemove   : 200,
+        baseClass       : 'animated-super-fast',
+        showClass       : 'zoomIn',
+        hideClass       : 'zoomOut',
+        
         
         //events
         beforeCreate    : null,
@@ -575,6 +576,9 @@ var Lobibox = Lobibox || {};
             }
             me.$input.addClass('lobibox-input');
             me.$input.attr(me.$options.attrs);
+            if (me.$options.value){
+                me.setValue(me.$options.value);
+            }
             if (me.$options.label){
                 label = $('<label>'+me.$options.label+'</label>');
             }
@@ -759,8 +763,8 @@ var Lobibox = Lobibox || {};
             
             LobiboxBase._init.call(me);
             me.show();
-            if (me.$options.progressBarHTML){
-                me.$progressBarElement = $(me.$options.progressBarHTML);
+            if (me.$options.progressTpl){
+                me.$progressBarElement = $(me.$options.progressTpl);
             }else{
                 me.$progressBarElement = me._createProgressbar();
             }
@@ -794,14 +798,14 @@ var Lobibox = Lobibox || {};
             if (me.$progress === 100){
                 return;
             }
-            progress = Math.min(100, Math.max(0, progress)).toFixed(1);
+            progress = Math.min(100, Math.max(0, progress));
             me.$progress = progress;
             me._triggerEvent('progressUpdated');
             if (me.$progress === 100){
                 me._triggerEvent('progressCompleted');
             }
-            me.$el.find('.lobibox-progress-element').css('width', progress+"%");
-            me.$el.find('[data-role="progress-text"]').html(progress+"%");
+            me.$el.find('.lobibox-progress-element').css('width', progress.toFixed(1)+"%");
+            me.$el.find('[data-role="progress-text"]').html(progress.toFixed(1)+"%");
             return me;
         },
         /**
@@ -818,7 +822,7 @@ var Lobibox = Lobibox || {};
         width               : 500,
         showProgressLabel   : true,  // Show percentage of progress
         label               : '',  // Show progress label
-        progressBarHTML     : false,  //Template of progress bar
+        progressTpl         : false,  //Template of progress bar
         
         //Events
         progressUpdated     : null,
