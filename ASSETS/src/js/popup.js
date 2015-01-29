@@ -462,10 +462,10 @@ var Lobibox = Lobibox || {};
     LobiboxBase.OPTIONS = {
         horizontalOffset: 5,
         bodyClass       : 'lobibox-open',
-        delayToRemove   : 500,
-        baseClass       : 'animated-fast',
-        showClass       : 'bounceIn',
-        hideClass       : 'bounceOut',
+        delayToRemove   : 200,
+        baseClass       : 'animated-super-fast',
+        showClass       : 'zoomIn',
+        hideClass       : 'zoomOut',
         modalClasses : {
             'error'     : 'lobibox-error',
             'success'   : 'lobibox-success',

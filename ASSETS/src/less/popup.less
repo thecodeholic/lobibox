@@ -1,0 +1,225 @@
+/* 
+    Created on : Sep 19, 2014, 1:47:04 PM
+    Author     : @arboshiki
+*/
+
+
+//------------------------------------------------------------------------------
+body{
+    &.lobibox-open{
+        overflow: hidden;
+    }
+}
+.lobibox{
+    position: fixed;
+    z-index: 4001;
+    .box-shadow(@lobibox-popup-box-shadow);
+    .lobibox-header{
+        font-size: @lobibox-popup-header-font-size;
+        padding: @lobibox-popup-header-padding-vertical @lobibox-popup-header-padding-horizontal;
+        color: @lobibox-popup-header-color;
+        .btn-close{
+            float: right;
+            background-color: transparent;
+            cursor: pointer;
+            border: none;
+            outline: 0;
+            .transition(all 0.3s);
+            &:hover{
+                text-shadow: @lobibox-popup-close-btn-hover-text-shadow;
+            }
+        }
+    }
+    .lobibox-body{
+        overflow: hidden;
+        display: table;
+        position: relative;
+        width: 100%;
+        padding: @lobibox-popup-body-padding-vertical @lobibox-popup-body-padding-horizontal;
+        background-color: @lobibox-popup-body-bg;
+        font-size: @lobibox-popup-body-font-size;
+        .lobibox-icon-wrapper{
+            position: relative;
+            height: 100%;
+            display: table;
+            font-size: @lobibox-popup-icon-font-size;
+            .lobibox-icon{
+                display: table-cell;
+                vertical-align: middle;
+            }
+        }
+        .lobibox-body-text-wrapper{
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            padding-left: @lobibox-popup-text-padding-left;
+        }
+    }
+    .lobibox-footer{
+        text-align: center;
+        padding: @lobibox-popup-footer-padding;
+        &.text-center{
+            text-align: center;
+        }
+        &.text-left{
+            text-align: left;
+        }
+        &.text-right{
+            text-align: right;
+        }
+    }
+    &.lobibox-confirm{
+        border: none;
+        .lobibox-header{
+            color: @lobibox-popup-confirm-header-color;
+            background-color: @lobibox-popup-confirm-header-bg;
+        }
+        .lobibox-body{
+            .lobibox-icon{
+                color: @lobibox-popup-confirm-icon-color
+            }
+        }
+        .lobibox-footer{
+            background-color: @lobibox-popup-confirm-footer-bg;
+        }
+    }
+    &.lobibox-success{
+        .lobibox-alert-variant(@lobibox-popup-success-border; @lobibox-popup-success-header-color; @lobibox-popup-success-header-bg; @lobibox-popup-success-icon-color; @lobibox-popup-success-footer-bg);
+    }
+    &.lobibox-error{
+        .lobibox-alert-variant(@lobibox-popup-error-border; @lobibox-popup-error-header-color; @lobibox-popup-error-header-bg; @lobibox-popup-error-icon-color; @lobibox-popup-error-footer-bg);
+    }
+    &.lobibox-info{
+        .lobibox-alert-variant(@lobibox-popup-info-border; @lobibox-popup-info-header-color; @lobibox-popup-info-header-bg; @lobibox-popup-info-icon-color; @lobibox-popup-info-footer-bg);
+    }
+    &.lobibox-warning{
+        .lobibox-alert-variant(@lobibox-popup-warning-border; @lobibox-popup-warning-header-color; @lobibox-popup-warning-header-bg; @lobibox-popup-warning-icon-color; @lobibox-popup-warning-footer-bg);
+    }
+    &.lobibox-prompt{
+        border: none;
+        .lobibox-header{
+            color: @lobibox-popup-prompt-header-color;
+            background-color: @lobibox-popup-prompt-header-bg;
+        }
+        .lobibox-body{
+            padding: @lobibox-popup-prompt-body-padding;
+            .lobibox-input{
+                min-height: @lobibox-popup-prompt-input-min-height;
+                border: @lobibox-popup-prompt-input-border;
+                width: 100%;
+                padding: @lobibox-popup-prompt-input-padding;
+                font-size: @lobibox-popup-prompt-input-font-size;
+                outline: 0;
+                &:focus{
+                    background-color: @lobibox-popup-prompt-input-focus-bg;
+                }
+            }
+        }
+        .lobibox-footer{
+            background-color: @lobibox-popup-prompt-footer-bg;
+        }
+    }
+    &.lobibox-progress{
+        .lobibox-header{
+            background-color: @lobibox-popup-progress-header-bg;
+        }
+        .lobibox-body{
+            padding: @lobibox-popup-progress-body-padding;
+            font-size: @lobibox-popup-progress-text-font-size;
+            .lobibox-progress-bar-wrapper{
+                position: relative;
+                height: @lobibox-popup-progress-element-height;
+                border: @lobibox-popup-progress-element-wrapper-border;
+                border-radius: @lobibox-popup-progress-element-border-radius;
+                background-color: @lobibox-popup-progress-element-bg;
+                .lobibox-progress-bar{
+                    width: 0;
+                    border-radius: @lobibox-popup-progress-element-border-radius;
+                    background-color: @lobibox-popup-progress-element-active-bg;
+                    height: 100%;
+                    text-align: center;
+                }
+                .lobibox-progress-text{
+                    position: absolute;
+                    text-align: center;
+                    top: 0;
+                    width: 100%;
+                }
+            }
+            .lobibox-progress-outer{
+                margin-bottom: 0;
+                .progress-bar{
+                    transition: none;
+                }
+                [data-role="progress-text"]{
+                    font-weight: bold;
+                    color: @lobibox-popup-progress-text-color;
+                }
+            }
+        }
+    }
+    &.lobibox-window{
+        border: @lobibox-popup-window-border;
+        border-radius: @lobibox-popup-window-border-radius;
+        .lobibox-header{
+            background-color: @lobibox-popup-window-brand-color;
+            color: @lobibox-popup-window-header-color;
+            font-size: @lobibox-popup-window-title-font-size;
+        }
+        .lobibox-body{
+            overflow: auto;
+            display: block;
+            font-size: @lobibox-popup-window-body-font-size;
+            padding: @lobibox-popup-window-body-padding;
+            background-color: @lobibox-popup-window-body-bg;
+        }
+        .lobibox-footer{
+            background-color: @lobibox-popup-window-footer-bg;
+        }
+    }
+    &.draggable{
+        .lobibox-header{
+            cursor: move;
+        }
+    }
+    
+    .lobibox-btn{
+        display: inline-block;
+        padding: @lobibox-popup-btn-padding;
+        margin: @lobibox-popup-btn-margin;
+        font-size: @lobibox-popup-btn-font-size;
+        cursor: pointer;
+        border: @lobibox-popup-btn-border;
+        outline: 0;
+        border-radius: @lobibox-popup-btn-border-radius;
+        line-height: initial;
+        &.lobibox-btn-cancel{
+            .button-variant(@lobibox-popup-btn-cancel-color, @lobibox-popup-btn-cancel-bg, @lobibox-popup-btn-cancel-border);
+        }
+        &.lobibox-btn-yes{
+            .button-variant(@lobibox-popup-btn-yes-color, @lobibox-popup-btn-yes-bg, @lobibox-popup-btn-yes-border);
+        }
+        &.lobibox-btn-no{
+            .button-variant(@lobibox-popup-btn-no-color, @lobibox-popup-btn-no-bg, @lobibox-popup-btn-no-border);
+        }
+        &.lobibox-btn-ok{
+            .button-variant(@lobibox-popup-btn-no-color, @lobibox-popup-btn-no-bg, @lobibox-popup-btn-no-border);
+        }
+        &.lobibox-btn-default{
+            .button-variant(@lobibox-popup-btn-default-color, @lobibox-popup-btn-default-bg, @lobibox-popup-btn-default-border);
+        }
+    }
+    &.lobibox-hidden{
+        display: none;
+    }
+}
+
+.lobibox-backdrop{
+    position: fixed;
+    z-index: 4000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: @lobibox-popup-backdrop-bg;
+}

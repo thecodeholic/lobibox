@@ -236,7 +236,7 @@ $(function(){
             });
             $('#basicErrorWidth').click(function () {
                 Lobibox.notify('error', {
-                    width: $(window).width() - 20,
+                    width: $(window).width(),
                     msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
                 });
             });

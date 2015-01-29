@@ -163,7 +163,8 @@ var Lobibox = Lobibox || {};
             
             // Give width to notification
             if (me.$options.width){
-                notify.css('width', me.$options.width);
+                window.console.log(_calculateWidth(me.$options.width));
+                notify.css('width', _calculateWidth(me.$options.width));
             }
             
             return notify;
@@ -219,6 +220,11 @@ var Lobibox = Lobibox || {};
                 return null;
             }
             return $itemToActivate.find('>a');
+        };
+        var _calculateWidth = function(width){
+            window.console.log(width, $(window).width());
+            width = Math.min($(window).outerWidth(), width);
+            return width;
         };
 //------------------------------------------------------------------------------
 //----------------PROTOTYPE FUNCTIONS-------------------------------------------
