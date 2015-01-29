@@ -116,6 +116,101 @@
             <h3>Custom buttons</h3>
             <button id="popupProgressErrorButtons" class="btn btn-danger">Error</button>
         </div>
+        <div class="highlight">
+<pre><code> Lobibox.alert('error', {
+    msg: 'This is an error message',
+    //buttons: ['ok', 'cancel', 'yes', 'no'],
+    //Or more powerfull way
+    buttons: {
+        ok: {
+            'class': 'btn btn-info',
+            closeOnClick: false
+        },
+        cancel: {
+            'class': 'btn btn-danger',
+            closeOnClick: false
+        },
+        yes: {
+            'class': 'btn btn-success',
+            closeOnClick: false
+        },
+        no: {
+            'class': 'btn btn-warning',
+            closeOnClick: false
+        },
+        custom: {
+            'class': 'btn btn-default',
+            text: 'Custom'
+        }
+    },
+    callback: function(lobibox, type){
+        var btnType;
+        if (type === 'no'){
+            btnType = 'warning';
+        }else if (type === 'yes'){
+            btnType = 'success'; 
+        }else if (type === 'ok'){
+            btnType = 'info';
+        }else if (type === 'cancel'){
+            btnType = 'error';
+        }
+        Lobibox.notify(btnType, {
+            size: 'mini',
+            msg: 'This is ' + btnType +' message'
+        });
+    }
+});        
+</code></pre>
+        </div>
+        <div class="bs-example">
+            <h3>Disable icon</h3>
+            <button id="popupConfirmNoIcon" class="btn btn-primary">Button</button>
+        </div>
+        <div class="highlight">
+<pre><code>Lobibox.confirm({
+    iconClass: false,
+    msg: 'Are you sure?'
+});        
+</code></pre>
+        </div>
+        <div class="bs-example">
+            <h3>Advanced usage of Lobibox.window</h3>
+            <button id="popupWindowExample" class="btn btn-primary">Window</button>
+        </div>
+        <div class="highlight">
+<pre><code>Lobibox.window({
+    title: 'Window title',
+    //Available types: string, jquery object, function
+    content: function(){
+        return $('.container');
+    },
+    url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.css',
+    autoload: false,
+    loadMethod: 'GET',
+    //Load parameters
+    params: {
+        param1: 'Lorem',
+        param2: 'Ipsum'
+    },
+    buttons: {
+        load: {
+            text: 'Load from url'
+        },
+        close: {
+            text: 'Close',
+            closeOnClick: true
+        }
+    },
+    callback: function($this, type, ev){
+        if (type === 'load'){
+            $this.load(function(){
+                //Do something when content is loaded
+            });
+        }
+    }
+});        
+</code></pre>
+        </div>
         <!--Callbacks-->
         <fieldset>
             <div class="bs-example">
@@ -249,154 +344,158 @@
                 </div>
             </div>
             
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#confirm-options" aria-expanded="true" aria-controls="collapseOne">
-                                Confirm options
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="confirm-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="panel-body">
-                            <fieldset class="confirm-fieldset">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Icon Class</label>
-                                            <input type="text" class="form-control" name="iconClass" value="glyphicon glyphicon-question-sign"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingTwo">
-                        <h4 class="panel-title">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#alert-options" aria-expanded="false" aria-controls="collapseTwo">
-                                Alert options
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="alert-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="panel-body">
-                            <fieldset class="alert-fieldset" disabled="">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Alert type</label>
-                                            <select class="form-control" name="type">
-                                                <option value="success">Success</option>
-                                                <option value="error">Error</option>
-                                                <option value="info">Info</option>
-                                                <option value="warning">Warning</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Icon Class</label>
-                                            <input type="text" class="form-control" name="iconClass"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingThree">
-                        <h4 class="panel-title">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#prompt-options" aria-expanded="false" aria-controls="collapseThree">
-                                Prompt options
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="prompt-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                        <div class="panel-body">
-                            <fieldset class="prompt-fieldset" disabled="">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Type</label>
-                                            <input type="text" class="form-control" name="type" value="text"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Placeholder</label>
-                                            <input type="text" class="form-control" name="placeholder" value=""/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Value</label>
-                                            <input type="text" class="form-control" name="value" value=""/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Label</label>
-                                            <input type="text" class="form-control" name="label"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label"></label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="multiline"> Multiline
-                                                </label>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#confirm-options" aria-expanded="true" aria-controls="collapseOne">
+                                        Confirm options
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="confirm-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <fieldset class="confirm-fieldset">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Icon Class</label>
+                                                    <input type="text" class="form-control" name="iconClass" value="glyphicon glyphicon-question-sign"/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label">Lines <small class="text-muted">(For multiline)</small></label>
-                                            <input type="number" class="form-control" name="lines" value=""/>
-                                        </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="headingThree">
-                        <h4 class="panel-title">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#progress-options" aria-expanded="false" aria-controls="collapseThree">
-                                Progress options
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="progress-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                        <div class="panel-body">
-                            <div class="callout callout-danger">
-                                <p>Progress does not update itself.</p>
-                                <p>But you can implement it easily when uploading or waiting something</p>
                             </div>
-                            <fieldset class="progress-fieldset" disabled="">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class="control-label">Label</label>
-                                        <input type="text" class="form-control" name="label" value=""/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="control-label"></label>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="showProgressLabel" checked> Progress label
-                                            </label>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#alert-options" aria-expanded="false" aria-controls="collapseTwo">
+                                        Alert options
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="alert-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <fieldset class="alert-fieldset" disabled="">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Alert type</label>
+                                                    <select class="form-control" name="type">
+                                                        <option value="success">Success</option>
+                                                        <option value="error">Error</option>
+                                                        <option value="info">Info</option>
+                                                        <option value="warning">Warning</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Icon Class</label>
+                                                    <input type="text" class="form-control" name="iconClass"/>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
-                            </fieldset>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#prompt-options" aria-expanded="false" aria-controls="collapseThree">
+                                        Prompt options
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="prompt-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="panel-body">
+                                    <fieldset class="prompt-fieldset" disabled="">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Type</label>
+                                                    <input type="text" class="form-control" name="type" value="text"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Placeholder</label>
+                                                    <input type="text" class="form-control" name="placeholder" value=""/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Value</label>
+                                                    <input type="text" class="form-control" name="value" value=""/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Label</label>
+                                                    <input type="text" class="form-control" name="label"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label"></label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="multiline"> Multiline
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Lines <small class="text-muted">(For multiline)</small></label>
+                                                    <input type="number" class="form-control" name="lines" value=""/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#progress-options" aria-expanded="false" aria-controls="collapseThree">
+                                        Progress options
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="progress-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="panel-body">
+                                    <div class="callout callout-danger">
+                                        <p>Progress does not update itself.</p>
+                                        <p>But you can implement it easily when uploading or waiting something</p>
+                                    </div>
+                                    <fieldset class="progress-fieldset" disabled="">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="control-label">Label</label>
+                                                <input type="text" class="form-control" name="label" value=""/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="control-label"></label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="showProgressLabel" checked> Progress label
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -404,136 +503,13 @@
             <button class="btn btn-primary">Create popup</button>
         </form>
     </div>
-    <div class="container">
-        <!--<h2>LobiBox alert examples</h2>-->
-        
-<!--        <button id="default" class="btn btn-default">Show Default</button>
-        <button id="prompt" class="btn btn-default">Prompt</button>
-        <button id="promptNumber" class="btn btn-default">Prompt Number</button>
-        <button id="promptColor" class="btn btn-default">Choose Color</button>
-        <button id="multilinePrompt" class="btn btn-default">Multiline Prompt</button>
-        <button id="window" class="btn btn-default">Window</button>
-        <button id="progress" class="btn btn-default">Progress</button>-->
 
-        <form role="form" id="windowContent" style="display: none">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-                <p class="help-block">Example block-level help text here.</p>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Check me out
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-                <p class="help-block">Example block-level help text here.</p>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Check me out
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-                <p class="help-block">Example block-level help text here.</p>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Check me out
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-                <p class="help-block">Example block-level help text here.</p>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Check me out
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-                <p class="help-block">Example block-level help text here.</p>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Check me out
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-                <p class="help-block">Example block-level help text here.</p>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Check me out
-                </label>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-    </div>
-
-    <div class="container">
+    <div>
         <h2>LobiBox notifications</h2>
-        
+        <!--Basic notifications-->
         <fieldset>
             <legend>Basic notifications <small class="text-muted"><small>Can be closed by clicking on it</small></small></legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfo" class="btn btn-info">Info</button>
                 <button id="basicWarning" class="btn btn-warning">Warning</button>
                 <button id="basicError" class="btn btn-danger">Error</button>
@@ -546,9 +522,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--With image-->
         <fieldset>
             <legend>With image</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoImage" class="btn btn-info">Info</button>
                 <button id="basicWarningImage" class="btn btn-warning">Warning</button>
                 <button id="basicErrorImage" class="btn btn-danger">Error</button>
@@ -562,9 +539,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Disable sound-->
         <fieldset>
             <legend>Disable sound</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoNoSound" class="btn btn-info">Info</button>
                 <button id="basicWarningNoSound" class="btn btn-warning">Warning</button>
                 <button id="basicErrorNoSound" class="btn btn-danger">Error</button>
@@ -578,9 +556,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Custom title-->
         <fieldset>
             <legend>Custom title</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoCustomTitle" class="btn btn-info">Info</button>
                 <button id="basicWarningCustomTitle" class="btn btn-warning">Warning</button>
                 <button id="basicErrorCustomTitle" class="btn btn-danger">Error</button>
@@ -594,9 +573,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Without icon and image-->
         <fieldset>
             <legend>Without icon and image</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoNoIcon" class="btn btn-info">Info</button>
                 <button id="basicWarningNoIcon" class="btn btn-warning">Warning</button>
                 <button id="basicErrorNoIcon" class="btn btn-danger">Error</button>
@@ -610,9 +590,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Increase delay time-->
         <fieldset>
             <legend>Increase delay time</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoCustomDelay" class="btn btn-info">Info</button>
                 <button id="basicWarningCustomDelay" class="btn btn-warning">Warning</button>
                 <button id="basicErrorCustomDelay" class="btn btn-danger">Error</button>
@@ -626,9 +607,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Sticky-->
         <fieldset>
             <legend>Sticky (without delay)</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoNoDelay" class="btn btn-info">Info</button>
                 <button id="basicWarningNoDelay" class="btn btn-warning">Warning</button>
                 <button id="basicErrorNoDelay" class="btn btn-danger">Error</button>
@@ -642,9 +624,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Alternative position-->
         <fieldset>
             <legend>Alternative position</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoPosition" class="btn btn-info">Info</button>
                 <button id="basicWarningPosition" class="btn btn-warning">Warning</button>
                 <button id="basicErrorPosition" class="btn btn-danger">Error</button>
@@ -658,9 +641,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Change width-->
         <fieldset>
             <legend>Change width</legend>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoWidth" class="btn btn-info">Info</button>
                 <button id="basicWarningWidth" class="btn btn-warning">Warning</button>
                 <button id="basicErrorWidth" class="btn btn-danger">Error</button>
@@ -674,11 +658,12 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Change Animation-->
         <fieldset>
             <legend>Change Animation</legend>
             <p class="text-muted">For animation Lobibox is depended on animate.css. You can use any animate.css classes</p>
             <p>By default <code>.animated</code> class is added</p>
-            <div>
+            <div class="bs-example">
                 <button id="basicInfoAnimation" class="btn btn-info">Info</button>
                 <button id="basicWarningAnimation" class="btn btn-warning">Warning</button>
                 <button id="basicErrorAnimation" class="btn btn-danger">Error</button>
@@ -694,21 +679,8 @@
 </code></pre>
             </div>
         </fieldset>
-    </div>
-    <br><br><br><br><br><br><br>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="container">
         <h2>Large Notifications</h2>
+        <!--Basic examples-->
         <fieldset>
             <p>Large notifications</p>
             <ul>
@@ -717,7 +689,7 @@
                 <li>does not have delay</li>
                 <li>are larger in width</li>
             </ul>
-            <div>
+            <div class="bs-example">
                 <button id="largeInfoBasic" class="btn btn-info">Info</button>
                 <button id="largeWarningBasic" class="btn btn-warning">Warning</button>
                 <button id="largeErrorBasic" class="btn btn-danger">Error</button>
@@ -732,9 +704,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--With Image-->
         <fieldset>
             <h3>With Image</h3>
-            <div>
+            <div class="bs-example">
                 <button id="largeInfoImage" class="btn btn-info">Info</button>
                 <button id="largeWarningImage" class="btn btn-warning">Warning</button>
                 <button id="largeErrorImage" class="btn btn-danger">Error</button>
@@ -750,9 +723,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Alternative position-->
         <fieldset>
             <legend>Alternative position</legend>
-            <div>
+            <div class="bs-example">
                 <button id="largeInfoPosition" class="btn btn-info">Info</button>
                 <button id="largeWarningPosition" class="btn btn-warning">Warning</button>
                 <button id="largeErrorPosition" class="btn btn-danger">Error</button>
@@ -768,9 +742,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Change animation-->
         <fieldset>
             <legend>Change animation</legend>
-            <div>
+            <div class="bs-example">
                 <button id="largeInfoAnimation" class="btn btn-info">Info</button>
                 <button id="largeWarningAnimation" class="btn btn-warning">Warning</button>
                 <button id="largeErrorAnimation" class="btn btn-danger">Error</button>
@@ -787,18 +762,11 @@
 </code></pre>
             </div>
         </fieldset>
-    </div>
-    <br><br><br><br><br><br><br>
-    
-    
-    
-    
-    
-    <div class="container">
         <h2>Mini notifications</h2>
         <p>For mini notifications icon and image is shown on small size and title is disabled by default. Although you can enable it by giving <code>title</code> parameter when initializing.</p>
+        <!--Basic example-->
         <fieldset>
-            <div>
+            <div class="bs-example">
                 <button id="miniInfoAnimation" class="btn btn-info">Info</button>
                 <button id="miniWarningAnimation" class="btn btn-warning">Warning</button>
                 <button id="miniErrorAnimation" class="btn btn-danger">Error</button>
@@ -812,10 +780,11 @@
 });        
 </code></pre>
             </div>
-        </fieldset>
+        </fieldset> 
+        <!--With image-->
         <fieldset>
             <h3>With image</h3>
-            <div>
+            <div class="bs-example">
                 <button id="miniInfoImage" class="btn btn-info">Info</button>
                 <button id="miniWarningImage" class="btn btn-warning">Warning</button>
                 <button id="miniErrorImage" class="btn btn-danger">Error</button>
@@ -831,9 +800,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--Without icon-->
         <fieldset>
             <h3>Without icon</h3>
-            <div>
+            <div class="bs-example">
                 <button id="miniInfoNoIcon" class="btn btn-info">Info</button>
                 <button id="miniWarningNoIcon" class="btn btn-warning">Warning</button>
                 <button id="miniErrorNoIcon" class="btn btn-danger">Error</button>
@@ -849,9 +819,10 @@
 </code></pre>
             </div>
         </fieldset>
+        <!--With title-->
         <fieldset>
             <h3>With title</h3>
-            <div>
+            <div class="bs-example">
                 <button id="miniInfoTitle" class="btn btn-info">Info</button>
                 <button id="miniWarningTitle" class="btn btn-warning">Warning</button>
                 <button id="miniErrorTitle" class="btn btn-danger">Error</button>

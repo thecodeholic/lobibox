@@ -651,7 +651,34 @@ $(function(){
             });
         })();
         (function () {
+            function processData(params){
+                if (params.width === "") {
+                    delete params.width;
+                }
+                if (params.title === "") {
+                    delete params.title;
+                }
+                if (params.iconClass === "") {
+                    delete params.iconClass;
+                }
+                var checks = ['closeButton', 'draggable', 'modal', 'closeOnEsc', 'showProgressLabel'];
+                for (var i in checks) {
+                    if (!params[checks[i]]) {
+                        params[checks[i]] = false;
+                    } else {
+                        params[checks[i]] = true;
+                    }
+                }
+                if (params.placeholder) {
+                    params.attrs = {
+                        placeholder: params.placeholder
+                    };
+                }
+                return params;
+            }
+            
             var $form = $('#lobibox-popup-demo-form');
+            
             var $popupType = $form.find('[name="popupType"]');
             $popupType.change(function(){
                 var $this = $(this);
@@ -677,29 +704,7 @@ $(function(){
             $form.submit(function(ev){
                 ev.preventDefault();
                 var params = $form.serializeObject();
-                if (params.width === ""){
-                    delete params.width;
-                }
-                if (params.title === ""){
-                    delete params.title;
-                }
-                if (params.iconClass === ""){
-                    delete params.iconClass;
-                }
-                var checks = ['closeButton', 'draggable', 'modal', 'closeOnEsc', 'showProgressLabel'];
-                for (var i in checks){
-                    if ( ! params[checks[i]]){
-                        params[checks[i]] = false;
-                    }else{
-                        params[checks[i]] = true;
-                    }
-                }
-                if (params.placeholder){
-                    params.attrs = {
-                        placeholder: params.placeholder
-                    };
-                }
-                window.console.log(params);
+                params = processData(params);
                 if (params.popupType === 'confirm'){
                     Lobibox.confirm(params);
                 }else if (params.popupType === 'progress'){
@@ -762,6 +767,49 @@ $(function(){
                             size: 'mini',
                             msg: 'This is ' + btnType +' message'
                         });
+                    }
+                });
+            });
+            $('#popupConfirmNoIcon').click(function(){
+                Lobibox.confirm({
+                    iconClass: false,
+                    msg: 'Are you sure?'
+                });
+            });
+        })();
+        (function () {
+            $('#popupWindowExample').click(function(){
+                Lobibox.window({
+                    title: 'Window title',
+                    //Available types: string, jquery object, function
+                    content: function(){
+                        return $('.container');
+                    },
+                    url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.css',
+                    autoload: false,
+                    loadMethod: 'GET',
+                    //Load parameters
+                    params: {
+                        param1: 'Lorem',
+                        param2: 'Ipsum'
+                    },
+                    buttons: {
+                        load: {
+                            text: 'Load from url'
+                        },
+                        close: {
+                            text: 'Close',
+                            closeOnClick: true
+                        }
+                    },
+                    callback: function($this, type, ev){
+                        if (type === 'load'){
+                            $this.load(function(){
+                                var $body = $this.$el.find('.lobibox-body');
+                                $body.html('<div class="highlight"><pre><code>' + $body.html() + '</code></pre></div>');
+                                hljs.highlightBlock($body.find('code')[0]);
+                            });
+                        }
                     }
                 });
             });
