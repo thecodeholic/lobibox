@@ -244,7 +244,7 @@ var Lobibox = Lobibox || {};
             $li.addClass(DEFAULTS['class'])
                     .addClass(me.$options.hideClass);
             setTimeout(function(){
-                if (me.$options.size === 'normal'){
+                if (me.$options.size === 'normal' || me.$options.size === 'mini'){
                     me.$el.remove();
                 }else if (me.$options.size === 'large'){
                     
