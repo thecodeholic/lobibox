@@ -1,19 +1,103 @@
 <div>
+    <!--Lobibox Popup examples-->
+    <div>
+        <h2>Lobibox popup examples</h2>
+        <div class="bs-example">
+            <h3>Basic example</h3>
+            <!--Confirm-->
+            <fieldset>
+                <div class="bs-example">
+                    <button id="popupYesNoBasic" class="btn btn-Primary">Confirm</button>
+                </div>
+                <div class="highlight">
+                    <pre><code>Lobibox.confirm({
+    msg: "Are you sure you want to delete this user?",
+});     
+</code></pre>
+                </div>
+            </fieldset>
+            <!--Alerts-->
+            <fieldset>
+                <div class="bs-example">
+                    <button id="popupErrorBasic" class="btn btn-danger">Show Error</button>
+                    <button id="popupSuccessBasic" class="btn btn-success">Show Success</button>
+                    <button id="popupInfoBasic" class="btn btn-info">Show info</button>
+                    <button id="popupWarningBasic" class="btn btn-warning">Show Warning</button>
+                </div>
+                <div class="highlight">
+<pre><code>Lobibox.alert(type, //AVAILABLE TYPES: "error", "info", "success", "warning"
+{
+    msg: "Lorem ipsum dolor sit amet byron frown tumult minstrel wicked clouded bows columbine full"
+});
+</code></pre>
+                </div>
+            </fieldset>
+            <!--Prompt-->
+            <fieldset>
+                <div class="bs-example">
+                    <button id="popupPromptBasic" class="btn btn-info">Prompt</button>
+                </div>
+                <div class="highlight">
+<pre><code>Lobibox.prompt('text', //Any input type will be valid
+{
+    title: 'Please enter username',
+    //Attributes of &lt;input&gt;
+    attrs: { 
+        placeholder: "Username"
+    }
+});
+</code></pre>
+                </div>
+            </fieldset>
+            <!--Progress-->
+            <fieldset>
+                <div class="bs-example">
+                    <button id="popupProgressBasic" class="btn btn-info">Progress</button>
+                </div>
+                <div class="highlight">
+<pre><code>Lobibox.progress({
+    title: 'Please wait',
+    label: 'Uploading files...',
+    onShow: function (exert) {
+        var i = 0;
+        var inter = setInterval(function () {
+            window.console.log(i);
+            if (i > 100) {
+                inter = clearInterval(inter);
+            }
+            i = i + 0.1;
+            exert.setProgress(i);
+        }, 10);
+    }
+});        
+</code></pre>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="bs-example">
+                    <button id="popupWindowBasic" class="btn btn-primary">Window</button>
+                </div>
+                <div class="highlight">
+<pre><code>Lobibox.window({
+    title: 'Window title',
+    content: '...'
+});        
+</code></pre>
+                </div>
+            </fieldset>
+        </div>
+        
+    </div>
     <div class="container">
-        <h2>LobiBox alert examples</h2>
-        <button id="yesNo" class="btn btn-primary">Yes No</button>
-        <button id="primary" class="btn btn-primary">Show primary</button>
-        <button id="error" class="btn btn-danger">Show Error</button>
-        <button id="success" class="btn btn-success">Show Success</button>
-        <button id="info" class="btn btn-info">Show info</button>
-        <button id="warning" class="btn btn-warning">Show Warning</button>
-        <button id="default" class="btn btn-default">Show Default</button>
+        <!--<h2>LobiBox alert examples</h2>-->
+        
+<!--        <button id="default" class="btn btn-default">Show Default</button>
         <button id="prompt" class="btn btn-default">Prompt</button>
         <button id="promptNumber" class="btn btn-default">Prompt Number</button>
         <button id="promptColor" class="btn btn-default">Choose Color</button>
         <button id="multilinePrompt" class="btn btn-default">Multiline Prompt</button>
         <button id="window" class="btn btn-default">Window</button>
-        <button id="progress" class="btn btn-default">Progress</button>
+        <button id="progress" class="btn btn-default">Progress</button>-->
 
         <form role="form" id="windowContent" style="display: none">
             <div class="form-group">
