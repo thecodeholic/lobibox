@@ -59,7 +59,7 @@
 <pre><code>Lobibox.progress({
     title: 'Please wait',
     label: 'Uploading files...',
-    onShow: function (exert) {
+    onShow: function ($this) {
         var i = 0;
         var inter = setInterval(function () {
             window.console.log(i);
@@ -67,7 +67,7 @@
                 inter = clearInterval(inter);
             }
             i = i + 0.1;
-            exert.setProgress(i);
+            $this.setProgress(i);
         }, 10);
     }
 });        
@@ -83,7 +83,7 @@
     progressTpl : '&ltdiv class="progress lobibox-progress-outer">\n\
                 &lt;div class="progress-bar progress-bar-danger progress-bar-striped lobibox-progress-element" data-role="progress-text" role="progressbar">&lt;/div>\n\
                 &lt;/div>',
-    onShow: function (exert) {
+    onShow: function ($this) {
         var i = 0;
         var inter = setInterval(function () {
             window.console.log(i);
@@ -91,7 +91,7 @@
                 inter = clearInterval(inter);
             }
             i = i + 0.1;
-            exert.setProgress(i);
+            $this.setProgress(i);
         }, 10);
     }
 });  
@@ -112,6 +112,10 @@
                 </div>
             </fieldset>
         </div>
+        <div class="bs-example">
+            <h3>Custom buttons</h3>
+            <button id="popupProgressErrorButtons" class="btn btn-danger">Error</button>
+        </div>
         <!--Callbacks-->
         <fieldset>
             <div class="bs-example">
@@ -124,7 +128,7 @@
             <div class="highlight">
                 <pre><code>Lobibox.confirm({
     msg: "Are you sure you want to delete this user?",
-    callback: function (exert, type, ev) {
+    callback: function ($this, type, ev) {
         //Your code goes here
     }
 });        

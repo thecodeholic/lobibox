@@ -75,14 +75,12 @@ var Lobibox = Lobibox || {};
             for (var i in options.buttons){
                 var btn = options.buttons[i];
                 if (options.buttons.hasOwnProperty(i)){
-                    if (BASE_OPTIONS.buttons[i]){
-                        btn = $.extend({}, BASE_OPTIONS.buttons[i], btn);
-                        options.buttons[i] = btn;
-                    }else{
+                    btn = $.extend({}, BASE_OPTIONS.buttons[i], btn);
+                    if ( ! btn['class']){
                         btn['class'] = options.customBtnClass;
                     }
                 }
-                 
+                options.buttons[i] = btn;
             }
             options = $.extend({}, LobiboxBase.DEFAULT_OPTIONS, options);
             if (options.showClass === undefined) {
@@ -154,21 +152,20 @@ var Lobibox = Lobibox || {};
         _createButton: function(type, op){
             var me = this;
             var btn = $('<button></button>')
-                    .addClass('lobibox-btn')
                     .addClass(op['class'])
                     .attr('data-type', type)
                     .html(op.text);
             if (me.$options.callback && typeof me.$options.callback === 'function') {
                 btn.on('click.lobibox', function(ev){
                     var bt = $(this);
-                    if (BASE_OPTIONS.buttons[type] && BASE_OPTIONS.buttons[type].closeOnClick){
+                    if (me.$options.buttons[type] && me.$options.buttons[type].closeOnClick){
                         me.destroy();
                     }
                     me.$options.callback(me, bt.data('type'), ev);
                 });
             }
             btn.click(function() {
-                if (BASE_OPTIONS.buttons[type] && BASE_OPTIONS.buttons[type].closeOnClick){
+                if (me.$options.buttons[type] && me.$options.buttons[type].closeOnClick){
                     me.destroy();
                 }
             });
@@ -449,8 +446,9 @@ var Lobibox = Lobibox || {};
             var me = this;
             me.$el.removeClass('lobibox-hidden');
             me._triggerEvent('beforeShow');
-            $('body').append(me.$el).addClass(BASE_OPTIONS.bodyClass);
+            $('body').append(me.$el);
             if (me.$options.modal) {
+                $('body').addClass(BASE_OPTIONS.bodyClass);
                 me._addBackdrop();
             }
             me._triggerEvent('onShow');
@@ -476,22 +474,22 @@ var Lobibox = Lobibox || {};
         buttonsAlign: ['left', 'center', 'right'],
         buttons: {
             ok: {
-                'class': 'lobibox-btn-default',
+                'class': 'lobibox-btn lobibox-btn-default',
                 text: Lobibox.locales.buttons.ok,
                 closeOnClick: true
             },
             cancel: {
-                'class': 'lobibox-btn-cancel',
+                'class': 'lobibox-btn lobibox-btn-cancel',
                 text: Lobibox.locales.buttons.cancel,
                 closeOnClick: true
             },
             yes: {
-                'class': 'lobibox-btn-yes',
+                'class': 'lobibox-btn lobibox-btn-yes',
                 text: Lobibox.locales.buttons.yes,
                 closeOnClick: true
             },
             no: {
-                'class': 'lobibox-btn-no',
+                'class': 'lobibox-btn lobibox-btn-no',
                 text: Lobibox.locales.buttons.no,
                 closeOnClick: true
             }
@@ -506,7 +504,7 @@ var Lobibox = Lobibox || {};
         height          : 'auto',  // Height is automatically given calculated by width
         closeButton     : true,  // Show close button or not
         draggable       : false,  // Make messagebox draggable 
-        customBtnClass  : 'lobibox-btn-default', // Class for custom buttons
+        customBtnClass  : 'lobibox-btn lobibox-btn-default', // Class for custom buttons
         modal           : true,
         debug           : true,
         buttonsAlign    : 'center', // Position where buttons should be aligned

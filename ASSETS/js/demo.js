@@ -583,7 +583,7 @@ $(function(){
                 Lobibox.progress({
                     title: 'Please wait',
                     label: 'Uploading files...',
-                    onShow: function (exert) {
+                    onShow: function ($this) {
                         var i = 0;
                         var inter = setInterval(function () {
                             window.console.log(i);
@@ -591,7 +591,7 @@ $(function(){
                                 inter = clearInterval(inter);
                             }
                             i = i + 0.1;
-                            exert.setProgress(i);
+                            $this.setProgress(i);
                         }, 10);
                     }
                 });
@@ -608,7 +608,7 @@ $(function(){
                             msg: 'Files were successfully uploaded'
                         });
                     },
-                    onShow: function (exert) {
+                    onShow: function ($this) {
                         var i = 0;
                         var inter = setInterval(function () {
                             window.console.log(i);
@@ -616,7 +616,7 @@ $(function(){
                                 clearInterval(inter);
                             }
                             i = i + 0.2;
-                            exert.setProgress(i);
+                            $this.setProgress(i);
                         }, 1000/30);
                     }
                 });
@@ -636,7 +636,7 @@ $(function(){
             $('#popupYesNoCallback').click(function(){
                 Lobibox.confirm({
                     msg: "Are you sure you want to delete this user?",
-                    callback: function (exert, type, ev) {
+                    callback: function ($this, type, ev) {
                         if (type === 'yes'){
                             Lobibox.notify('success', {
                                 msg: 'You have clicked "Yes" button.'
@@ -703,20 +703,67 @@ $(function(){
                 if (params.popupType === 'confirm'){
                     Lobibox.confirm(params);
                 }else if (params.popupType === 'progress'){
-                    params.onShow = function (exert) {
+                    params.onShow = function ($this) {
                         var i = 0;
                         var inter = setInterval(function () {
                             if (i > 100) {
                                 inter = clearInterval(inter);
                             }
                             i = i + 0.1;
-                            exert.setProgress(i);
+                            $this.setProgress(i);
                         }, 10);
                     };
                     Lobibox.progress(params);
                 }else{
                     Lobibox[params.popupType](params.type, params);
                 }
+            });
+        })();
+        (function () {
+            $('#popupProgressErrorButtons').click(function(){
+                Lobibox.alert('error', {
+                    msg: 'This is an error message',
+//                    buttons: ['ok', 'cancel', 'yes', 'no'],
+                    //Or more powerfull way
+                    buttons: {
+                        ok: {
+                            'class': 'btn btn-info',
+                            closeOnClick: false
+                        },
+                        cancel: {
+                            'class': 'btn btn-danger',
+                            closeOnClick: false
+                        },
+                        yes: {
+                            'class': 'btn btn-success',
+                            closeOnClick: false
+                        },
+                        no: {
+                            'class': 'btn btn-warning',
+                            closeOnClick: false
+                        },
+                        custom: {
+                            'class': 'btn btn-default',
+                            text: 'Custom'
+                        }
+                    },
+                    callback: function(lobibox, type){
+                        var btnType;
+                        if (type === 'no'){
+                            btnType = 'warning';
+                        }else if (type === 'yes'){
+                            btnType = 'success'; 
+                        }else if (type === 'ok'){
+                            btnType = 'info';
+                        }else if (type === 'cancel'){
+                            btnType = 'error';
+                        }
+                        Lobibox.notify(btnType, {
+                            size: 'mini',
+                            msg: 'This is ' + btnType +' message'
+                        });
+                    }
+                });
             });
         })();
     })();
