@@ -59,48 +59,43 @@ var Lobibox = Lobibox || {};
         },
         _processInput: function(options){
             var me = this;
-            if ( ! options.title){
-                options.title = Lobibox.locales.titles[me.$type];
-            }
             if ($.isArray(options.buttons)){
                 var btns = {};
                 for (var i=0; i<options.buttons.length; i++){
-                    var btn = BASE_OPTIONS.buttons[options.buttons[i]];
+                    var btn = Lobibox.base.OPTIONS.buttons[options.buttons[i]];
                     
                     btns[options.buttons[i]] = btn;
                 }
                 options.buttons = btns;
             }
-            options.customBtnClass = options.customBtnClass ? options.customBtnClass : LobiboxBase.DEFAULT_OPTIONS.customBtnClass;
+            options.customBtnClass = options.customBtnClass ? options.customBtnClass : Lobibox.base.DEFAULTS.customBtnClass;
             for (var i in options.buttons){
                 var btn = options.buttons[i];
                 if (options.buttons.hasOwnProperty(i)){
-                    btn = $.extend({}, BASE_OPTIONS.buttons[i], btn);
+                    btn = $.extend({}, Lobibox.base.OPTIONS.buttons[i], btn);
                     if ( ! btn['class']){
                         btn['class'] = options.customBtnClass;
                     }
                 }
                 options.buttons[i] = btn;
             }
-            options = $.extend({}, LobiboxBase.DEFAULT_OPTIONS, options);
+            options = $.extend({}, Lobibox.base.DEFAULTS, options);
             if (options.showClass === undefined) {
-                options.showClass = BASE_OPTIONS.showClass;
+                options.showClass = Lobibox.base.OPTIONS.showClass;
             }
             if (options.hideClass === undefined) {
-                options.hideClass = BASE_OPTIONS.hideClass;
+                options.hideClass = Lobibox.base.OPTIONS.hideClass;
             }
             if (options.baseClass === undefined) {
-                options.baseClass = BASE_OPTIONS.baseClass;
+                options.baseClass = Lobibox.base.OPTIONS.baseClass;
             }
             if (options.delayToRemove === undefined) {
-                options.delayToRemove = BASE_OPTIONS.delayToRemove;
+                options.delayToRemove = Lobibox.base.OPTIONS.delayToRemove;
             }
             return options;
         },
         _init: function(){
             var me = this;
-            
-            me._triggerEvent('beforeCreate');
             
             me._createMarkup();
             me.setTitle(me.$options.title);
@@ -125,7 +120,7 @@ var Lobibox = Lobibox || {};
                 me.$el.removeClass(me.$options.hideClass);
                 me.$el.addClass(me.$options.showClass);
             }
-            me.$el.data('lobiboxMessage', me);
+            me.$el.data('lobibox', me);
         },
         /**
          * 
@@ -197,12 +192,12 @@ var Lobibox = Lobibox || {};
                 var footer = $('<div class="lobibox-footer"></div>');
                 footer.append(me._generateButtons());
                 lobibox.append(footer);
-                if (BASE_OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1){
+                if (Lobibox.base.OPTIONS.buttonsAlign.indexOf(me.$options.buttonsAlign) > -1){
                     footer.addClass('text-'+me.$options.buttonsAlign);
                 }
             }
             me.$el = lobibox
-                    .addClass(BASE_OPTIONS.modalClasses[me.$type])
+                    .addClass(Lobibox.base.OPTIONS.modalClasses[me.$type])
                     ;
         },
         _setSize: function(){
@@ -238,9 +233,10 @@ var Lobibox = Lobibox || {};
             }
         },
         _calculateWidth: function(width){
+            var me = this;
             width = Math.min($(window).outerWidth(), width);
             if (width === $(window).outerWidth()){
-                width -= 2 * BASE_OPTIONS.horizontalOffset;
+                width -= 2 * me.$options.horizontalOffset;
             }
             return width;
         },
@@ -328,7 +324,7 @@ var Lobibox = Lobibox || {};
                 me.$el.addClass('lobibox-hidden');
                 if ($('.lobibox[data-is-modal=true]:not(.lobibox-hidden)').length === 0) {
                     $('.lobibox-backdrop').remove();
-                    $('body').removeClass(BASE_OPTIONS.bodyClass);
+                    $('body').removeClass(Lobibox.base.OPTIONS.bodyClass);
                 }
             }
             return this;
@@ -340,6 +336,7 @@ var Lobibox = Lobibox || {};
          */
         destroy: function () {
             var me = this;
+            me._triggerEvent('beforeClose');
             if (me.$options.hideClass) {
                 me.$el.removeClass(me.$options.showClass);
                 me.$el.addClass(me.$options.hideClass);
@@ -353,8 +350,9 @@ var Lobibox = Lobibox || {};
                 me.$el.remove();
                 if ($('.lobibox[data-is-modal=true]').length === 0) {
                     $('.lobibox-backdrop').remove();
-                    $('body').removeClass(BASE_OPTIONS.bodyClass);
+                    $('body').removeClass(Lobibox.base.OPTIONS.bodyClass);
                 }
+                me._triggerEvent('closed');
             }
             return this;
         },
@@ -444,20 +442,20 @@ var Lobibox = Lobibox || {};
          */
         show: function () {
             var me = this;
+            me._triggerEvent('onShow');
             me.$el.removeClass('lobibox-hidden');
-            me._triggerEvent('beforeShow');
             $('body').append(me.$el);
             if (me.$options.modal) {
-                $('body').addClass(BASE_OPTIONS.bodyClass);
+                $('body').addClass(Lobibox.base.OPTIONS.bodyClass);
                 me._addBackdrop();
             }
-            me._triggerEvent('onShow');
+            me._triggerEvent('shown');
             return me;
         }
     };
-    
-    LobiboxBase.OPTIONS = {
-        horizontalOffset: 5,
+    //User can set default options by this variable
+    Lobibox.base = {};
+    Lobibox.base.OPTIONS = {
         bodyClass       : 'lobibox-open',
         
         modalClasses : {
@@ -475,31 +473,28 @@ var Lobibox = Lobibox || {};
         buttons: {
             ok: {
                 'class': 'lobibox-btn lobibox-btn-default',
-                text: Lobibox.locales.buttons.ok,
+                text: 'OK',
                 closeOnClick: true
             },
             cancel: {
                 'class': 'lobibox-btn lobibox-btn-cancel',
-                text: Lobibox.locales.buttons.cancel,
+                text: 'Cancel',
                 closeOnClick: true
             },
             yes: {
                 'class': 'lobibox-btn lobibox-btn-yes',
-                text: Lobibox.locales.buttons.yes,
+                text: 'Yes',
                 closeOnClick: true
             },
             no: {
                 'class': 'lobibox-btn lobibox-btn-no',
-                text: Lobibox.locales.buttons.no,
+                text: 'No',
                 closeOnClick: true
             }
         }
     };
-    //User can set default options by this variable
-    Lobibox.base = {};
-    Lobibox.base.DEFAULTS = {};
-    var BASE_OPTIONS = $.extend({}, LobiboxBase.OPTIONS, Lobibox.base.DEFAULTS);
-    LobiboxBase.DEFAULT_OPTIONS = {
+    Lobibox.base.DEFAULTS = {
+        horizontalOffset: 5,    //If the messagebox is larger (in width) than window's width. The messagebox's width is reduced to window width - 2 * horizontalOffset
         width           : 600,
         height          : 'auto',  // Height is automatically given calculated by width
         closeButton     : true,  // Show close button or not
@@ -516,11 +511,14 @@ var Lobibox = Lobibox || {};
         
         
         //events
-        beforeCreate    : null,
-        beforeShow      : null,
+        //When messagebox show is called but before it is actually shown
         onShow          : null,
-        beforePosition  : null,
-        afterPosition   : null
+        //After messagebox is shown
+        shown           : null,
+        //When messagebox remove method is called but before it is actually hidden
+        beforeClose     : null,
+        //After messagebox is hidden
+        closed          : null
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxPrompt----------------------------------------
@@ -546,8 +544,8 @@ var Lobibox = Lobibox || {};
             
             var mergedOptions = LobiboxBase._processInput.call(me, options);
             mergedOptions.buttons = {
-                ok: BASE_OPTIONS.buttons.ok,
-                cancel: BASE_OPTIONS.buttons.cancel
+                ok: Lobibox.base.OPTIONS.buttons.ok,
+                cancel: Lobibox.base.OPTIONS.buttons.cancel
             };
             options = $.extend({}, mergedOptions, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
@@ -618,7 +616,7 @@ var Lobibox = Lobibox || {};
     function LobiboxConfirm (options){
         this.$type      = 'confirm';
         
-        options = $.extend({}, Lobibox.confirm.DEFAULT_OPTIONS, options);
+//        options = $.extend({}, Lobibox.confirm.DEFAULT_OPTIONS, options);
         
         this.$options   = this._processInput(options);
         this._init();
@@ -633,10 +631,10 @@ var Lobibox = Lobibox || {};
             
             var mergedOptions = LobiboxBase._processInput.call(me, options); 
             mergedOptions.buttons = {
-                yes: BASE_OPTIONS.buttons.yes,
-                no: BASE_OPTIONS.buttons.no
+                yes: Lobibox.base.OPTIONS.buttons.yes,
+                no: Lobibox.base.OPTIONS.buttons.no
             };
-            options = $.extend({}, mergedOptions, LobiboxConfirm.DEFAULT_OPTIONS, options);
+            options = $.extend({}, mergedOptions, Lobibox.confirm.DEFAULTS, options);
             return options;
         },
         
@@ -646,6 +644,7 @@ var Lobibox = Lobibox || {};
             LobiboxBase._init.call(me);
             me.show();
             var d = $('<div></div>');
+            window.console.log(me.$options);
             if (me.$options.iconClass){
                 d.append($('<div class="lobibox-icon-wrapper"></div>')
                     .append('<i class="lobibox-icon '+me.$options.iconClass+'"></i>'))
@@ -658,7 +657,8 @@ var Lobibox = Lobibox || {};
         }
     });
     
-    LobiboxConfirm.DEFAULT_OPTIONS = {
+    Lobibox.confirm.DEFAULTS = {
+        title           : 'Question',
         width           : 500,
         iconClass       : 'glyphicon glyphicon-question-sign'
     };
@@ -668,7 +668,7 @@ var Lobibox = Lobibox || {};
     function LobiboxAlert (type, options){
         this.$type      = type;
 
-        options = $.extend({}, Lobibox.alert.DEFAULT_OPTIONS, Lobibox[type].DEFAULT_OPTIONS, options);
+//        options = $.extend({}, Lobibox.alert.DEFAULT_OPTIONS, Lobibox[type].DEFAULT_OPTIONS, options);
 
         this.$options   = this._processInput(options);
 
@@ -680,18 +680,21 @@ var Lobibox = Lobibox || {};
         constructor: LobiboxAlert,
 
         _processInput: function(options){
-            ALERT_OPTIONS = $.extend({}, LobiboxAlert.OPTIONS, Lobibox.alert.DEFAULTS);
+            
+//            ALERT_OPTIONS = $.extend({}, LobiboxAlert.OPTIONS, Lobibox.alert.DEFAULTS);
 
             var me = this;
             var mergedOptions = LobiboxBase._processInput.call(me, options);
             mergedOptions.buttons = {
-                ok: BASE_OPTIONS.buttons.ok
+                ok: Lobibox.base.OPTIONS.buttons.ok
             };
-            options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
-            if (options.iconClass === true){
-                options.iconClass = ALERT_OPTIONS[me.$type].iconClass;
-            }
-
+            options = $.extend({}, mergedOptions, Lobibox.alert.OPTIONS[me.$type], Lobibox.alert.DEFAULTS, options);
+//            window.console.log(options);
+//            options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
+//            if (options.iconClass === true){
+//                options.iconClass = ALERT_OPTIONS[me.$type].iconClass;
+//            }
+            
             return options;
         },
 
@@ -711,33 +714,35 @@ var Lobibox = Lobibox || {};
             me._position();
         }
     });
-    LobiboxAlert.OPTIONS = {
+    Lobibox.alert.OPTIONS = {
         warning: {
+            title: 'Warning',
             iconClass: 'glyphicon glyphicon-question-sign'
         },
-        info:{
+        info: {
+            title: 'Information',
             iconClass: 'glyphicon glyphicon-info-sign'
         },
         success: {
+            title: 'Success',
             iconClass: 'glyphicon glyphicon-ok-sign'
         },
         error: {
+            title: 'Error',
             iconClass: 'glyphicon glyphicon-remove-sign'
         }
     };
     //User can set default options by this variable
-    Lobibox.alert.DEFAULTS = {};
-    LobiboxAlert.DEFAULT_OPTIONS = {
-        iconClass       : true  // This means that alert messageboxes have icon by default taken from DEFAULTS object
+    Lobibox.alert.DEFAULTS = {
+//        title: 
+//        iconClass: 
     };
-    var ALERT_OPTIONS = $.extend({}, LobiboxAlert.DEFAULT_OPTIONS, Lobibox.alert.DEFAULTS);
 //------------------------------------------------------------------------------
 //-------------------------LobiboxProgress--------------------------------------
 //------------------------------------------------------------------------------
     function LobiboxProgress (options){
         this.$type      = 'progress';
         this.$progressBarElement = null,
-        options = $.extend({}, Lobibox.progress.DEFAULT_OPTIONS, options);
         
         this.$options   = this._processInput(options);
         this.$progress  = 0;
@@ -753,7 +758,7 @@ var Lobibox = Lobibox || {};
             var me = this;
             var mergedOptions = LobiboxBase._processInput.call(me, options); 
              
-            options = $.extend({}, mergedOptions, LobiboxProgress.DEFAULT_OPTIONS, options);
+            options = $.extend({}, mergedOptions, Lobibox.progress.DEFAULTS, options);
             return options;
         },
         _init: function(){
@@ -816,7 +821,7 @@ var Lobibox = Lobibox || {};
         }
     });
     
-    LobiboxProgress.DEFAULT_OPTIONS = {
+    Lobibox.progress.DEFAULTS = {
         width               : 500,
         showProgressLabel   : true,  // Show percentage of progress
         label               : '',  // Show progress label
@@ -831,8 +836,6 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
     function LobiboxWindow(type, options) {
         this.$type = type;
-        
-        options = $.extend({}, Lobibox.window.DEFAULT_OPTIONS, options);
         
         this.$options = this._processInput(options);
 
@@ -853,7 +856,7 @@ var Lobibox = Lobibox || {};
             if (options.content instanceof jQuery){
                 options.content = options.content.clone();
             }
-            options = $.extend({}, mergedOptions, LobiboxWindow.DEFAULT_OPTIONS, options);
+            options = $.extend({}, mergedOptions, Lobibox.window.DEFAULTS, options);
             return options;
         },
         _init: function() {
@@ -981,7 +984,7 @@ var Lobibox = Lobibox || {};
         }
     });
 
-    LobiboxWindow.DEFAULT_OPTIONS = {
+    Lobibox.window.DEFAULTS = {
         width           : 480,
         height          : 600,
         content         : '',  // HTML Content of window
@@ -992,11 +995,7 @@ var Lobibox = Lobibox || {};
         showAfterLoad   : true,  // Show window after content is loaded or show and then load content
         params          : {}  // Parameters which will be send by ajax for loading content
     };
-     
-    //User can set default options for messageboxes
-    Lobibox.DEFAULT_OPTIONS = {
-        window: LobiboxWindow.DEFAULT_OPTIONS
-    };
+    
 })();
 
 
