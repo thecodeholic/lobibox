@@ -1,5 +1,5 @@
 <div>
-    <!--Lobibox Popup examples-->
+    <!--Lobibox messagebox examples-->
     <div>
         <h2>Lobibox popup examples</h2>
         <!--Basic examples-->
@@ -503,7 +503,7 @@
             <button class="btn btn-primary">Create popup</button>
         </form>
     </div>
-
+    <!--Lobibox notifications-->
     <div>
         <h2>LobiBox notifications</h2>
         <!--Basic notifications-->

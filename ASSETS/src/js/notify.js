@@ -1,6 +1,4 @@
-/**
- * Author     : @arboshiki
- */
+//Author     : @arboshiki
 /**
  * Generates random string of n length. 
  * String contains only letters and numbers
@@ -38,23 +36,24 @@ var Lobibox = Lobibox || {};
         var _processInput = function(options){
             
             if (options.size === 'mini' || options.size === 'large'){
-                options.width = options.width || DEFAULTS[options.size].width;
+                options.width = options.width || Lobibox.notify.OPTIONS[options.size].width;
             }
-            options = $.extend({}, LobiboxNotify.DEFAULT_OPTIONS, options);
-            $.extend(true, DEFAULTS, PRIVATE_OPTIONS, Lobibox.notify.DEFAULT_OPTIONS);
+            options = $.extend({}, Lobibox.notify.OPTIONS[me.$type], Lobibox.notify.DEFAULTS, options);
+            
+            
             if (options.size !== 'mini' && options.title === true){
-                options.title = DEFAULTS[me.$type].title;
+                options.title = Lobibox.notify.OPTIONS[me.$type].title;
             }else if (options.size === 'mini' && options.title === true){
                 options.title = false;
             }
             if (options.icon === true){
-                options.icon = DEFAULTS[me.$type].icon;
+                options.icon = Lobibox.notify.OPTIONS[me.$type].icon;
             }
             if (options.sound === true){
-                options.sound = DEFAULTS[me.$type].sound;
+                options.sound = Lobibox.notify.OPTIONS[me.$type].sound;
             }
             if (options.sound){
-                options.sound = DEFAULTS.soundPath + options.sound;
+                options.sound = Lobibox.notify.OPTIONS.soundPath + options.sound;
             }
             
             return options;
@@ -70,7 +69,7 @@ var Lobibox = Lobibox || {};
                 var snd = new Audio(me.$options.sound); // buffers automatically when created
                 snd.play();
             }
-            me.$el.data('lobiboxNotify', me);
+            me.$el.data('lobibox', me);
         };
         var _appendInWrapper = function($el, $wrapper){
             if (me.$options.size === 'normal'){
@@ -94,7 +93,7 @@ var Lobibox = Lobibox || {};
                     .attr('role', 'tab')
                     .append('<i class="tab-control-icon ' + me.$options.icon + '"></i>')
                     .appendTo($li);
-            $li.addClass(DEFAULTS[me.$type]['class']);
+            $li.addClass(Lobibox.notify.OPTIONS[me.$type]['class']);
             return $li;
         };
         var _createTabPane = function(){
@@ -128,9 +127,9 @@ var Lobibox = Lobibox || {};
         var _createNotify = function(){
             var notify = $('<div class="lobibox-notify"></div>')
             // Add color class
-                    .addClass(DEFAULTS[me.$type]['class'])
+                    .addClass(Lobibox.notify.OPTIONS[me.$type]['class'])
             // Add default animation class
-                    .addClass(DEFAULTS['class'])
+                    .addClass(Lobibox.notify.OPTIONS['class'])
             // Add specific animation class
                     .addClass(me.$options.showClass);
             
@@ -241,7 +240,7 @@ var Lobibox = Lobibox || {};
             var href = '#' + parent.attr('id');
 
             var $li = wrapper.find('>.nav-tabs>li:has(a[href="' + href + '"])');
-            $li.addClass(DEFAULTS['class'])
+            $li.addClass(Lobibox.notify.OPTIONS['class'])
                     .addClass(me.$options.hideClass);
             setTimeout(function(){
                 if (me.$options.size === 'normal' || me.$options.size === 'mini'){
@@ -272,8 +271,10 @@ var Lobibox = Lobibox || {};
             return new LobiboxNotify(type, options);
         }
     };
-    LobiboxNotify.DEFAULT_OPTIONS = {
-        title: true,                // Title of notification. Leave as is for default title or set custom string. Set this false to disable title
+    //User can set default options to this variable
+    Lobibox.notify.DEFAULTS = {
+        title: true,                // Title of notification. If you do not include the title in options it will automatically takes its value 
+        //from Lobibox.notify.OPTIONS object depending of the type of the notifications or set custom string. Set this false to disable title
         size: 'normal',             // normal, mini, large
         showClass: 'flipInX',       // Show animation class. (Uses animate.css)
         hideClass: 'zoomOutDown',   // Hide animation class (Uses animate.css)
@@ -288,12 +289,8 @@ var Lobibox = Lobibox || {};
         sound: true,                // Sound of notification. Set this false to disable sound. Leave as is for default sound or set custom soud path
         position: "bottom right"    // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"
     };
-    //User can set default options to this variable
-    Lobibox.notify.DEFAULT_OPTIONS = {};
-    var LOCALES = window.Lobibox.locales;
-    var TITLE_LOCALES = LOCALES.titles;
     //This variable is necessary.
-    var PRIVATE_OPTIONS = {
+    Lobibox.notify.OPTIONS = {
         'class': 'animated-fast',
         soundPath: 'src/sounds/',
         large: {
@@ -304,30 +301,29 @@ var Lobibox = Lobibox || {};
         },
         success: {
             'class': 'lobibox-notify-success',
-            'title': TITLE_LOCALES.success,
+            'title': 'Success',
             'icon': 'glyphicon glyphicon-ok-sign',
-            sound: 'sound2.ogg'
+            sound: 'sound2.mp3'
         },
         error: {
             'class': 'lobibox-notify-error',
-            'title': TITLE_LOCALES.error,
+            'title': 'Error',
             'icon': 'glyphicon glyphicon-remove-sign',
-            sound: 'sound4.ogg'
+            sound: 'sound4.mp3'
         },
         warning: {
             'class': 'lobibox-notify-warning',
-            'title': TITLE_LOCALES.warning,
+            'title': 'Warning',
             'icon': 'glyphicon glyphicon-exclamation-sign',
-            sound: 'sound5.ogg'
+            sound: 'sound5.mp3'
         },
         info: {
             'class': 'lobibox-notify-info',
-            'title': TITLE_LOCALES.info,
+            'title': 'Information',
             'icon': 'glyphicon glyphicon-info-sign',
-            sound: 'sound6.ogg'
+            sound: 'sound6.mp3'
         }
     };
-    var DEFAULTS = $.extend({}, PRIVATE_OPTIONS);
 })();
 
 
