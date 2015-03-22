@@ -1,0 +1,109 @@
+/* 
+    Created on : Mar 22, 2015, 6:46:27 PM
+    Author     : Zura
+*/
+.plugin-documentation .row {
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: 1px solid #dddddd;
+}
+.plugin-documentation .row-header .cell {
+  text-transform: uppercase;
+  font-size: 0.8em;
+  color: #999999;
+  background-color: #eeeeee;
+}
+.plugin-documentation .cell {
+  float: left;
+  font-size: 0.95em;
+  padding: 6px 9px;
+  width: 100%;
+}
+.plugin-documentation .cell pre {
+  min-width: 320px;
+}
+.plugin-documentation .text-mobile {
+  display: none;
+}
+@media screen and (max-width: 767px) {
+  .plugin-documentation .row {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .plugin-documentation .row-header {
+    display: none;
+  }
+  .plugin-documentation .cell {
+    width: 100% !important;
+    padding: 0;
+    margin-bottom: 3px;
+  }
+  .plugin-documentation .text-mobile {
+    font-weight: normal;
+    display: inline;
+  }
+}
+.plugin-documentation.plugin-options .cell-name {
+  width: 16.66666667%;
+}
+.plugin-documentation.plugin-options .cell-type {
+  width: 8.33333333%;
+}
+.plugin-documentation.plugin-options .cell-default {
+  width: 25%;
+}
+.plugin-documentation.plugin-options .cell-descr {
+  width: 50%;
+}
+.plugin-documentation.plugin-methods .cell-name {
+  width: 16.66666667%;
+}
+.plugin-documentation.plugin-methods .cell-params {
+  width: 33.33333333%;
+}
+.plugin-documentation.plugin-methods .cell-params > div > i {
+  font-weight: bold;
+}
+.plugin-documentation.plugin-methods .cell-return {
+  width: 16.66666667%;
+}
+.plugin-documentation.plugin-methods .cell-descr {
+  width: 33.33333333%;
+}
+.plugin-documentation.plugin-events .cell-name {
+  width: 25%;
+}
+.plugin-documentation.plugin-events .cell-params {
+  width: 25%;
+}
+.plugin-documentation.plugin-events .cell-params > div > code {
+  font-style: italic;
+  font-weight: bold;
+}
+.plugin-documentation.plugin-events .cell-descr {
+  width: 50%;
+}
+@media screen and (max-width: 767px) {
+  .plugin-documentation .cell-name {
+    font-size: 102%;
+    font-weight: bold;
+  }
+  .plugin-documentation .cell-default,
+  .plugin-documentation .cell-descr,
+  .plugin-documentation .cell-params,
+  .plugin-documentation .cell-return {
+    padding-left: 30px;
+  }
+  .plugin-documentation .cell-params > div {
+    padding-left: 20px;
+  }
+  .plugin-documentation.plugin-options .cell-type {
+    display: none;
+  }
+  .plugin-documentation.plugin-methods .cell-params > div > i {
+    font-weight: bold;
+  }
+  .plugin-documentation.plugin-methods .cell-return {
+    display: none;
+  }
+}

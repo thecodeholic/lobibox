@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LobiBox - Responsive jQuery notification plugin</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="demo/documentation.css"/>
+        
+        <link rel="stylesheet" href="dist/css/LobiBox.min.css"/>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="container-aside">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        Cras justo odio
+                    </a>
+                    <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item">Morbi leo risus</a>
+                    <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item">Vestibulum at eros</a>
+                </div>
+            </div>
+            <div class="container-content">
+                <!--Description-->
+                <div id="description">
+                    <h1 class="page-header-dashed">Lobibox</h1>
+                    <p class="lead">Lobibox is responsive jquery notification plugin exclusively written for <a href="pages">LobiAdmin</a>.</p>
+
+                    <p>Lobibox is devided into two parts</p>
+                    <ul>
+                        <li>Messageboxes</li>
+                        <li>Notifications</li>
+                    </ul>
+
+                    <h3>Features</h3>
+                    <div class="bs-example">
+                        <h4>Messageboxes</h4>
+                        <ul>
+                            <li>Lobibox messages boxes can be modal and not modal as well.</li>
+                            <li>You can show multiple messages at the same time.</li>
+                            <li>Every message can be draggable (<span class="text-warning">On small screens dragging is disabled</span>)</li>
+                            <li>
+                                You can show
+                                <ul>
+                                    <li><b>messages in different colors and icons</b></li>
+                                    <li><b>confirm message</b></li>
+                                    <li><b>one line prompt</b></li>
+                                    <li><b>multiline prompt</b></li>
+                                    <li><b>Any HTML5 input type can be used in prompt window. Such as: text, color, date, datetime, email, number range ...</b></li>
+                                    <li><b>Progress messagebox</b>. Lobibox comes with default progress style but you can use bootstrap style progress bar</li>
+                                    <li><b>custom content window with ajax support with custom action buttons</b></li>
+                                </ul>
+                            </li>
+                            <li>Every message is an instance of "class". You can easily grab the instance and attach events or call methods directly by the instance. <small>See examples bellow.</small> </li>
+                        </ul>
+                        <h4>Notifications</h4>
+                        <ul>
+                            <li>Different color support</li>
+                            <li>Possibility to show in any corners of the screen</li>
+                            <li>Delay after which it disappears</li>
+                            <li>Show delay indicator</li>
+                            <li>Show with image</li>
+                            <li>Sound support</li>
+                            <li>Size support. You can show notifications of different size</li>
+                        </ul>
+                    </div>
+                </div>
+                <!--Messageboxes-->
+                <div id="messageboxes">
+                    <!--Usage-->
+                    <div id="lobibox-messageboxes">
+                        <h2 class="page-header-dashed">Messageboxes</h2>
+                        <!--Basic usage-->
+                        <div id="lobibox-messagebox-usage">
+                            <h3>Basic Usage</h3>
+                            <h4>Confirm</h4>
+                            <div class="highlight">
+                                <pre><code class="javascript">Lobibox.confirm({
+    ... //Options
+});        
+</code></pre>
+                            </div>
+                            <h4>Alert</h4>
+                            <div class="highlight">
+                                <pre><code class="javascript">Lobibox.alert(
+    'error|success|warning|info', // Any of the following
+    {
+        ... //Options
+    }
+);        
+</code></pre>
+                            </div>
+                            <h4>Prompt</h4>
+                            <div class="highlight">
+                                <pre><code class="javascript">Lobibox.prompt(
+    '', // Any HTML5 input type is valid
+    {
+        ... //Options
+    }
+);        
+</code></pre>
+                            </div>
+                            <h4>Progress</h4>
+                            <div class="highlight">
+                                <pre><code>Lobibox.progress({
+    ... //Options
+});
+</code></pre>
+                            </div>
+                            <h4>Window</h4>
+                            <div class="highlight">
+                                <pre><code>Lobibox.window({
+    ... //Options
+});
+</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Options-->
+                    <div id="lobibox-messagebox-options">
+                        <h3>Options</h3>
+                        <h4>Default options for all messageboxes</h4>
+                        <div class="highlight">
+                            <pre><code>horizontalOffset: 5, //If the messagebox is larger (in width) than window's width. The messagebox's width is reduced to window width - 2 * horizontalOffset
+width           : 600,
+height          : 'auto',  // Height is automatically given calculated by width
+closeButton     : true,  // Show close button or not
+draggable       : false,  // Make messagebox draggable 
+customBtnClass  : 'lobibox-btn-default', // Class for custom buttons
+modal           : true,
+debug           : false,
+buttonsAlign    : 'center', // Position where buttons should be aligned
+closeOnEsc      : true,  // Close messagebox on Esc press
+
+//Overriding default options
+Lobibox.base.DEFAULTS = $.extend({}, Lobibox.base.DEFAULTS, {
+    ... //override any options from default options
+});</code></pre>
+                        </div>
+                        <h4>Available options for all messageboxes</h4>
+                        <div class="highlight">
+                            <pre><code>Lobibox.base.OPTIONS = {
+//DO NOT change this value. Some functionality is depended on it
+    bodyClass       : 'lobibox-open',
+//DO NOT change this object. Some functionality is depended on it
+    modalClasses : {
+        'error'     : 'lobibox-error',
+        'success'   : 'lobibox-success',
+        'info'      : 'lobibox-info',
+        'warning'   : 'lobibox-warning',
+        'confirm'   : 'lobibox-confirm',
+        'progress'  : 'lobibox-progress',
+        'prompt'    : 'lobibox-prompt',
+        'default'   : 'lobibox-default',
+        'window'    : 'lobibox-window'
+    },
+//This is option how buttons can be shown. What are buttonsAlign option available values
+    buttonsAlign: ['left', 'center', 'right'],
+//You can change the title or class of buttons from here or use the same structure object for button when creating messagebox
+//closeOnClick : true will close the messagebox when clicking this type of button. Set it to false not to close messagebox when clicking on it
+    buttons: {
+        ok: {
+            'class': 'lobibox-btn lobibox-btn-default',
+            text: 'OK',
+            closeOnClick: true
+        },
+        cancel: {
+            'class': 'lobibox-btn lobibox-btn-cancel',
+            text: 'Cancel',
+            closeOnClick: true
+        },
+        yes: {
+            'class': 'lobibox-btn lobibox-btn-yes',
+            text: 'Yes',
+            closeOnClick: true
+        },
+        no: {
+            'class': 'lobibox-btn lobibox-btn-no',
+            text: 'No',
+            closeOnClick: true
+        }
+    }
+};
+
+
+//Overriding default options
+Lobibox.base.OPTIONS = $.extend({}, Lobibox.base.OPTIONS, {
+    ... //override any options except those above which is written "DO NOT change"
+});
+
+</code></pre>
+                        </div>
+                        <h4>Default options for confirm</h4>
+                        <div class="highlight">
+                            <pre><code>title           : 'Question',
+width           : 500,
+iconClass       : 'glyphicon glyphicon-question-sign'
+
+//Overriding default options
+Lobibox.confirm.DEFAULTS = $.extend({}, Lobibox.confirm.DEFAULTS, {
+    ... //override any options from default options
+});
+</code></pre>
+                        </div>
+
+                        <h4>Default options for prompt</h4>
+                        <div class="highlight">
+                            <pre><code>width: 400,
+attrs : {},         // Plain object of any valid attribute of input field
+value: '',          // Value which is given to textfield when messagebox is created
+multiline: false,   // Set this true for multiline prompt
+lines: 3,           // This works only for multiline prompt. Number of lines
+type: 'text',       // Prompt type. Available types (text|number|color)
+label: ''           // Set some text which will be shown exactly on top of textfield
+
+//Overriding default options
+Lobibox.prompt.DEFAULTS = $.extend({}, Lobibox.prompt.DEFAULTS, {
+    ... //override any options from default options
+});
+</code></pre>
+                        </div>
+
+                        <h4>Default options for alert</h4>
+                        <div class="highlight">
+                            <pre><code>
+Lobibox.alert.DEFAULTS = {
+    warning: {
+        title: 'Warning',
+        iconClass: 'glyphicon glyphicon-question-sign' // Change warning alert icon globally 
+    },
+    info:{
+        title: 'Information',
+        iconClass: 'glyphicon glyphicon-info-sign'  // Change info alert icon globally 
+    },
+    success: {
+        title: 'Success',
+        iconClass: 'glyphicon glyphicon-ok-sign'  // Change success alert icon globally 
+    },
+    error: {
+        title: 'Error',
+        iconClass: 'glyphicon glyphicon-remove-sign'  // Change error alert icon globally 
+    }
+};
+
+//Overriding default options
+Lobibox.alert.DEFAULTS = $.extend({}, Lobibox.alert.DEFAULTS, {
+    ... //override any options from default options
+});
+</code></pre>
+                        </div>
+
+                        <h4>Default options for progress</h4>
+                        <div class="highlight">
+                            <pre><code class="javascript">width               : 500,
+showProgressLabel   : true,     // Show percentage of progress
+label               : '',       // Show progress label
+progressTpl         : false,    //Template of progress bar</code>
+<code class="html">&lt;!-- You can use bootstrap progress bar by correct template --&gt;
+&lt;!-- FOR EXAMPLE --&gt;
+&lt;!-- This element must have class "lobibox-progress-outer" --&gt;
+&lt;div class=&quot;progress lobibox-progress-outer&quot;&gt;
+    &lt;!-- This element must have class "lobibox-progress-element" --&gt;
+    &lt;div class=&quot;progress-bar progress-bar-danger progress-bar-striped lobibox-progress-element&quot; data-role=&quot;progress-text&quot; role=&quot;progressbar&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+//Overriding default options
+Lobibox.progress.DEFAULTS = $.extend({}, Lobibox.progress.DEFAULTS, {
+    ... //override any options from default options
+});
+</code>
+
+                            </pre>
+                        </div>
+
+                        <h4>Default options for window</h4>
+                        <div class="highlight">
+                            <pre><code>width           : 480,
+height          : 600,
+content         : '',       // HTML Content of window
+url             : '',       // URL which will be used to load content
+draggable       : true,     // Override default option
+autoload        : true,     // Auto load from given url when window is created
+loadMethod      : 'GET',    // Ajax method to load content
+showAfterLoad   : true,     // Show window after content is loaded or show and then load content
+params          : {}        // Parameters which will be send by ajax for loading content
+
+//Overriding default options
+Lobibox.window.DEFAULTS = $.extend({}, Lobibox.window.DEFAULTS, {
+    ... //override any options from default options
+});
+</code></pre>
+                        </div>
+                    </div>
+                    <!--Methods-->
+                    <div id="lobibox-messagebox-methods">
+                        <h3>Methods</h3>
+                        <p>In order to call methods, first you must get the instance of the messagebox.</p>
+                        <p>There are two ways to get the instance of the messagebox</p>
+                        <div class="highlight">
+                            <pre><code>// 1. Save the instance in variable when showing messagebox
+var lobibox = Lobibox.confirm({
+    msg         : "Are you sure you want to delete this user?"
+});
+// 2. Or you can select the lobibox message element and get instance by data attribute
+var lobibox = $('.lobibox-confirm').data('lobibox');
+
+// And you can call any avaiable method
+lobibox.hide();
+lobibox.show();
+lobibox.setWidth(600);
+lobibox.setPosition(200, 400);
+lobibox.setTitle('New title');
+</code></pre>
+                        </div>
+
+                        <h4>Methods for all messageboxes</h4>
+                        <div class="plugin-documentation plugin-methods">
+                            <div class="row row-header">
+                                <div class="cell cell-name">Name</div>
+                                <div class="cell cell-params">Parameters</div>
+                                <div class="cell cell-return">Return type</div>
+                                <div class="cell cell-descr">Description</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    hide <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Hide the messagebox
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    destroy <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Removes the messagebox from document
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setWidth(width) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>width</i> - <code>Integer</code>, <code>REQUIRED</code> new width of messagebox</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Set the width of messagebox
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setHeight(height) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>height</i> - <code>Integer</code>, <code>REQUIRED</code> new height of messagebox</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Set the height of messagebox
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setSize(width, height) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>width</i> - <code>Integer</code>, <code>REQUIRED</code> new width of messagebox</div>
+                                    <div><i>height</i> - <code>Integer</code>, <code>REQUIRED</code> new height of messagebox</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Set the width and height of messagebox
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setPosition(left, top) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>left</i> - <code>(Integer|String)</code>, <code>REQUIRED</code> left coordinate of messsagebox or string representaing position. Available: <code>('top', 'center', 'bottom')</code></div>
+                                    <div><i>top</i> - <code>Integer</code>, <code>OPTIONAL</code> Top coordinate of messagebox</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Set position of messagebox
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setTitle(title) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>title</i> - <code>String</code>, <code>REQUIRED</code> new title of messagebox</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Set the title of messagebox
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    getTitle <span class="text-mobile"> - Return <code>String</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>String</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Get the title of messagebox
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    show <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Show messagebox
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>Methods for prompt</h4>
+                        <div class="plugin-documentation plugin-methods">
+                            <div class="row row-header">
+                                <div class="cell cell-name">Name</div>
+                                <div class="cell cell-params">Parameters</div>
+                                <div class="cell cell-return">Return type</div>
+                                <div class="cell cell-descr">Description</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setValue(val) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>val</i> - <code>String</code>, <code>REQUIRED</code> value of input</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Set value of input
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    getVaue <span class="text-mobile"> - Return <code>String</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>String</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Get value of input
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>Methods for progress</h4>
+                        <div class="plugin-documentation plugin-methods">
+                            <div class="row row-header">
+                                <div class="cell cell-name">Name</div>
+                                <div class="cell cell-params">Parameters</div>
+                                <div class="cell cell-return">Return type</div>
+                                <div class="cell cell-descr">Description</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setProgress(progress) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>progress</i> - <code>Integer</code>, <code>REQUIRED</code> progress value</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Set progress value
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    getProgress <span class="text-mobile"> - Return <code>Integer</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Integer</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Get progress value
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>Methods for window</h4>
+                        <div class="plugin-documentation plugin-methods">
+                            <div class="row row-header">
+                                <div class="cell cell-name">Name</div>
+                                <div class="cell cell-params">Parameters</div>
+                                <div class="cell cell-return">Return type</div>
+                                <div class="cell cell-descr">Description</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setParams(params) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>params</i> - <code>Object</code>, <code>REQUIRED</code> new params</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Setter method for <code>params</code> option
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    getParams <span class="text-mobile"> - Return <code>Object</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Object</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Getter method for <code>params</code>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setLoadMethod(method) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>method</i> - <code>String</code>, <code>REQUIRED</code> new method</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Setter method of <code>loadMethod</code> option
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    getLoadMethod <span class="text-mobile"> - Return <code>String</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>String</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Getter method for <code>loadMethod</code> option
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setContent(content) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>content</i> - <code>String</code>, <code>REQUIRED</code> new content</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Setter method of <code>content</code> option. Change the content of window
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    getContent <span class="text-mobile"> - Return <code>String</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>String</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Getter method of <code>content</code> option
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    setUrl(url) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>url</i> - <code>String</code>, <code>REQUIRED</code> new url</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Setter method of <code>url</code> option
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    getUrl <span class="text-mobile"> - Return <code>String</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>String</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Getter method of <code>url</code> option
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    load(callback) <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span>
+                                    <div><i>callback</i> - <code>Function</code>, <code>OPTIONAL</code> callback function</div>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Loads content to window by ajax from specific url
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Events-->
+                    <div id="lobibox-messagebox-events">
+                        <h3>Events</h3>
+                        <h4>Using events</h4>
+                        <div class="highlight">
+                            <pre><code class="language-javascript">Lobibox.alert('info', {
+    onShow: function(lobibox){
+        
+    }
+});
+</code></pre>
+                        </div>
+                        <h4>Common events for all types messagebox</h4>
+                        <div class="plugin-documentation plugin-events">
+                            <div class="row row-header">
+                                <div class="cell cell-name">Name</div>
+                                <div class="cell cell-params">Parameters</div>
+                                <div class="cell cell-descr">Description</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    onShow
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters: </span>
+                                    <div><code>Lobibox</code> - instance of plugin</div>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Before messagebox is shown
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    shown
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters: </span>
+                                    <div><code>Lobibox</code> - instance of plugin</div>
+                                </div>
+                                <div class="cell cell-descr">
+                                    After messagebox is shown
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    beforeClose
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters: </span>
+                                    <div><code>Lobibox</code> - instance of plugin</div>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Before messagebox is closed
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    hidden
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters: </span>
+                                    <div><code>Lobibox</code> - instance of plugin</div>
+                                </div>
+                                <div class="cell cell-descr">
+                                    After messagebox is closed
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Progress messagebox event</h4>
+                        <div class="plugin-documentation plugin-events">
+                            <div class="row row-header">
+                                <div class="cell cell-name">Name</div>
+                                <div class="cell cell-params">Parameters</div>
+                                <div class="cell cell-descr">Description</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    progressUpdated
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters: </span>
+                                    <div><code>Lobibox</code> - instance of plugin</div>
+                                </div>
+                                <div class="cell cell-descr">
+                                    When progressbar progress is changed
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    progressCompleted
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters: </span>
+                                    <div><code>Lobibox</code> - instance of plugin</div>
+                                </div>
+                                <div class="cell cell-descr">
+                                    When progressbar progress is completed
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Example-->
+                    <div id="lobibox-messagebox-examples">
+                        <h3>Examples</h3>
+                        <div>
+                            <!--Basic examples-->
+                            <div class="bs-example">
+                                <!--Confirm-->
+                                <fieldset>
+                                    <div class="bs-example">
+                                        <button id="popupYesNoBasic" class="btn btn-primary">Confirm</button>
+                                    </div>
+                                    <div class="highlight">
+                                        <pre><code>Lobibox.confirm({
+    msg: "Are you sure you want to delete this user?",
+});     
+</code></pre>
+                                    </div>
+                                </fieldset>
+                                <!--Alerts-->
+                                <fieldset>
+                                    <div class="bs-example">
+                                        <button id="popupErrorBasic" class="btn btn-danger">Show Error</button>
+                                        <button id="popupSuccessBasic" class="btn btn-success">Show Success</button>
+                                        <button id="popupInfoBasic" class="btn btn-info">Show info</button>
+                                        <button id="popupWarningBasic" class="btn btn-warning">Show Warning</button>
+                                    </div>
+                                    <div class="highlight">
+                                        <pre><code>Lobibox.alert(type, //AVAILABLE TYPES: "error", "info", "success", "warning"
+{
+    msg: "Lorem ipsum dolor sit amet byron frown tumult minstrel wicked clouded bows columbine full"
+});
+</code></pre>
+                                    </div>
+                                </fieldset>
+                                <!--Prompt-->
+                                <fieldset>
+                                    <div class="bs-example">
+                                        <button id="popupPromptBasic" class="btn btn-primary">Prompt</button>
+                                    </div>
+                                    <div class="highlight">
+                                        <pre><code>Lobibox.prompt('text', //Any input type will be valid
+{
+    title: 'Please enter username',
+    //Attributes of &lt;input&gt;
+    attrs: { 
+        placeholder: "Username"
+    }
+});
+</code></pre>
+                                    </div>
+                                </fieldset>
+                                <!--Progress-->
+                                <fieldset>
+                                    <div class="bs-example">
+                                        <button id="popupProgressBasic" class="btn btn-primary">Progress</button>
+                                    </div>
+                                    <div class="highlight">
+                                        <pre><code>Lobibox.progress({
+    title: 'Please wait',
+    label: 'Uploading files...',
+    onShow: function ($this) {
+        var i = 0;
+        var inter = setInterval(function () {
+            window.console.log(i);
+            if (i > 100) {
+                inter = clearInterval(inter);
+            }
+            i = i + 0.1;
+            $this.setProgress(i);
+        }, 10);
+    }
+});        
+</code></pre>
+                                    </div>
+                                    <div class="bs-example">
+                                        <button id="popupProgressBootstrap" class="btn btn-primary">Bootstrap progress</button>
+                                    </div>
+                                    <div class="highlight">
+                                        <pre><code>Lobibox.progress({
+    title: 'Please wait',
+    label: 'Uploading files...',
+    progressTpl : '&ltdiv class="progress lobibox-progress-outer">\n\
+                &lt;div class="progress-bar progress-bar-danger progress-bar-striped lobibox-progress-element" data-role="progress-text" role="progressbar">&lt;/div>\n\
+                &lt;/div>',
+    onShow: function ($this) {
+        var i = 0;
+        var inter = setInterval(function () {
+            window.console.log(i);
+            if (i > 100) {
+                inter = clearInterval(inter);
+            }
+            i = i + 0.1;
+            $this.setProgress(i);
+        }, 10);
+    }
+});  
+</code></pre>
+                                    </div>
+                                </fieldset>
+                                <!--Window-->
+                                <fieldset>
+                                    <div class="bs-example">
+                                        <button id="popupWindowBasic" class="btn btn-primary">Window</button>
+                                    </div>
+                                    <div class="highlight">
+                                        <pre><code>Lobibox.window({
+    title: 'Window title',
+    content: '...'
+});        
+</code></pre>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!--Custom buttons-->
+                            <div>
+                                <div class="bs-example">
+                                    <h3>Custom buttons</h3>
+                                    <button id="popupProgressErrorButtons" class="btn btn-danger">Error</button>
+                                </div>
+                                <div class="highlight">
+                                    <pre><code> Lobibox.alert('error', {
+    msg: 'This is an error message',
+    //buttons: ['ok', 'cancel', 'yes', 'no'],
+    //Or more powerfull way
+    buttons: {
+        ok: {
+            'class': 'btn btn-info',
+            closeOnClick: false
+        },
+        cancel: {
+            'class': 'btn btn-danger',
+            closeOnClick: false
+        },
+        yes: {
+            'class': 'btn btn-success',
+            closeOnClick: false
+        },
+        no: {
+            'class': 'btn btn-warning',
+            closeOnClick: false
+        },
+        custom: {
+            'class': 'btn btn-default',
+            text: 'Custom'
+        }
+    },
+    callback: function(lobibox, type){
+        var btnType;
+        if (type === 'no'){
+            btnType = 'warning';
+        }else if (type === 'yes'){
+            btnType = 'success'; 
+        }else if (type === 'ok'){
+            btnType = 'info';
+        }else if (type === 'cancel'){
+            btnType = 'error';
+        }
+        Lobibox.notify(btnType, {
+            size: 'mini',
+            msg: 'This is ' + btnType +' message'
+        });
+    }
+});        
+</code></pre>
+                                </div>
+                            </div>
+                            <!--Disable icon-->
+                            <div>
+                                <div class="bs-example">
+                                    <h3>Disable icon</h3>
+                                    <button id="popupConfirmNoIcon" class="btn btn-primary">Button</button>
+                                </div>
+                                <div class="highlight">
+                                    <pre><code>Lobibox.confirm({
+    iconClass: false,
+    msg: 'Are you sure?'
+});        
+</code></pre>
+                                </div>
+                            </div>
+                            <!--Lobibox window-->
+                            <div>
+                                <div class="bs-example">
+                                    <h3>Advanced usage of Lobibox.window</h3>
+                                    <button id="popupWindowExample" class="btn btn-primary">Window</button>
+                                </div>
+                                <div class="highlight">
+                                    <pre><code>Lobibox.window({
+    title: 'Window title',
+    //Available types: string, jquery object, function
+    content: function(){
+        return $('.container');
+    },
+    url: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.css',
+    autoload: false,
+    loadMethod: 'GET',
+    //Load parameters
+    params: {
+        param1: 'Lorem',
+        param2: 'Ipsum'
+    },
+    buttons: {
+        load: {
+            text: 'Load from url'
+        },
+        close: {
+            text: 'Close',
+            closeOnClick: true
+        }
+    },
+    callback: function($this, type, ev){
+        if (type === 'load'){
+            $this.load(function(){
+                //Do something when content is loaded
+            });
+        }
+    }
+});        
+</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Callbacks-->
+                        <div>
+                            <div class="bs-example">
+                                <h3>Callbacks</h3>
+                                <div class="callout callout-info">
+                                    <p>All popup boxes have <code>callback</code> option</p>
+                                </div>
+                                <button id="popupYesNoCallback" class="btn btn-primary">Confirm</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.confirm({
+    msg: "Are you sure you want to delete this user?",
+    callback: function ($this, type, ev) {
+        //Your code goes here
+    }
+});        
+</code></pre>
+                            </div>
+                        </div>
+                        <form id="lobibox-popup-demo-form" action>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Popup type</label>
+                                        <select class="form-control" name="popupType">
+                                            <option value="confirm">Confirm</option>
+                                            <option value="alert">Alert</option>
+                                            <option value="prompt">Prompt</option>
+                                            <option value="progress">Progress</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" data-toggle="collapse"  href="#common-fieldset-wrapper">
+                                            Common parameters
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="common-fieldset-wrapper" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <fieldset>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">title</label>
+                                                        <input type="text" name="title" class="form-control" value=""/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Base class <small>(default)</small></label>
+                                                    <input type="text" name="baseClass" class="form-control" value="animated-super-fast"/>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Show class</label>
+                                                    <input type="text" name="showClass" class="form-control" value="zoomIn"/>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Hide class</label>
+                                                    <input type="text" name="hideClass" class="form-control" value="zoomOut"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="control-label">Message</label>
+                                                    <textarea rows="4" class="form-control" name="msg"></textarea>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Width</label>
+                                                        <div class="form-group">
+                                                            <input type="number" name="width" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Height</label>
+                                                        <div class="form-group">
+                                                            <input type="text" name="height" value="auto" class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"></label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" name="closeButton" checked=""> Close button
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"></label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" name="draggable"> Draggable
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"></label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" name="modal" checked=""> Modal
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"></label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" name="closeOnEsc"> Close on escape
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel-group" id="accordion" role="tablist">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingOne">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#confirm-options" aria-expanded="true" aria-controls="collapseOne">
+                                                        Confirm options
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="confirm-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                <div class="panel-body">
+                                                    <fieldset class="confirm-fieldset">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Icon Class</label>
+                                                                    <input type="text" class="form-control" name="iconClass" value="glyphicon glyphicon-question-sign"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingTwo">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#alert-options" aria-expanded="false" aria-controls="collapseTwo">
+                                                        Alert options
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="alert-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                <div class="panel-body">
+                                                    <fieldset class="alert-fieldset" disabled="">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Alert type</label>
+                                                                    <select class="form-control" name="type">
+                                                                        <option value="success">Success</option>
+                                                                        <option value="error">Error</option>
+                                                                        <option value="info">Info</option>
+                                                                        <option value="warning">Warning</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Icon Class</label>
+                                                                    <input type="text" class="form-control" name="iconClass"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingThree">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#prompt-options" aria-expanded="false" aria-controls="collapseThree">
+                                                        Prompt options
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="prompt-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                                <div class="panel-body">
+                                                    <fieldset class="prompt-fieldset" disabled="">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Type</label>
+                                                                    <input type="text" class="form-control" name="type" value="text"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Placeholder</label>
+                                                                    <input type="text" class="form-control" name="placeholder" value=""/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Value</label>
+                                                                    <input type="text" class="form-control" name="value" value=""/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Label</label>
+                                                                    <input type="text" class="form-control" name="label"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label"></label>
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" name="multiline"> Multiline
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Lines <small class="text-muted">(For multiline)</small></label>
+                                                                    <input type="number" class="form-control" name="lines" value=""/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingThree">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#progress-options" aria-expanded="false" aria-controls="collapseThree">
+                                                        Progress options
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="progress-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                                <div class="panel-body">
+                                                    <div class="callout callout-danger">
+                                                        <p>Progress does not update itself.</p>
+                                                        <p>But you can implement it easily when uploading or waiting something</p>
+                                                    </div>
+                                                    <fieldset class="progress-fieldset" disabled="">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Label</label>
+                                                                <input type="text" class="form-control" name="label" value=""/>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label class="control-label"></label>
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input type="checkbox" name="showProgressLabel" checked> Progress label
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary">Create popup</button>
+                        </form>
+                    </div>
+                </div>
+                <!--Notifications-->
+                <div id="notifications">
+                    <!--Usage-->
+                    <div id="lobibox-notification-usage">
+                        <h2 class="page-header-dashed">Notifications</h2>
+                        <h3>Basic usage</h3>
+                        <div class="highlight">
+                            <pre><code>Lobibox.notify(
+    'warning',  // Available types 'warning', 'info', 'success', 'error'
+    {
+        ...
+    }
+);    
+</code></pre>
+                        </div>
+                    </div>
+                    <!--Options-->
+                    <div id="lobibox-notification-options">
+                        <h3>Options</h3>
+                        <h4>Default options for lobibox notifications</h4>
+                        <div class="highlight">
+                            <pre><code>title: true,                // Title of notification. Do not include it for default title or set custom string. Set this false to disable title
+size: 'normal',             // normal, mini, large
+showClass: 'flipInX',       // Show animation class. (Uses animate.css)
+hideClass: 'zoomOutDown',   // Hide animation class (Uses animate.css)
+icon: true,                 // Icon of notification. Leave as is for default icon or set custom string
+msg: '',                    // Message of notification
+img: null,                  // Image source string
+closable: true,             // Make notifications closable
+delay: 5000,                // Hide notification after this time (in miliseconds)
+delayIndicator: true,       // Show timer indicator
+closeOnClick: true,         // Close notifications by clicking on them
+width: 400,                 // Width of notification box
+sound: true,                // Sound of notification. Set this false to disable sound. Leave as is for default sound or set custom soud path
+position: "bottom right"    // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"        
+
+//Overriding default options
+Lobibox.notify.DEFAULTS = $.extend({}, Lobibox.notify.DEFAULTS, {
+    ... //override any options from default options
+});
+
+</code></pre>
+                        </div>
+                        <h4>Available options for lobibox notifications</h4>
+                        <div class="highlight">
+                            <pre><code>Lobibox.notify.OPTIONS = {
+    'class': 'animated-fast',
+    soundPath: 'src/sounds/',
+//You can override options for large notifications from here
+    large: {
+        width: 500
+    },
+//You can override options for small notifications from here
+    mini: {
+        'class': 'notify-mini'
+    },
+//Default options of different style notifications
+    success: {
+        'class': 'lobibox-notify-success',
+        'title': 'Success',
+        'icon': 'glyphicon glyphicon-ok-sign',
+        sound: 'sound2.mp3'
+    },
+    error: {
+        'class': 'lobibox-notify-error',
+        'title': 'Error',
+        'icon': 'glyphicon glyphicon-remove-sign',
+        sound: 'sound4.mp3'
+    },
+    warning: {
+        'class': 'lobibox-notify-warning',
+        'title': 'Warning',
+        'icon': 'glyphicon glyphicon-exclamation-sign',
+        sound: 'sound5.mp3'
+    },
+    info: {
+        'class': 'lobibox-notify-info',
+        'title': 'Information',
+        'icon': 'glyphicon glyphicon-info-sign',
+        sound: 'sound6.mp3'
+    }
+};   
+
+//Overriding default options
+Lobibox.notify.OPTIONS = $.extend({}, Lobibox.notify.OPTIONS, {
+    ... //override any options from default options
+});
+</code></pre>
+                        </div>
+                    </div>
+                    <!--Methods-->
+                    <div id="lobibox-notification-methods">
+                        <h3>Methods</h3>
+                        <div class="plugin-documentation plugin-methods">
+                            <div class="row row-header">
+                                <div class="cell cell-name">Name</div>
+                                <div class="cell cell-params">Parameters</div>
+                                <div class="cell cell-return">Return type</div>
+                                <div class="cell cell-descr">Description</div>
+                            </div>
+                            <div class="row">
+                                <div class="cell cell-name">
+                                    remove <span class="text-mobile"> - Return <code>Instance</code></span> 
+                                </div>
+                                <div class="cell cell-params">
+                                    <span class="text-mobile">Parameters</span> <code>none</code>
+                                </div>
+                                <div class="cell cell-return">
+                                    <code>Instance</code>
+                                </div>
+                                <div class="cell cell-descr">
+                                    Delete the notification
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Examples-->
+                    <div id="lobibox-notification-examples">
+                        <h3>Examples</h3>
+                        <!--Basic notifications-->
+                        <fieldset>
+                            <legend>Basic notifications <small class="text-muted"><small>Can be closed by clicking on it</small></small></legend>
+                            <div class="bs-example">
+                                <button id="basicInfo" class="btn btn-info">Info</button>
+                                <button id="basicWarning" class="btn btn-warning">Warning</button>
+                                <button id="basicError" class="btn btn-danger">Error</button>
+                                <button id="basicSuccess" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes. Slight fallen one opportunity dyspepsia, puzzled quickening throbbing row worm numerous sagittis wreaths.'
+});
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--With image-->
+                        <fieldset>
+                            <legend>With image</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoImage" class="btn btn-info">Info</button>
+                                <button id="basicWarningImage" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorImage" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessImage" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    img: '...', //path to image
+});
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Disable sound-->
+                        <fieldset>
+                            <legend>Disable sound</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoNoSound" class="btn btn-info">Info</button>
+                                <button id="basicWarningNoSound" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorNoSound" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessNoSound" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    sound: false,
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Custom title-->
+                        <fieldset>
+                            <legend>Custom title</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoCustomTitle" class="btn btn-info">Info</button>
+                                <button id="basicWarningCustomTitle" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorCustomTitle" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessCustomTitle" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    title: 'Custom title',
+});      
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Without icon and image-->
+                        <fieldset>
+                            <legend>Without icon and image</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoNoIcon" class="btn btn-info">Info</button>
+                                <button id="basicWarningNoIcon" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorNoIcon" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessNoIcon" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    icon: false,
+});      
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Increase delay time-->
+                        <fieldset>
+                            <legend>Increase delay time</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoCustomDelay" class="btn btn-info">Info</button>
+                                <button id="basicWarningCustomDelay" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorCustomDelay" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessCustomDelay" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    delay: 15000,  //In milliseconds
+});      
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Sticky-->
+                        <fieldset>
+                            <legend>Sticky (without delay)</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoNoDelay" class="btn btn-info">Info</button>
+                                <button id="basicWarningNoDelay" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorNoDelay" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessNoDelay" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    delay: false,
+});      
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Alternative position-->
+                        <fieldset>
+                            <legend>Alternative position</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoPosition" class="btn btn-info">Info</button>
+                                <button id="basicWarningPosition" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorPosition" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessPosition" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    position: 'bottom right' //AVAILABLE OPTIONS: 'top left', 'top right', 'bottom left', 'bottom right'
+});      
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Change width-->
+                        <fieldset>
+                            <legend>Change width</legend>
+                            <div class="bs-example">
+                                <button id="basicInfoWidth" class="btn btn-info">Info</button>
+                                <button id="basicWarningWidth" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorWidth" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessWidth" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    width: 400 //Any Integer
+});      
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Change Animation-->
+                        <fieldset>
+                            <legend>Change Animation</legend>
+                            <p class="text-muted">For animation Lobibox is depended on animate.css. You can use any animate.css classes</p>
+                            <p>By default <code>.animated</code> class is added</p>
+                            <div class="bs-example">
+                                <button id="basicInfoAnimation" class="btn btn-info">Info</button>
+                                <button id="basicWarningAnimation" class="btn btn-warning">Warning</button>
+                                <button id="basicErrorAnimation" class="btn btn-danger">Error</button>
+                                <button id="basicSuccessAnimation" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    showClass: 'fadeInDown',
+    hideClass: 'fadeUpDown',
+    width: 400 //Any Integer
+});      
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <h2>Large Notifications</h2>
+                        <!--Basic examples-->
+                        <fieldset>
+                            <p>Large notifications</p>
+                            <ul>
+                                <li>are sticky</li>
+                                <li>can be closed only by clicking close button</li>
+                                <li>does not have delay</li>
+                                <li>are larger in width</li>
+                            </ul>
+                            <div class="bs-example">
+                                <button id="largeInfoBasic" class="btn btn-info">Info</button>
+                                <button id="largeWarningBasic" class="btn btn-warning">Warning</button>
+                                <button id="largeErrorBasic" class="btn btn-danger">Error</button>
+                                <button id="largeSuccessBasic" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    size: 'large',
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--With Image-->
+                        <fieldset>
+                            <h3>With Image</h3>
+                            <div class="bs-example">
+                                <button id="largeInfoImage" class="btn btn-info">Info</button>
+                                <button id="largeWarningImage" class="btn btn-warning">Warning</button>
+                                <button id="largeErrorImage" class="btn btn-danger">Error</button>
+                                <button id="largeSuccessImage" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    img: '...',
+    size: 'large',
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Alternative position-->
+                        <fieldset>
+                            <legend>Alternative position</legend>
+                            <div class="bs-example">
+                                <button id="largeInfoPosition" class="btn btn-info">Info</button>
+                                <button id="largeWarningPosition" class="btn btn-warning">Warning</button>
+                                <button id="largeErrorPosition" class="btn btn-danger">Error</button>
+                                <button id="largeSuccessPosition" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    size: 'large',
+    position: 'bottom left',
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Change animation-->
+                        <fieldset>
+                            <legend>Change animation</legend>
+                            <div class="bs-example">
+                                <button id="largeInfoAnimation" class="btn btn-info">Info</button>
+                                <button id="largeWarningAnimation" class="btn btn-warning">Warning</button>
+                                <button id="largeErrorAnimation" class="btn btn-danger">Error</button>
+                                <button id="largeSuccessAnimation" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    size: 'large',
+    showClass: 'fadeInDown',
+    hideClass: 'fadeUpDown',
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <h2>Mini notifications</h2>
+                        <p>For mini notifications icon and image is shown on small size and title is disabled by default. Although you can enable it by giving <code>title</code> parameter when initializing.</p>
+                        <!--Basic example-->
+                        <fieldset>
+                            <div class="bs-example">
+                                <button id="miniInfoAnimation" class="btn btn-info">Info</button>
+                                <button id="miniWarningAnimation" class="btn btn-warning">Warning</button>
+                                <button id="miniErrorAnimation" class="btn btn-danger">Error</button>
+                                <button id="miniSuccessAnimation" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    size: 'mini',
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset> 
+                        <!--With image-->
+                        <fieldset>
+                            <h3>With image</h3>
+                            <div class="bs-example">
+                                <button id="miniInfoImage" class="btn btn-info">Info</button>
+                                <button id="miniWarningImage" class="btn btn-warning">Warning</button>
+                                <button id="miniErrorImage" class="btn btn-danger">Error</button>
+                                <button id="miniSuccessImage" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    size: 'mini',
+    img: '...',
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--Without icon-->
+                        <fieldset>
+                            <h3>Without icon</h3>
+                            <div class="bs-example">
+                                <button id="miniInfoNoIcon" class="btn btn-info">Info</button>
+                                <button id="miniWarningNoIcon" class="btn btn-warning">Warning</button>
+                                <button id="miniErrorNoIcon" class="btn btn-danger">Error</button>
+                                <button id="miniSuccessNoIcon" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    size: 'mini',
+    icon: false,
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                        <!--With title-->
+                        <fieldset>
+                            <h3>With title</h3>
+                            <div class="bs-example">
+                                <button id="miniInfoTitle" class="btn btn-info">Info</button>
+                                <button id="miniWarningTitle" class="btn btn-warning">Warning</button>
+                                <button id="miniErrorTitle" class="btn btn-danger">Error</button>
+                                <button id="miniSuccessTitle" class="btn btn-success">Success</button>
+                            </div>
+                            <div class="highlight">
+                                <pre><code>Lobibox.notify(type, {
+    ...
+    size: 'mini',
+    title: 'Lorem ipsum',
+    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+});        
+</code></pre>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="lib/jquery.1.11.min.js"></script>
+        <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="dist/js/LobiBox.min.js"></script>
+        <script src="demo/demo.js"></script>
+    </body>
+</html>

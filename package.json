@@ -1,0 +1,35 @@
+{
+  "name": "LobiBox",
+  "version": "1.0.0",
+  "description": "jQuery Responsive notification plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arboshiki/lobibox"
+  },
+  "keywords": [
+    "jQuery",
+    "plugin",
+    "notification",
+    "responsive",
+    "messagebox",
+    "css3",
+    "animation",
+    "window",
+    "ajax loading"
+  ],
+  "author": {
+    "name": "Zura Sekhniashvili",
+    "email": "zurasekhniashvili@gmail.com",
+    "url": "https://github.com/arboshiki"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-less": "^1.0.0",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
