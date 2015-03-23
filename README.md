@@ -33,3 +33,28 @@ Responsive jQuery notification plugin
 *   Show with image
 *   Sound support
 *   Size support. You can show notifications of different size
+
+### Instalation and dependecies
+
+Lobibox is only depended on jQuery.
+
+1. **Include necessary css/js files**
+
+```html
+<!DOCTYPE html>
+<html>
+   <head>
+      <!--Include this css file in the <head> tag -->
+      <link rel="stylesheet" href="dist/css/Lobibox.min.css"/>
+   </head>
+   
+   <body>
+      ...
+      <!--Include these script files in the <head> or <body> tag-->
+      <script src="lib/jquery.1.11.min.js"></script>
+      <script src="dist/js/Lobibox.min.js"></script>
+   </body>
+</html>
+```
+
+2. **Call plugin method to show messageboxes or notifications**
