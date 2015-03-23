@@ -5,7 +5,7 @@ module.exports = function(grunt){
         less : {
             development: {
                 files: {
-                    'src/css/LobiBox.css': ['src/less/LobiBox.less']
+                    'src/css/<%= pkg.name %>.css': ['src/less/<%= pkg.name %>.less']
                 }
             }
         },
@@ -74,7 +74,7 @@ module.exports = function(grunt){
         watch: {
             scripts: {
                 files: ['src/js/*.js'],
-                tasks: ['concat', 'uglify']
+                tasks: ['concat', 'copy:js', 'uglify']
             },
             css: {
                 files: 'src/less/*.less',
