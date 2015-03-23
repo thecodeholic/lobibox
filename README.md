@@ -1,6 +1,8 @@
 # Lobibox
 Responsive jQuery notification plugin
 
+### Small Description
+
 ##### Lobibox is devided into two parts
 
 - Messageboxes
