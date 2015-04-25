@@ -1,7 +1,7 @@
 # Lobibox
 Responsive jQuery notification plugin
 
-### Small Description
+### Description
 
 ##### Lobibox is devided into two parts
 
@@ -17,12 +17,11 @@ Responsive jQuery notification plugin
 *   You can show
     *   **messagesboxes in different colors and icons**
     *   **confirm message**
-    *   **one line prompt**
+    *   **one line prompt** (Any HTML5 input type can be used in prompt window. Such as: text, color, date, datetime, email, number, range etc)
     *   **multiline prompt**
-    *   **Any HTML5 input type can be used in prompt window. Such as: text, color, date, datetime, email, number, range etc.**
     *   **Progress messagebox**. Lobibox comes with default progress style but you can use bootstrap or any other style progress bar.
     *   **custom content window with ajax support with custom action buttons**
-*   Every message is an instance of plugin. You can easily grab the instance and attach events or call methods directly by the instance.
+*   Every message is an instance of plugin. You can easily grab the instance and attach events or call methods directly on the instance.
 
 #### Notifications
 
@@ -34,13 +33,64 @@ Responsive jQuery notification plugin
 *   Sound support
 *   Size support. You can show notifications of different size
 
-### Usage
+### Installation and dependecies
+
+Lobibox is only depended only on jQuery.
+
+#### 1. Include necessary css/js files
 
 ```html
+<!DOCTYPE html>
+<html>
+   <head>
+      <!--Include this css file in the <head> tag -->
+      <link rel="stylesheet" href="dist/css/Lobibox.min.css"/>
+   </head>
+   
+   <body>
+      ...
+      <!--Include these script files in the <head> or <body> tag-->
+      <script src="lib/jquery.1.11.min.js"></script>
+      <script src="dist/js/Lobibox.min.js"></script>
+   </body>
+</html>
+```
 
-<link rel="stylesheet" href="dist/css/Lobibox.min.css"/>
-<script src="lib/jquery.1.11.min.js"></script>
-<script src="bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="dist/js/Lobibox.min.js"></script>
+#### 2. Call plugin method to show messageboxes or notifications
 
+##### Confirm
+```js
+Lobibox.confirm({
+    ... //Options
+}); 
+```
+##### Alert
+```js
+Lobibox.alert(
+    'error|success|warning|info', // Any of the following
+    {
+        ... //Options
+    }
+); 
+```
+##### Prompt
+```js
+Lobibox.prompt(
+    '', // Any HTML5 input type is valid
+    {
+        ... //Options
+    }
+);
+```
+##### Progress
+```js
+Lobibox.progress({
+    ... //Options
+});
+```
+##### Window
+```js
+Lobibox.window({
+    ... //Options
+});
 ```
