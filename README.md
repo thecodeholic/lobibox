@@ -33,3 +33,14 @@ Responsive jQuery notification plugin
 *   Show with image
 *   Sound support
 *   Size support. You can show notifications of different size
+
+### Usage
+
+```html
+
+<link rel="stylesheet" href="dist/css/Lobibox.min.css"/>
+<script src="lib/jquery.1.11.min.js"></script>
+<script src="bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="dist/js/Lobibox.min.js"></script>
+
+```
