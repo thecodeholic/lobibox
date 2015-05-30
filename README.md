@@ -54,6 +54,9 @@ Lobibox is only depended on jQuery.
       <!--Include these script files in the <head> or <body> tag-->
       <script src="lib/jquery.1.11.min.js"></script>
       <script src="dist/js/Lobibox.min.js"></script>
+      <!-- If you do not need both (messageboxes and notifications) you can inclue only one of them -->
+      <!-- <script src="dist/js/messageboxes.min.js"></script> -->
+      <!-- <script src="dist/js/notifications.min.js"></script> -->
    </body>
 </html>
 ```
