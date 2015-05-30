@@ -53,7 +53,7 @@ var Lobibox = Lobibox || {};
                 options.sound = Lobibox.notify.OPTIONS[me.$type].sound;
             }
             if (options.sound){
-                options.sound = Lobibox.notify.OPTIONS.soundPath + options.sound;
+                options.sound = options.soundPath + options.sound + options.soundExt;
             }
             
             return options;
@@ -276,6 +276,8 @@ var Lobibox = Lobibox || {};
         title: true,                // Title of notification. If you do not include the title in options it will automatically takes its value 
         //from Lobibox.notify.OPTIONS object depending of the type of the notifications or set custom string. Set this false to disable title
         size: 'normal',             // normal, mini, large
+        soundPath: 'src/sounds/',   // The folder path where sounds are located
+        soundExt: '.ogg',           // Default extension for all sounds
         showClass: 'flipInX',       // Show animation class. (Uses animate.css)
         hideClass: 'zoomOutDown',   // Hide animation class (Uses animate.css)
         icon: true,                 // Icon of notification. Leave as is for default icon or set custom string
@@ -292,7 +294,6 @@ var Lobibox = Lobibox || {};
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
         'class': 'animated-fast',
-        soundPath: 'src/sounds/',
         large: {
             width: 500
         },
@@ -303,25 +304,25 @@ var Lobibox = Lobibox || {};
             'class': 'lobibox-notify-success',
             'title': 'Success',
             'icon': 'glyphicon glyphicon-ok-sign',
-            sound: 'sound2.mp3'
+            sound: 'sound2'
         },
         error: {
             'class': 'lobibox-notify-error',
             'title': 'Error',
             'icon': 'glyphicon glyphicon-remove-sign',
-            sound: 'sound4.mp3'
+            sound: 'sound4'
         },
         warning: {
             'class': 'lobibox-notify-warning',
             'title': 'Warning',
             'icon': 'glyphicon glyphicon-exclamation-sign',
-            sound: 'sound5.mp3'
+            sound: 'sound5'
         },
         info: {
             'class': 'lobibox-notify-info',
             'title': 'Information',
             'icon': 'glyphicon glyphicon-info-sign',
-            sound: 'sound6.mp3'
+            sound: 'sound6'
         }
     };
 })();

@@ -1305,6 +1305,8 @@ lobibox.setTitle('New title');
                         <div class="highlight">
                             <pre><code>title: true,                // Title of notification. Do not include it for default title or set custom string. Set this false to disable title
 size: 'normal',             // normal, mini, large
+soundPath: 'src/sounds/',   // The folder path where sounds are located
+soundExt: '.ogg',           // Default extension for all sounds
 showClass: 'flipInX',       // Show animation class. (Uses animate.css)
 hideClass: 'zoomOutDown',   // Hide animation class (Uses animate.css)
 icon: true,                 // Icon of notification. Leave as is for default icon or set custom string
@@ -1329,7 +1331,6 @@ Lobibox.notify.DEFAULTS = $.extend({}, Lobibox.notify.DEFAULTS, {
                         <div class="highlight">
                             <pre><code>Lobibox.notify.OPTIONS = {
     'class': 'animated-fast',
-    soundPath: 'src/sounds/',
 //You can override options for large notifications from here
     large: {
         width: 500
