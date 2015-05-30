@@ -1,5 +1,7 @@
 # Lobibox
-Responsive jQuery notification plugin
+Responsive jQuery notification plugin written from scratch.
+
+[View Demo](http://lobianijs.com/lobibox)
 
 ### Description
 
@@ -11,7 +13,7 @@ Responsive jQuery notification plugin
 #### Messageboxes
 
 *   Lobibox messagesboxes can be modal and not modal
-*   You can show multiple messages at the same time
+*   Possibility to show multiple messages
 *   Use any available animation class for showing and hiding messageboxes
 *   Every message can be draggable (On small screens dragging is disabled)
 *   You can show
@@ -35,7 +37,7 @@ Responsive jQuery notification plugin
 
 ### Installation and dependecies
 
-Lobibox is only depended only on jQuery.
+Lobibox is only depended on jQuery.
 
 #### 1. Include necessary css/js files
 
@@ -52,45 +54,15 @@ Lobibox is only depended only on jQuery.
       <!--Include these script files in the <head> or <body> tag-->
       <script src="lib/jquery.1.11.min.js"></script>
       <script src="dist/js/Lobibox.min.js"></script>
+      <!-- If you do not need both (messageboxes and notifications) you can inclue only one of them -->
+      <!-- <script src="dist/js/messageboxes.min.js"></script> -->
+      <!-- <script src="dist/js/notifications.min.js"></script> -->
    </body>
 </html>
 ```
 
 #### 2. Call plugin method to show messageboxes or notifications
 
-##### Confirm
-```js
-Lobibox.confirm({
-    ... //Options
-}); 
-```
-##### Alert
-```js
-Lobibox.alert(
-    'error|success|warning|info', // Any of the following
-    {
-        ... //Options
-    }
-); 
-```
-##### Prompt
-```js
-Lobibox.prompt(
-    '', // Any HTML5 input type is valid
-    {
-        ... //Options
-    }
-);
-```
-##### Progress
-```js
-Lobibox.progress({
-    ... //Options
-});
-```
-##### Window
-```js
-Lobibox.window({
-    ... //Options
-});
-```
+...
+
+### For documentation and examples visit the plugin's [home page](http://lobianijs.com/lobibox)
