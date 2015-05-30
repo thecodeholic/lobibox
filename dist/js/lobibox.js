@@ -1287,8 +1287,8 @@ var Lobibox = Lobibox || {};
         size: 'normal',             // normal, mini, large
         soundPath: 'src/sounds/',   // The folder path where sounds are located
         soundExt: '.ogg',           // Default extension for all sounds
-        showClass: 'flipInX',       // Show animation class. (Uses animate.css)
-        hideClass: 'zoomOutDown',   // Hide animation class (Uses animate.css)
+        showClass: 'zoomIn',        // Show animation class.
+        hideClass: 'zoomOut',       // Hide animation class.
         icon: true,                 // Icon of notification. Leave as is for default icon or set custom string
         msg: '',                    // Message of notification
         img: null,                  // Image source string
