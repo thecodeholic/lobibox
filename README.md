@@ -1,7 +1,7 @@
 # Lobibox
 Responsive jQuery notification plugin written from scratch.
 
-[View Demo](http://lobianijs.com/lobibox)
+[View Demo](http://lobianijs.com/site/lobibox)
 
 ### Description
 
@@ -65,4 +65,4 @@ Lobibox is only depended on jQuery.
 
 ...
 
-### For documentation and examples visit the plugin's [home page](http://lobianijs.com/lobibox)
+### For documentation and examples visit the plugin's [home page](http://lobianijs.com/site/lobibox)
