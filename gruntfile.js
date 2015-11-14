@@ -51,6 +51,12 @@ module.exports = function(grunt){
                         dest: 'dist/css'
                     }
                 ]
+            },
+            sounds: {
+                expand: true,
+                cwd: 'sounds',
+                src: '*',
+                dest: 'dist/sounds'
             }
         },
         
