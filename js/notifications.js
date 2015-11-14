@@ -276,7 +276,7 @@ var Lobibox = Lobibox || {};
         title: true,                // Title of notification. If you do not include the title in options it will automatically takes its value 
         //from Lobibox.notify.OPTIONS object depending of the type of the notifications or set custom string. Set this false to disable title
         size: 'normal',             // normal, mini, large
-        soundPath: 'src/sounds/',   // The folder path where sounds are located
+        soundPath: 'sounds/',   // The folder path where sounds are located
         soundExt: '.ogg',           // Default extension for all sounds
         showClass: 'zoomIn',        // Show animation class.
         hideClass: 'zoomOut',       // Hide animation class.
