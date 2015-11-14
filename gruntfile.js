@@ -5,7 +5,7 @@ module.exports = function(grunt){
         less : {
             development: {
                 files: {
-                    'src/css/<%= pkg.name %>.css': ['src/less/<%= pkg.name %>.less']
+                    'css/<%= pkg.name %>.css': ['less/<%= pkg.name %>.less']
                 }
             }
         },
@@ -15,7 +15,7 @@ module.exports = function(grunt){
                 files: [
                     {
                         expand: true,
-                        cwd: 'src/css',
+                        cwd: 'css',
                         src: '<%= pkg.name %>.css',
                         dest: 'dist/css',
                         ext: '.min.css'
@@ -26,8 +26,8 @@ module.exports = function(grunt){
         
         concat: {
             js: {
-                src: ['src/js/messageboxes.js', 'src/js/notifications.js'],
-                dest: 'src/js/<%= pkg.name %>.js'
+                src: ['js/messageboxes.js', 'js/notifications.js'],
+                dest: 'js/<%= pkg.name %>.js'
             }
         },
         
@@ -36,7 +36,7 @@ module.exports = function(grunt){
                 files: [
                     {
                         expand: true,
-                        cwd: 'src/js',
+                        cwd: 'js',
                         src: '*.js',
                         dest: 'dist/js'
                     }
@@ -46,7 +46,7 @@ module.exports = function(grunt){
                 files: [
                     {
                         expand: true,
-                        cwd: 'src/css',
+                        cwd: 'css',
                         src: '*.css',
                         dest: 'dist/css'
                     }
@@ -62,7 +62,7 @@ module.exports = function(grunt){
                 files: [
                     {
                         expand: true,
-                        cwd: 'src/js',
+                        cwd: 'js',
                         src: '*.js',
                         dest: 'dist/js',
                         ext: '.min.js'
@@ -73,11 +73,11 @@ module.exports = function(grunt){
         
         watch: {
             scripts: {
-                files: ['src/js/*.js'],
+                files: ['js/*.js'],
                 tasks: ['concat', 'copy:js', 'uglify']
             },
             css: {
-                files: 'src/less/*.less',
+                files: 'less/*.less',
                 tasks: ['less', 'cssmin', 'copy:css']
             }
         }
