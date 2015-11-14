@@ -37,7 +37,7 @@ Responsive jQuery notification plugin written from scratch.
 
 ### Installation and dependecies
 
-Lobibox is only depended on jQuery.
+Lobibox is only depended on jQuery. But for best visual result and icons it's highly recommended to include bootstrap.css 
 
 #### 1. Include necessary css/js files
 
@@ -46,6 +46,7 @@ Lobibox is only depended on jQuery.
 <html>
    <head>
       <!--Include this css file in the <head> tag -->
+      <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css"/>
       <link rel="stylesheet" href="dist/css/Lobibox.min.css"/>
    </head>
    
