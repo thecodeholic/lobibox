@@ -453,6 +453,7 @@ var Lobibox = Lobibox || {};
             me._triggerEvent('onShow');
             me.$el.removeClass('lobibox-hidden');
             $('body').append(me.$el);
+            me.$el.find('.lobibox-btn').first()[0].focus();
             if (me.$options.modal) {
                 $('body').addClass(Lobibox.base.OPTIONS.bodyClass);
                 me._addBackdrop();
