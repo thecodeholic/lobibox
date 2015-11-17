@@ -13,7 +13,12 @@ body{
 .lobibox{
     position: fixed;
     z-index: 4001;
+    font-family: 'Open Sans',Arial,Helvetica,sans-serif;
     .box-shadow(@lobibox-popup-box-shadow);
+    *{
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
     .lobibox-header{
         font-size: @lobibox-popup-header-font-size;
         padding: @lobibox-popup-header-padding-vertical @lobibox-popup-header-padding-horizontal;

@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600,700,400,300);
 /* 
     Created on : Mar 19, 2014, 9:48:25 AM
     Author     : @arboshiki
@@ -243,8 +244,13 @@ body.lobibox-open {
 .lobibox {
   position: fixed;
   z-index: 4001;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
   -webkit-box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
+}
+.lobibox * {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 .lobibox .lobibox-header {
   font-size: 20px;
@@ -841,7 +847,8 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify {
   position: relative;
   min-height: 85px;
-  font-family: 'Arial Rounded MT Bold';
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-size: 14px;
   margin: 7px 0;
   border-radius: 0;
   border: 1px solid transparent;
