@@ -1003,13 +1003,13 @@ var Lobibox = Lobibox || {};
 
 //Author      : @arboshiki
 /**
- * Generates random string of n length. 
+ * Generates random string of n length.
  * String contains only letters and numbers
- * 
+ *
  * @param {int} n
  * @returns {String}
  */
-Math.randomString = function(n) {
+Math.randomString = function (n) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -1019,16 +1019,15 @@ Math.randomString = function(n) {
     return text;
 };
 var Lobibox = Lobibox || {};
-(function(){
-        
-    var LobiboxNotify = function(type, options) {
+(function () {
+
+    var LobiboxNotify = function (type, options) {
 //------------------------------------------------------------------------------
 //----------------PROTOTYPE VARIABLES-------------------------------------------
 //------------------------------------------------------------------------------
-        this.$type;
-        this.$options;
-        this.$el;
-        this.$sound;
+        this.$type = null;
+        this.$options = null;
+        this.$el = null;
 //------------------------------------------------------------------------------
 //-----------------PRIVATE VARIABLES--------------------------------------------
 //------------------------------------------------------------------------------        
@@ -1036,193 +1035,184 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
 //-----------------PRIVATE FUNCTIONS--------------------------------------------
 //------------------------------------------------------------------------------
-        var _processInput = function(options){
-            
-            if (options.size === 'mini' || options.size === 'large'){
+        var _processInput = function (options) {
+
+            if (options.size === 'mini' || options.size === 'large') {
                 options.width = options.width || Lobibox.notify.OPTIONS[options.size].width;
             }
             options = $.extend({}, Lobibox.notify.OPTIONS[me.$type], Lobibox.notify.DEFAULTS, options);
-            
-            
-            if (options.size !== 'mini' && options.title === true){
+
+
+            if (options.size !== 'mini' && options.title === true) {
                 options.title = Lobibox.notify.OPTIONS[me.$type].title;
-            }else if (options.size === 'mini' && options.title === true){
+            } else if (options.size === 'mini' && options.title === true) {
                 options.title = false;
             }
-            if (options.icon === true){
+            if (options.icon === true) {
                 options.icon = Lobibox.notify.OPTIONS[me.$type].icon;
             }
-            if (options.sound === true){
+            if (options.sound === true) {
                 options.sound = Lobibox.notify.OPTIONS[me.$type].sound;
             }
-            if (options.sound){
+            if (options.sound) {
                 options.sound = options.soundPath + options.sound + options.soundExt;
             }
-            
+
             return options;
         };
-        var _init = function(){
+        var _init = function () {
             // Create notification
             var notify = _createNotify();
             var wrapper = _createNotifyWrapper();
             _appendInWrapper(notify, wrapper);
-            
+
             me.$el = notify;
-            if (me.$options.sound){
+            if (me.$options.sound) {
                 var snd = new Audio(me.$options.sound); // buffers automatically when created
                 snd.play();
             }
             me.$el.data('lobibox', me);
         };
-        var _appendInWrapper = function($el, $wrapper){
-            if (me.$options.size === 'normal'){
+        var _appendInWrapper = function ($el, $wrapper) {
+            if (me.$options.size === 'normal') {
                 $wrapper.append($el);
-            }else if (me.$options.size === 'mini'){
+            } else if (me.$options.size === 'mini') {
                 $el.addClass('notify-mini');
                 $wrapper.append($el);
-            }else if (me.$options.size === 'large'){
-                var tabPane = _createTabPane();
-                tabPane.append($el);
+            } else if (me.$options.size === 'large') {
+                var tabPane = _createTabPane().append($el);
                 var tabControl = _createTabControl(tabPane.attr('id'));
-                $wrapper.find('.tab-content').append(tabPane);
-                $wrapper.find('.nav-tabs').append(tabControl);
-                tabControl.find('>a').tab('show');
+                $wrapper.find('.lb-notify-wrapper').append(tabPane);
+                $wrapper.find('.lb-notify-tabs').append(tabControl);
+                //tabControl.find('>a').tab('show');
             }
         };
-        var _createTabControl = function(tabPaneId){
+        var _createTabControl = function (tabPaneId) {
             var $li = $('<li></li>');
-            $('<a href="#'+tabPaneId+'"></a>')
-                    .attr('data-toggle', 'tab')
-                    .attr('role', 'tab')
-                    .append('<i class="tab-control-icon ' + me.$options.icon + '"></i>')
-                    .appendTo($li);
-            $li.addClass(Lobibox.notify.OPTIONS[me.$type]['class']);
+            $('<a></a>', {
+                'href': '#' + tabPaneId,
+                'class': Lobibox.notify.OPTIONS[me.$type]['class']
+            })
+                //.attr('data-toggle', 'tab')
+                //.attr('role', 'tab')
+                .append('<i class="tab-control-icon ' + me.$options.icon + '"></i>')
+                .appendTo($li);
             return $li;
         };
-        var _createTabPane = function(){
-            var $pane = $('<div></div>')
-                    .addClass('tab-pane')
-                    .attr('id', Math.randomString(10));
-            return $pane;
+        var _createTabPane = function () {
+            return $('<div></div>', {
+                'class': 'lb-tab-control',
+                'id': Math.randomString(10)
+            })
         };
-        var _createNotifyWrapper = function(){
-            var selector;
-            if (me.$options.size === 'large'){
-                selector = '.lobibox-notify-wrapper-large';
-            }else{
-                selector = '.lobibox-notify-wrapper';
-            }
-            
-            var classes = me.$options.position.split(" ");
-            selector += "."+classes.join('.');
-            var wrapper = $(selector);
-            if (wrapper.length === 0){
-                wrapper = $('<div></div>')
-                        .addClass(selector.replace(/\./g, ' ').trim())
-                        .appendTo($('body'));
-                if (me.$options.size === 'large'){
-                    wrapper.append($('<ul class="nav nav-tabs"></ul>'))
-                            .append($('<div class="tab-content"></div>'));
+        var _createNotifyWrapper = function () {
+            var selector = (me.$options.size === 'large' ? '.lobibox-notify-wrapper-large' : '.lobibox-notify-wrapper')
+                    + "." + me.$options.position.replace(/\s/gi, '.'),
+                $wrapper;
+
+            //var classes = me.$options.position.split(" ");
+            $wrapper = $(selector);
+            if ($wrapper.length === 0) {
+                $wrapper = $('<div></div>')
+                    .addClass(selector.replace(/\./g, ' ').trim())
+                    .appendTo($('body'));
+                if (me.$options.size === 'large') {
+                    $wrapper.append($('<ul class="lb-notify-tabs"></ul>'))
+                        .append($('<div class="lb-notify-wrapper"></div>'));
                 }
             }
-            return wrapper;
+            return $wrapper;
         };
-        var _createNotify = function(){
-            var notify = $('<div class="lobibox-notify"></div>')
-            // Add color class
-                    .addClass(Lobibox.notify.OPTIONS[me.$type]['class'])
-            // Add default animation class
-                    .addClass(Lobibox.notify.OPTIONS['class'])
-            // Add specific animation class
-                    .addClass(me.$options.showClass);
-            
-            // Create icon wrapper class
-            var iconWrapper = $('<div class="lobibox-notify-icon"></div>').appendTo(notify);
+        var _createNotify = function () {
+            var OPTS = Lobibox.notify.OPTIONS,
+                $iconWrapper,
+                $body,
+                $notify = $('<div></div>', {
+                    'class': 'lobibox-notify '+OPTS[me.$type]['class'] + ' ' + OPTS['class'] + ' ' + me.$options.showClass
+                });
+            $iconWrapper = $('<div class="lobibox-notify-icon"></div>').appendTo($notify);
 
             // Add image or icon depending on given parameters
             if (me.$options.img) {
-                var img = iconWrapper.append('<img src="' + me.$options.img + '"/>');
-                iconWrapper.append(img);
+                $iconWrapper.append('<img src="' + me.$options.img + '"/>');
             } else if (me.$options.icon) {
-                var icon = iconWrapper.append('<i class="' + me.$options.icon + '"></i>');
-                iconWrapper.append(icon);
-            }else{
-                notify.addClass('without-icon');
+                $iconWrapper.append('<i class="' + me.$options.icon + '"></i>');
+            } else {
+                $notify.addClass('without-icon');
             }
             // Create body, append title and message in body and append body in notification
-            var $body = $('<div></div>')
-                    .addClass('lobibox-notify-body')
-                    .append('<div class="lobibox-notify-msg">' + me.$options.msg + '</div>')
-                    .appendTo(notify);
-            if (me.$options.title){
+            $body = $('<div></div>', {
+                'class': 'lobibox-notify-body'
+            }).append('<div class="lobibox-notify-msg">' + me.$options.msg + '</div>')
+                .appendTo($notify);
+
+            if (me.$options.title) {
                 $body.prepend('<div class="lobibox-notify-title">' + me.$options.title + '<div>');
             }
-            _addCloseButton(notify);
-            if (me.$options.size === 'normal' || me.$options.size === 'mini'){
-                _addCloseOnClick(notify);
-                _addDelay(notify);
+            _addCloseButton($notify);
+            if (me.$options.size === 'normal' || me.$options.size === 'mini') {
+                _addCloseOnClick($notify);
+                _addDelay($notify);
             }
-            
+
             // Give width to notification
-            if (me.$options.width){
-                notify.css('width', _calculateWidth(me.$options.width));
+            if (me.$options.width) {
+                $notify.css('width', _calculateWidth(me.$options.width));
             }
-            
-            return notify;
+
+            return $notify;
         };
-        var _addCloseButton = function($el){
-            if ( ! me.$options.closable){
+        var _addCloseButton = function ($el) {
+            if (!me.$options.closable) {
                 return;
             }
-            var close = $('<span class="lobibox-close">&times;</span>');
-            $el.append(close);
-            close.click(function(ev){
+            $('<span class="lobibox-close">&times;</span>').click(function (ev) {
+                me.remove();
+            }).appendTo($el);
+        };
+        var _addCloseOnClick = function ($el) {
+            if (!me.$options.closeOnClick) {
+                return;
+            }
+            $el.click(function () {
                 me.remove();
             });
         };
-        var _addCloseOnClick = function($el){
-            if ( ! me.$options.closeOnClick){
+        var _addDelay = function ($el) {
+            if (!me.$options.delay) {
                 return;
             }
-            $el.click(function(){
-                me.remove();
-            });
-        };
-        var _addDelay = function($el){
-            if ( ! me.$options.delay){
-                return;
-            }
-            if (me.$options.delayIndicator){
+            if (me.$options.delayIndicator) {
                 var delay = $('<div class="lobibox-delay-indicator"><div></div></div>');
                 $el.append(delay);
             }
             var time = 0;
-            var interval = 1000/30;
-            var timer = setInterval(function(){
+            var interval = 1000 / 30;
+            var timer = setInterval(function () {
                 time += interval;
                 var width = 100 * time / me.$options.delay;
-                if (width >= 100){
+                if (width >= 100) {
                     width = 100;
                     me.remove();
                     timer = clearInterval(timer);
                 }
-                if (me.$options.delayIndicator){
-                    delay.find('div').css('width', width+"%");
+                if (me.$options.delayIndicator) {
+                    delay.find('div').css('width', width + "%");
                 }
-               
+
             }, interval);
         };
-        var _findTabToActivate = function($li){
+        var _findTabToActivate = function ($li) {
             var $itemToActivate = $li.prev();
-            if ($itemToActivate.length === 0){
+            if ($itemToActivate.length === 0) {
                 $itemToActivate = $li.next();
             }
-            if ($itemToActivate.length === 0){
+            if ($itemToActivate.length === 0) {
                 return null;
             }
             return $itemToActivate.find('>a');
         };
-        var _calculateWidth = function(width){
+        var _calculateWidth = function (width) {
             width = Math.min($(window).outerWidth(), width);
             return width;
         };
@@ -1231,12 +1221,12 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
         /**
          * Delete the notification
-         * 
+         *
          * @returns {Instance}
          */
-        this.remove = function(){
+        this.remove = function () {
             me.$el.removeClass(me.$options.showClass)
-                    .addClass(me.$options.hideClass);
+                .addClass(me.$options.hideClass);
             var parent = me.$el.parent();
             var wrapper = parent.closest('.lobibox-notify-wrapper-large');
 
@@ -1244,14 +1234,14 @@ var Lobibox = Lobibox || {};
 
             var $li = wrapper.find('>.nav-tabs>li:has(a[href="' + href + '"])');
             $li.addClass(Lobibox.notify.OPTIONS['class'])
-                    .addClass(me.$options.hideClass);
-            setTimeout(function(){
-                if (me.$options.size === 'normal' || me.$options.size === 'mini'){
+                .addClass(me.$options.hideClass);
+            setTimeout(function () {
+                if (me.$options.size === 'normal' || me.$options.size === 'mini') {
                     me.$el.remove();
-                }else if (me.$options.size === 'large'){
-                    
+                } else if (me.$options.size === 'large') {
+
                     var $itemToActivate = _findTabToActivate($li);
-                    if ($itemToActivate){
+                    if ($itemToActivate) {
                         $itemToActivate.tab('show');
                     }
                     $li.remove();
@@ -1268,9 +1258,9 @@ var Lobibox = Lobibox || {};
 //        window.console.log(me);
         _init();
     };
-    
-    Lobibox.notify = function(type, options){
-        if (["info", "warning", "error", "success"].indexOf(type) > -1){
+
+    Lobibox.notify = function (type, options) {
+        if (["info", "warning", "error", "success"].indexOf(type) > -1) {
             return new LobiboxNotify(type, options);
         }
     };
