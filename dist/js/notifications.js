@@ -78,27 +78,35 @@ var Lobibox = Lobibox || {};
                 $wrapper.append($el);
             } else if (me.$options.size === 'large') {
                 var tabPane = _createTabPane().append($el);
-                var tabControl = _createTabControl(tabPane.attr('id'));
+                var $li = _createTabControl(tabPane.attr('id'));
                 $wrapper.find('.lb-notify-wrapper').append(tabPane);
-                $wrapper.find('.lb-notify-tabs').append(tabControl);
-                //tabControl.find('>a').tab('show');
+                $wrapper.find('.lb-notify-tabs').append($li);
+                _activateTab($li);
+                $li.find('>a').click(function(){
+                    _activateTab($li);
+                });
             }
         };
+        var _activateTab = function($li){
+            $li.closest('.lb-notify-tabs').find('>li').removeClass('active');
+            $li.addClass('active');
+            var $current = $($li.find('>a').attr('href'));
+            $current.closest('.lb-notify-wrapper').find('>.lb-tab-pane').removeClass('active');
+            $current.addClass('active')
+        };
         var _createTabControl = function (tabPaneId) {
-            var $li = $('<li></li>');
+            var $li = $('<li></li>',{
+                'class' : Lobibox.notify.OPTIONS[me.$type]['class']
+            });
             $('<a></a>', {
-                'href': '#' + tabPaneId,
-                'class': Lobibox.notify.OPTIONS[me.$type]['class']
-            })
-                //.attr('data-toggle', 'tab')
-                //.attr('role', 'tab')
-                .append('<i class="tab-control-icon ' + me.$options.icon + '"></i>')
+                'href': '#' + tabPaneId
+            }).append('<i class="tab-control-icon ' + me.$options.icon + '"></i>')
                 .appendTo($li);
             return $li;
         };
         var _createTabPane = function () {
             return $('<div></div>', {
-                'class': 'lb-tab-control',
+                'class': 'lb-tab-pane',
                 'id': Math.randomString(10)
             })
         };
@@ -163,7 +171,7 @@ var Lobibox = Lobibox || {};
             if (!me.$options.closable) {
                 return;
             }
-            $('<span class="lobibox-close">&times;</span>').click(function (ev) {
+            $('<span class="lobibox-close">&times;</span>').click(function () {
                 me.remove();
             }).appendTo($el);
         };
@@ -207,7 +215,7 @@ var Lobibox = Lobibox || {};
             if ($itemToActivate.length === 0) {
                 return null;
             }
-            return $itemToActivate.find('>a');
+            return $itemToActivate;
         };
         var _calculateWidth = function (width) {
             width = Math.min($(window).outerWidth(), width);
@@ -219,7 +227,7 @@ var Lobibox = Lobibox || {};
         /**
          * Delete the notification
          *
-         * @returns {Instance}
+         * @returns {LobiboxNotify}
          */
         this.remove = function () {
             me.$el.removeClass(me.$options.showClass)
@@ -229,7 +237,7 @@ var Lobibox = Lobibox || {};
 
             var href = '#' + parent.attr('id');
 
-            var $li = wrapper.find('>.nav-tabs>li:has(a[href="' + href + '"])');
+            var $li = wrapper.find('>.lb-notify-tabs>li:has(a[href="' + href + '"])');
             $li.addClass(Lobibox.notify.OPTIONS['class'])
                 .addClass(me.$options.hideClass);
             setTimeout(function () {
@@ -237,9 +245,9 @@ var Lobibox = Lobibox || {};
                     me.$el.remove();
                 } else if (me.$options.size === 'large') {
 
-                    var $itemToActivate = _findTabToActivate($li);
-                    if ($itemToActivate) {
-                        $itemToActivate.tab('show');
+                    var $newLi = _findTabToActivate($li);
+                    if ($newLi) {
+                        _activateTab($newLi);
                     }
                     $li.remove();
                     parent.remove();
@@ -252,7 +260,6 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
         this.$type = type;
         this.$options = _processInput(options);
-//        window.console.log(me);
         _init();
     };
 

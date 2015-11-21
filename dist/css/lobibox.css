@@ -747,100 +747,106 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify-wrapper-large.left {
   left: 0px;
 }
-.lobibox-notify-wrapper-large.left .nav-tabs > li {
+.lobibox-notify-wrapper-large.left .lb-notify-tabs > li {
   float: left;
+  margin-left: 0;
+  margin-right: 2px;
 }
 .lobibox-notify-wrapper-large.right {
   right: 0px;
 }
-.lobibox-notify-wrapper-large .nav-tabs {
-  border: none;
-  background-color: transparent;
-  margin-bottom: -7px;
-}
-.lobibox-notify-wrapper-large .nav-tabs > li {
-  float: right;
-}
-.lobibox-notify-wrapper-large .nav-tabs > li > a {
-  margin-bottom: 2px;
-  border-radius: 0;
+.lobibox-notify-wrapper-large .lb-notify-tabs {
+  list-style: none;
   padding: 0;
+  margin: 0 0 -5px 0;
+}
+.lobibox-notify-wrapper-large .lb-notify-tabs > li {
+  float: right;
+  margin-left: 2px;
+}
+.lobibox-notify-wrapper-large .lb-notify-tabs > li > a {
   text-align: center;
+  display: table;
+  text-decoration: none;
   font-size: 18px;
   height: 32px;
-  display: table;
   color: #FFF;
-  margin-right: 0;
-  margin-left: 2px;
-  border: 1px solid transparent;
   width: 28px;
   opacity: 0.6;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li > a:hover,
-.lobibox-notify-wrapper-large .nav-tabs > li > a:active,
-.lobibox-notify-wrapper-large .nav-tabs > li > a:focus,
-.lobibox-notify-wrapper-large .nav-tabs > li > a:hover:active {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li > a:hover,
+.lobibox-notify-wrapper-large .lb-notify-tabs > li > a:active,
+.lobibox-notify-wrapper-large .lb-notify-tabs > li > a:focus,
+.lobibox-notify-wrapper-large .lb-notify-tabs > li > a:hover:active {
   color: #FFF;
-  cursor: pointer;
-  border: 1px solid transparent;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li > a .tab-control-icon {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li > a .tab-control-icon {
   display: table-cell;
   vertical-align: middle;
-  /*line-height: 30px;*/
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-error > a {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-error > a {
   background-color: rgba(202, 33, 33, 0.9);
   border-color: #bd1f1f;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-error > a:hover {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-error > a:hover {
   background-color: #ca2121;
   border-color: #b41d1d;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-success > a {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-success > a {
   background-color: rgba(41, 184, 126, 0.9);
   border-color: #26ab75;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-success > a:hover {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-success > a:hover {
   background-color: #29b87e;
   border-color: #24a370;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-warning > a {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-warning > a {
   background-color: rgba(206, 129, 46, 0.9);
   border-color: #c1792b;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-warning > a:hover {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-warning > a:hover {
   background-color: #ce812e;
   border-color: #b97429;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-info > a {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-info > a {
   background-color: rgba(46, 121, 180, 0.9);
   border-color: #2b71a8;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.lobibox-notify-info > a:hover {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-info > a:hover {
   background-color: #2e79b4;
   border-color: #296ba0;
 }
-.lobibox-notify-wrapper-large .nav-tabs > li.active > a {
+.lobibox-notify-wrapper-large .lb-notify-tabs > li.active > a {
   opacity: 1;
 }
-.lobibox-notify-wrapper-large .tab-content {
+.lobibox-notify-wrapper-large .lb-notify-tabs:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.lobibox-notify-wrapper-large .lb-notify-wrapper {
   background-color: transparent;
   padding: 0;
   border: none;
 }
-.lobibox-notify-wrapper-large .tab-content .lobibox-notify {
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lb-tab-pane {
+  display: none;
+}
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lb-tab-pane.active {
+  display: block;
+}
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify {
   min-height: 150px;
 }
-.lobibox-notify-wrapper-large .tab-content .lobibox-notify .lobibox-notify-icon {
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon {
   width: 100px;
   font-size: 78px;
 }
-.lobibox-notify-wrapper-large .tab-content .lobibox-notify .lobibox-notify-icon,
-.lobibox-notify-wrapper-large .tab-content .lobibox-notify .lobibox-notify-icon > * {
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon,
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon > * {
   line-height: 100px;
 }
-.lobibox-notify-wrapper-large .tab-content .lobibox-notify .lobibox-notify-body {
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-body {
   margin: 13px 20px;
   margin-left: 130px;
 }
@@ -910,7 +916,7 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify .lobibox-delay-indicator > div {
   position: relative;
   height: 100%;
-  width: 0%;
+  width: 0;
   background-color: rgba(0, 0, 0, 0.4);
 }
 .lobibox-notify.lobibox-notify-error {
