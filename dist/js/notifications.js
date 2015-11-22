@@ -46,7 +46,7 @@ var Lobibox = Lobibox || {};
                 options.title = false;
             }
             if (options.icon === true) {
-                options.icon = Lobibox.notify.OPTIONS[me.$type].icon;
+                options.icon = Lobibox.notify.OPTIONS.icons[options.iconSource][me.$type];
             }
             if (options.sound === true) {
                 options.sound = Lobibox.notify.OPTIONS[me.$type].sound;
@@ -54,7 +54,7 @@ var Lobibox = Lobibox || {};
             if (options.sound) {
                 options.sound = options.soundPath + options.sound + options.soundExt;
             }
-
+            console.log(options);
             return options;
         };
         var _init = function () {
@@ -82,12 +82,12 @@ var Lobibox = Lobibox || {};
                 $wrapper.find('.lb-notify-wrapper').append(tabPane);
                 $wrapper.find('.lb-notify-tabs').append($li);
                 _activateTab($li);
-                $li.find('>a').click(function(){
+                $li.find('>a').click(function () {
                     _activateTab($li);
                 });
             }
         };
-        var _activateTab = function($li){
+        var _activateTab = function ($li) {
             $li.closest('.lb-notify-tabs').find('>li').removeClass('active');
             $li.addClass('active');
             var $current = $($li.find('>a').attr('href'));
@@ -95,8 +95,8 @@ var Lobibox = Lobibox || {};
             $current.addClass('active')
         };
         var _createTabControl = function (tabPaneId) {
-            var $li = $('<li></li>',{
-                'class' : Lobibox.notify.OPTIONS[me.$type]['class']
+            var $li = $('<li></li>', {
+                'class': Lobibox.notify.OPTIONS[me.$type]['class']
             });
             $('<a></a>', {
                 'href': '#' + tabPaneId
@@ -133,7 +133,7 @@ var Lobibox = Lobibox || {};
                 $iconWrapper,
                 $body,
                 $notify = $('<div></div>', {
-                    'class': 'lobibox-notify '+OPTS[me.$type]['class'] + ' ' + OPTS['class'] + ' ' + me.$options.showClass
+                    'class': 'lobibox-notify ' + OPTS[me.$type]['class'] + ' ' + OPTS['class'] + ' ' + me.$options.showClass
                 });
             $iconWrapper = $('<div class="lobibox-notify-icon"></div>').appendTo($notify);
 
@@ -286,7 +286,8 @@ var Lobibox = Lobibox || {};
         closeOnClick: true,         // Close notifications by clicking on them
         width: 400,                 // Width of notification box
         sound: true,                // Sound of notification. Set this false to disable sound. Leave as is for default sound or set custom soud path
-        position: "bottom right"    // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"
+        position: "bottom right",   // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"
+        iconSource: 'bootstrap'     // "bootstrap" or "fontAwesome" the library which will be used for icons
     };
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
@@ -300,26 +301,36 @@ var Lobibox = Lobibox || {};
         success: {
             'class': 'lobibox-notify-success',
             'title': 'Success',
-            'icon': 'glyphicon glyphicon-ok-sign',
             sound: 'sound2'
         },
         error: {
             'class': 'lobibox-notify-error',
             'title': 'Error',
-            'icon': 'glyphicon glyphicon-remove-sign',
             sound: 'sound4'
         },
         warning: {
             'class': 'lobibox-notify-warning',
             'title': 'Warning',
-            'icon': 'glyphicon glyphicon-exclamation-sign',
             sound: 'sound5'
         },
         info: {
             'class': 'lobibox-notify-info',
             'title': 'Information',
-            'icon': 'glyphicon glyphicon-info-sign',
             sound: 'sound6'
+        },
+        icons: {
+            bootstrap: {
+                success: 'glyphicon glyphicon-ok-sign',
+                error: 'glyphicon glyphicon-remove-sign',
+                warning: 'glyphicon glyphicon-exclamation-sign',
+                info: 'glyphicon glyphicon-info-sign'
+            },
+            fontAwesome: {
+                success: 'fa fa-check',
+                error: 'fa fa-times-circle',
+                warning: 'fa fa-warning',
+                info: 'fa fa-info-circle'
+            }
         }
     };
 })();
