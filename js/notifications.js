@@ -54,7 +54,6 @@ var Lobibox = Lobibox || {};
             if (options.sound) {
                 options.sound = options.soundPath + options.sound + options.soundExt;
             }
-            console.log(options);
             return options;
         };
         var _init = function () {
@@ -326,9 +325,9 @@ var Lobibox = Lobibox || {};
                 info: 'glyphicon glyphicon-info-sign'
             },
             fontAwesome: {
-                success: 'fa fa-check',
+                success: 'fa fa-check-circle',
                 error: 'fa fa-times-circle',
-                warning: 'fa fa-warning',
+                warning: 'fa fa-exclamation-circle',
                 info: 'fa fa-info-circle'
             }
         }

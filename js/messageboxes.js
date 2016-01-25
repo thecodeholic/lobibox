@@ -90,6 +90,9 @@ var Lobibox = Lobibox || {};
             if (options.delayToRemove === undefined) {
                 options.delayToRemove = Lobibox.base.OPTIONS.delayToRemove;
             }
+            if (!options.iconClass){
+                options.iconClass = Lobibox.base.OPTIONS.icons[options.iconSource][this.$type];
+            }
             return options;
         },
         _init: function () {
@@ -504,6 +507,22 @@ var Lobibox = Lobibox || {};
                 text: 'No',
                 closeOnClick: true
             }
+        },
+        icons: {
+            bootstrap: {
+                confirm: 'glyphicon glyphicon-question-sign',
+                success: 'glyphicon glyphicon-ok-sign',
+                error: 'glyphicon glyphicon-remove-sign',
+                warning: 'glyphicon glyphicon-exclamation-sign',
+                info: 'glyphicon glyphicon-info-sign'
+            },
+            fontAwesome: {
+                confirm: 'fa fa-question-circle',
+                success: 'fa fa-check-circle',
+                error: 'fa fa-times-circle',
+                warning: 'fa fa-exclamation-circle',
+                info: 'fa fa-info-circle'
+            }
         }
     };
     Lobibox.base.DEFAULTS = {
@@ -521,7 +540,7 @@ var Lobibox = Lobibox || {};
         baseClass: 'animated-super-fast',
         showClass: 'zoomIn',
         hideClass: 'zoomOut',
-
+        iconSource: 'bootstrap', // "bootstrap" or "fontAwesome" the library which will be used for icons
 
         //events
         //When messagebox show is called but before it is actually shown
@@ -664,8 +683,7 @@ var Lobibox = Lobibox || {};
 
     Lobibox.confirm.DEFAULTS = {
         title: 'Question',
-        width: 500,
-        iconClass: 'glyphicon glyphicon-question-sign'
+        width: 500
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxAlert------------------------------------------
@@ -687,18 +705,13 @@ var Lobibox = Lobibox || {};
         _processInput: function (options) {
 
 //            ALERT_OPTIONS = $.extend({}, LobiboxAlert.OPTIONS, Lobibox.alert.DEFAULTS);
-
             var me = this;
             var mergedOptions = LobiboxBase._processInput.call(me, options);
             mergedOptions.buttons = {
                 ok: Lobibox.base.OPTIONS.buttons.ok
             };
+
             options = $.extend({}, mergedOptions, Lobibox.alert.OPTIONS[me.$type], Lobibox.alert.DEFAULTS, options);
-//            window.console.log(options);
-//            options = $.extend({}, mergedOptions, LobiboxAlert.DEFAULT_OPTIONS, options);
-//            if (options.iconClass === true){
-//                options.iconClass = ALERT_OPTIONS[me.$type].iconClass;
-//            }
 
             return options;
         },
@@ -721,26 +734,20 @@ var Lobibox = Lobibox || {};
     });
     Lobibox.alert.OPTIONS = {
         warning: {
-            title: 'Warning',
-            iconClass: 'glyphicon glyphicon-question-sign'
+            title: 'Warning'
         },
         info: {
-            title: 'Information',
-            iconClass: 'glyphicon glyphicon-info-sign'
+            title: 'Information'
         },
         success: {
-            title: 'Success',
-            iconClass: 'glyphicon glyphicon-ok-sign'
+            title: 'Success'
         },
         error: {
-            title: 'Error',
-            iconClass: 'glyphicon glyphicon-remove-sign'
+            title: 'Error'
         }
     };
     //User can set default options by this variable
     Lobibox.alert.DEFAULTS = {
-//        title: 
-//        iconClass: 
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxProgress--------------------------------------

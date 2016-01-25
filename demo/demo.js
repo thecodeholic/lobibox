@@ -17,11 +17,17 @@ $.fn.serializeObject = function () {
 $(function () {
     var IMG_PREFIX = 'demo/img/';
     (function () {
+        Lobibox.base.DEFAULTS = $.extend({}, Lobibox.base.DEFAULTS, {
+            iconSource: 'fontAwesome'
+        });
+        Lobibox.notify.DEFAULTS = $.extend({}, Lobibox.notify.DEFAULTS, {
+            iconSource: 'fontAwesome'
+        });
 
         (function () {
             $('#popupYesNoBasic').click(function () {
                 Lobibox.confirm({
-                    msg: "Are you sure you want to delete this user?",
+                    msg: "Are you sure you want to delete this user?"
                 });
             });
             $('#popupErrorBasic').click(function () {
@@ -117,7 +123,7 @@ $(function () {
             $('#popupYesNoCallback').click(function () {
                 Lobibox.confirm({
                     msg: "Are you sure you want to delete this user?",
-                    callback: function ($this, type, ev) {
+                    callback: function ($this, type) {
                         if (type === 'yes') {
                             Lobibox.notify('success', {
                                 msg: 'You have clicked "Yes" button.'
@@ -144,11 +150,7 @@ $(function () {
                 }
                 var checks = ['closeButton', 'draggable', 'modal', 'closeOnEsc', 'showProgressLabel'];
                 for (var i in checks) {
-                    if (!params[checks[i]]) {
-                        params[checks[i]] = false;
-                    } else {
-                        params[checks[i]] = true;
-                    }
+                    params[checks[i]] = !!params[checks[i]];
                 }
                 if (params.placeholder) {
                     params.attrs = {
@@ -287,7 +289,7 @@ $(function () {
                             closeOnClick: true
                         }
                     },
-                    callback: function ($this, type, ev) {
+                    callback: function ($this, type) {
                         if (type === 'load') {
                             $this.load(function () {
                                 var $body = $this.$el.find('.lobibox-body');
