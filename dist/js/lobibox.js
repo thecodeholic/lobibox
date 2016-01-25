@@ -537,9 +537,9 @@ var Lobibox = Lobibox || {};
         buttonsAlign: 'center', // Position where buttons should be aligned
         closeOnEsc: true,  // Close messagebox on Esc press
         delayToRemove: 200,
-        baseClass: 'animated-super-fast',
-        showClass: 'zoomIn',
-        hideClass: 'zoomOut',
+        baseClass: 'animated-super-fast', // Base class to add all messageboxes
+        showClass: 'zoomIn', // Show animation class
+        hideClass: 'zoomOut', // Hide animation class
         iconSource: 'bootstrap', // "bootstrap" or "fontAwesome" the library which will be used for icons
 
         //events
