@@ -425,6 +425,15 @@ body.lobibox-open {
 .lobibox.lobibox-prompt .lobibox-body .lobibox-input:focus {
   background-color: #EEE;
 }
+.lobibox.lobibox-prompt .lobibox-body .lobibox-input.invalid {
+  border-color: #DC2B2A;
+}
+.lobibox.lobibox-prompt .lobibox-body .lobibox-input-error-message {
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #DC2B2A;
+}
 .lobibox.lobibox-prompt .lobibox-footer {
   background-color: #594343;
 }

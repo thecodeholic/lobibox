@@ -121,6 +121,15 @@ body{
                 &:focus{
                     background-color: @lobibox-popup-prompt-input-focus-bg;
                 }
+                &.invalid{
+                    border-color: @lobibox-popup-prompt-error-message-color;
+                }
+            }
+            .lobibox-input-error-message{
+                margin-top: @lobibox-popup-prompt-error-message-margin-top;
+                margin-bottom: 0;
+                font-size: @lobibox-popup-prompt-error-message-font-size;
+                color: @lobibox-popup-prompt-error-message-color;
             }
         }
         .lobibox-footer{
