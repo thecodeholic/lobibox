@@ -69,7 +69,6 @@ var Lobibox = Lobibox || {};
             if (me.$options.rounded){
                 me.$el.addClass('rounded');
             }
-            me.$el.data('lobibox', me);
         };
         var _appendInWrapper = function ($el, $wrapper) {
             if (me.$options.size === 'normal') {
@@ -277,8 +276,16 @@ var Lobibox = Lobibox || {};
 
     Lobibox.notify = function (type, options) {
         if (["default", "info", "warning", "error", "success"].indexOf(type) > -1) {
-            return new LobiboxNotify(type, options);
+            var lobibox = new LobiboxNotify(type, options);
+            lobibox.$el.data('lobibox', lobibox);
+            return lobibox;
         }
+    };
+    Lobibox.notify.closeAll = function(){
+        var ll = $('.lobibox-notify');
+        ll.each(function(ind, el){
+            var notify =$(el).data('lobibox') .remove();
+        });
     };
     //User can set default options to this variable
     Lobibox.notify.DEFAULTS = {

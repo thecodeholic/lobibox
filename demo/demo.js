@@ -465,6 +465,12 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification custom delay
         (function () {
+            $('#basicDefaultCustomDelay').click(function () {
+                Lobibox.notify('default', {
+                    delay: 15000,
+                    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                });
+            });
             $('#basicInfoCustomDelay').click(function () {
                 Lobibox.notify('info', {
                     delay: 15000,
@@ -493,6 +499,13 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification no delay
         (function () {
+            $('#basicDefaultNoDelay').click(function () {
+                Lobibox.notify('default', {
+                    delay: false,
+                    title: 'Info title',
+                    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                });
+            });
             $('#basicInfoNoDelay').click(function () {
                 Lobibox.notify('info', {
                     delay: false,
