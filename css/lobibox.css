@@ -762,6 +762,9 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify-wrapper.right .lobibox-notify {
   margin-left: auto;
 }
+.lobibox-notify-wrapper.center {
+  left: 50%;
+}
 .lobibox-notify-wrapper-large {
   z-index: 5000;
   position: fixed;

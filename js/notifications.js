@@ -60,7 +60,9 @@ var Lobibox = Lobibox || {};
             var notify = _createNotify();
             var wrapper = _createNotifyWrapper();
             _appendInWrapper(notify, wrapper);
-
+            if (wrapper.hasClass('center')){
+                wrapper.css('margin-left', '-'+(wrapper.width()/2)+"px");
+            }
             me.$el = notify;
             if (me.$options.sound) {
                 var snd = new Audio(me.$options.sound); // buffers automatically when created
@@ -72,10 +74,19 @@ var Lobibox = Lobibox || {};
         };
         var _appendInWrapper = function ($el, $wrapper) {
             if (me.$options.size === 'normal') {
-                $wrapper.append($el);
+                if ($wrapper.hasClass('bottom')){
+                    $wrapper.prepend($el);
+                } else {
+                    $wrapper.append($el);
+                }
+
             } else if (me.$options.size === 'mini') {
                 $el.addClass('notify-mini');
-                $wrapper.append($el);
+                if ($wrapper.hasClass('bottom')){
+                    $wrapper.prepend($el);
+                } else {
+                    $wrapper.append($el);
+                }
             } else if (me.$options.size === 'large') {
                 var tabPane = _createTabPane().append($el);
                 var $li = _createTabControl(tabPane.attr('id'));
