@@ -874,13 +874,11 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify {
   min-height: 150px;
 }
-.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon {
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon-wrapper {
   width: 100px;
-  font-size: 78px;
 }
-.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon,
-.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon > * {
-  line-height: 100px;
+.lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-icon > div .icon-el {
+  font-size: 78px;
 }
 .lobibox-notify-wrapper-large .lb-notify-wrapper .lobibox-notify .lobibox-notify-body {
   margin: 13px 20px;
@@ -900,22 +898,28 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
   -o-transition: all 0.2s;
   transition: all 0.2s;
 }
-.lobibox-notify .lobibox-notify-icon {
+.lobibox-notify .lobibox-notify-icon-wrapper {
   position: absolute;
-  text-align: center;
-  font-size: 55px;
   left: 15px;
-  top: 10px;
   width: 60px;
+  height: 100%;
 }
-.lobibox-notify .lobibox-notify-icon,
-.lobibox-notify .lobibox-notify-icon > * {
-  line-height: 60px;
-}
-.lobibox-notify .lobibox-notify-icon img {
-  border-radius: 4px;
+.lobibox-notify .lobibox-notify-icon {
+  display: table;
   width: 100%;
   height: 100%;
+}
+.lobibox-notify .lobibox-notify-icon > div {
+  display: table-cell;
+  vertical-align: middle;
+}
+.lobibox-notify .lobibox-notify-icon > div > img {
+  width: 100%;
+  max-width: 100%;
+}
+.lobibox-notify .lobibox-notify-icon > div .icon-el {
+  text-align: center;
+  font-size: 55px;
 }
 .lobibox-notify .lobibox-notify-body {
   margin: 10px 20px;
@@ -1022,17 +1026,12 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify.notify-mini .lobibox-notify-msg {
   line-height: 16px;
 }
-.lobibox-notify.notify-mini .lobibox-notify-icon {
-  left: 7px;
+.lobibox-notify.notify-mini .lobibox-notify-icon-wrapper {
+  left: 12px;
   width: 26px;
-  font-size: 25px;
-}
-.lobibox-notify.notify-mini .lobibox-notify-icon,
-.lobibox-notify.notify-mini .lobibox-notify-icon > * {
-  line-height: 16px;
 }
 .lobibox-notify.notify-mini .lobibox-notify-body {
-  margin: 15px 30px 15px 40px;
+  margin: 15px 30px 15px 50px;
 }
 .lobibox-notify.without-icon .lobibox-notify-body {
   margin-left: 20px;

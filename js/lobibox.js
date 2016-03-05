@@ -1142,18 +1142,23 @@ var Lobibox = Lobibox || {};
         };
         var _createNotify = function () {
             var OPTS = Lobibox.notify.OPTIONS,
+                $iconEl,
+                $innerIconEl,
                 $iconWrapper,
                 $body,
                 $notify = $('<div></div>', {
                     'class': 'lobibox-notify ' + OPTS[me.$type]['class'] + ' ' + OPTS['class'] + ' ' + me.$options.showClass
                 });
-            $iconWrapper = $('<div class="lobibox-notify-icon"></div>').appendTo($notify);
+
+            $iconWrapper = $('<div class="lobibox-notify-icon-wrapper"></div>').appendTo($notify);
+            $iconEl = $('<div class="lobibox-notify-icon"></div>').appendTo($iconWrapper);
+            $innerIconEl = $('<div></div>').appendTo($iconEl);
 
             // Add image or icon depending on given parameters
             if (me.$options.img) {
-                $iconWrapper.append('<img src="' + me.$options.img + '"/>');
+                $innerIconEl.append('<img src="' + me.$options.img + '"/>');
             } else if (me.$options.icon) {
-                $iconWrapper.append('<i class="' + me.$options.icon + '"></i>');
+                $innerIconEl.append('<div class="icon-el"><i class="' + me.$options.icon + '"></i></div>');
             } else {
                 $notify.addClass('without-icon');
             }
