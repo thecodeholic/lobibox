@@ -929,6 +929,9 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify .lobibox-notify-title {
   font-size: 20px;
 }
+.lobibox-notify .lobibox-notify-msg {
+  overflow: hidden;
+}
 .lobibox-notify .lobibox-close {
   position: absolute;
   text-align: center;

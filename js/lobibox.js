@@ -1045,10 +1045,9 @@ var Lobibox = Lobibox || {};
         var _processInput = function (options) {
 
             if (options.size === 'mini' || options.size === 'large') {
-                options.width = options.width || Lobibox.notify.OPTIONS[options.size].width;
+                options = $.extend({}, Lobibox.notify.OPTIONS[options.size], options);
             }
             options = $.extend({}, Lobibox.notify.OPTIONS[me.$type], Lobibox.notify.DEFAULTS, options);
-
 
             if (options.size !== 'mini' && options.title === true) {
                 options.title = Lobibox.notify.OPTIONS[me.$type].title;
@@ -1146,6 +1145,7 @@ var Lobibox = Lobibox || {};
                 $innerIconEl,
                 $iconWrapper,
                 $body,
+                $msg,
                 $notify = $('<div></div>', {
                     'class': 'lobibox-notify ' + OPTS[me.$type]['class'] + ' ' + OPTS['class'] + ' ' + me.$options.showClass
                 });
@@ -1163,10 +1163,15 @@ var Lobibox = Lobibox || {};
                 $notify.addClass('without-icon');
             }
             // Create body, append title and message in body and append body in notification
+            $msg = $('<div class="lobibox-notify-msg">' + me.$options.msg + '</div>');
+
+            if (me.$options.messageHeight !== false){
+                $msg.css('max-height', me.$options.messageHeight);
+            }
+
             $body = $('<div></div>', {
                 'class': 'lobibox-notify-body'
-            }).append('<div class="lobibox-notify-msg">' + me.$options.msg + '</div>')
-                .appendTo($notify);
+            }).append($msg).appendTo($notify);
 
             if (me.$options.title) {
                 $body.prepend('<div class="lobibox-notify-title">' + me.$options.title + '<div>');
@@ -1305,16 +1310,19 @@ var Lobibox = Lobibox || {};
         sound: true,                // Sound of notification. Set this false to disable sound. Leave as is for default sound or set custom soud path
         position: "bottom right",   // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"
         iconSource: 'bootstrap',    // "bootstrap" or "fontAwesome" the library which will be used for icons
-        rounded: false
+        rounded: false,
+        messageHeight: 60
     };
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
         'class': 'animated-fast',
         large: {
-            width: 500
+            width: 500,
+            messageHeight: 96
         },
         mini: {
-            'class': 'notify-mini'
+            'class': 'notify-mini',
+            messageHeight: 32
         },
         default: {
             'class': 'lobibox-notify-default',
