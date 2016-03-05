@@ -3,6 +3,7 @@
 var Lobibox = Lobibox || {};
 (function () {
 
+    Lobibox.counter = 0;
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -170,7 +171,8 @@ var Lobibox = Lobibox || {};
         _onButtonClick: function (buttonOptions, type) {
             var me = this;
 
-            if ((type === 'ok' && me.$type === 'prompt' && me.isValid() || type !== 'ok') && buttonOptions && buttonOptions.closeOnClick) {
+            if ((type === 'ok' && me.$type === 'prompt' && me.isValid() || me.$type !== 'prompt' || type !== 'ok')
+                && buttonOptions && buttonOptions.closeOnClick) {
                 me.destroy();
             }
         },
@@ -246,7 +248,7 @@ var Lobibox = Lobibox || {};
 
         _calculateWidth: function (width) {
             var me = this;
-            width = Math.min($(window).outerWidth(), width);
+            width = Math.min(Math.max(width, me.$options.width), $(window).outerWidth());
             if (width === $(window).outerWidth()) {
                 width -= 2 * me.$options.horizontalOffset;
             }
@@ -254,7 +256,13 @@ var Lobibox = Lobibox || {};
         },
 
         _calculateHeight: function (height) {
-            return Math.min($(window).outerHeight(), height);
+            var me = this;
+            console.log(me.$options.height);
+            height = Math.min(Math.max(height, me.$options.height), $(window).outerHeight());
+            if (height === $(window).outerHeight()) {
+                height -= 2 * me.$options.verticalOffset;
+            }
+            return height;
         },
 
         _addCloseButton: function () {
@@ -322,10 +330,15 @@ var Lobibox = Lobibox || {};
 
         _afterShow: function () {
             var me = this;
-
+            Lobibox.counter++;
+            me.$el.attr('data-nth', Lobibox.counter);
             if (!me.$options.draggable){
-                me.$el.css('left', '50%').css('margin-left', '-'+(me.$el.width()/2)+'px');
-                me.$el.css('top', '50%').css('margin-top', '-'+(me.$el.height()/2)+'px');
+                $(window).on('resize.lobibox-'+me.$el.attr('data-nth'), function(){
+                    me.refreshWidth();
+                    me.refreshHeight();
+                    me.$el.css('left', '50%').css('margin-left', '-'+(me.$el.width()/2)+'px');
+                    me.$el.css('top', '50%').css('margin-top', '-'+(me.$el.height()/2)+'px');
+                });
             }
 
             me._triggerEvent('shown');
@@ -338,7 +351,9 @@ var Lobibox = Lobibox || {};
 
         _afterClose: function () {
             var me = this;
-
+            if (!me.$options.draggable){
+                $(window).off('resize.lobibox-'+me.$el.attr('data-nth'));
+            }
             me._triggerEvent('closed');
         },
 //------------------------------------------------------------------------------
@@ -410,6 +425,14 @@ var Lobibox = Lobibox || {};
             var me = this;
             me.$el.css('width', me._calculateWidth(width));
             return me;
+        },
+
+        refreshWidth: function(){
+            this.setWidth(this.$el.width());
+        },
+
+        refreshHeight: function(){
+            this.setHeight(this.$el.height());
         },
 
         /**
@@ -567,8 +590,9 @@ var Lobibox = Lobibox || {};
     };
     Lobibox.base.DEFAULTS = {
         horizontalOffset: 5,                //If the messagebox is larger (in width) than window's width. The messagebox's width is reduced to window width - 2 * horizontalOffset
+        verticalOffset: 5,                  //If the messagebox is larger (in height) than window's height. The messagebox's height is reduced to window height - 2 * verticalOffset
         width: 600,
-        height: 'auto',                     // Height is automatically given calculated by width
+        height: 'auto',                     // Height is automatically calculated by width
         closeButton: true,                  // Show close button or not
         draggable: false,                   // Make messagebox draggable
         customBtnClass: 'lobibox-btn lobibox-btn-default', // Class for custom buttons
@@ -705,7 +729,7 @@ var Lobibox = Lobibox || {};
         lines: 3,           // This works only for multiline prompt. Number of lines
         type: 'text',       // Prompt type. Available types (text|number|color)
         label: '',          // Set some text which will be shown exactly on top of textfield
-        required: false,
+        required: true,
         errorMessage: 'The field is required'
     };
 //------------------------------------------------------------------------------
