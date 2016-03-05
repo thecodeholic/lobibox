@@ -813,12 +813,12 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
   vertical-align: middle;
 }
 .lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-default > a {
-  background-color: rgba(0, 0, 0, 0.9);
-  border-color: #000000;
+  background-color: rgba(28, 28, 28, 0.9);
+  border-color: #141414;
 }
 .lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-default > a:hover {
-  background-color: #000000;
-  border-color: #000000;
+  background-color: #1c1c1c;
+  border-color: #0f0f0f;
 }
 .lobibox-notify-wrapper-large .lb-notify-tabs > li.lobibox-notify-error > a {
   background-color: rgba(202, 33, 33, 0.9);
@@ -916,6 +916,7 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify .lobibox-notify-icon > div > img {
   width: 100%;
   max-width: 100%;
+  margin-top: 3px;
   border-radius: 4px;
 }
 .lobibox-notify .lobibox-notify-icon > div .icon-el {
@@ -964,16 +965,16 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
   background-color: #e8e8e8;
 }
 .lobibox-notify.lobibox-notify-default {
-  border-color: #000000;
-  background-color: #000000;
+  border-color: #0f0f0f;
+  background-color: #1c1c1c;
   color: #FFF;
 }
 .lobibox-notify.lobibox-notify-default:hover {
-  background-color: #000000;
+  background-color: #1c1c1c;
   border-color: #FFF;
 }
 .lobibox-notify.lobibox-notify-default .lobibox-close:hover {
-  background-color: #333333;
+  background-color: #4f4f4f;
 }
 .lobibox-notify.lobibox-notify-error {
   border-color: #b41d1d;
@@ -1012,7 +1013,7 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
   border-color: #FFF;
 }
 .lobibox-notify.rounded {
-  border-radius: 16px;
+  border-radius: 30px;
 }
 .lobibox-notify:hover {
   cursor: pointer;
@@ -1032,13 +1033,13 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 }
 .lobibox-notify.notify-mini .lobibox-notify-icon-wrapper {
   left: 12px;
-  width: 26px;
+  width: 32px;
 }
 .lobibox-notify.notify-mini .lobibox-notify-icon > div .icon-el {
   font-size: 32px;
 }
 .lobibox-notify.notify-mini .lobibox-notify-body {
-  margin: 15px 30px 15px 50px;
+  margin: 15px 30px 15px 56px;
 }
 .lobibox-notify.without-icon .lobibox-notify-body {
   margin-left: 20px;
