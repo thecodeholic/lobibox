@@ -1067,13 +1067,27 @@ var Lobibox = Lobibox || {};
         };
         var _init = function () {
             // Create notification
-            var notify = _createNotify();
-            var wrapper = _createNotifyWrapper();
-            _appendInWrapper(notify, wrapper);
-            if (wrapper.hasClass('center')){
-                wrapper.css('margin-left', '-'+(wrapper.width()/2)+"px");
+            var $notify = _createNotify();
+            if (me.$options.size === 'mini'){
+                $notify.addClass('notify-mini');
             }
-            me.$el = notify;
+
+            if (typeof me.$options.position === 'string'){
+                var $wrapper = _createNotifyWrapper();
+                _appendInWrapper($notify, $wrapper);
+                if ($wrapper.hasClass('center')){
+                    $wrapper.css('margin-left', '-'+($wrapper.width()/2)+"px");
+                }
+            } else {
+                $('body').append($notify);
+                $notify.css({
+                    'position': 'fixed',
+                    left: me.$options.position.left,
+                    top: me.$options.position.top,
+                })
+            }
+
+            me.$el = $notify;
             if (me.$options.sound) {
                 var snd = new Audio(me.$options.sound); // buffers automatically when created
                 snd.play();
@@ -1091,7 +1105,6 @@ var Lobibox = Lobibox || {};
                 }
 
             } else if (me.$options.size === 'mini') {
-                $el.addClass('notify-mini');
                 if ($wrapper.hasClass('bottom')){
                     $wrapper.prepend($el);
                 } else {
@@ -1327,10 +1340,12 @@ var Lobibox = Lobibox || {};
         closeOnClick: true,         // Close notifications by clicking on them
         width: 400,                 // Width of notification box
         sound: true,                // Sound of notification. Set this false to disable sound. Leave as is for default sound or set custom soud path
-        position: "bottom right",   // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"
+        // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right", "center top", "center bottom"
+        // It can also be object {left: number, top: number} to position notification at any place
+        position: "bottom right",
         iconSource: 'bootstrap',    // "bootstrap" or "fontAwesome" the library which will be used for icons
-        rounded: false,
-        messageHeight: 60
+        rounded: false,             // Whether to make notification corners rounded
+        messageHeight: 60           // Notification message maximum height
     };
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
