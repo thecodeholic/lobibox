@@ -67,6 +67,9 @@ var Lobibox = Lobibox || {};
                 var snd = new Audio(me.$options.sound); // buffers automatically when created
                 snd.play();
             }
+            if (me.$options.rounded){
+                me.$el.addClass('rounded');
+            }
             me.$el.data('lobibox', me);
         };
         var _appendInWrapper = function ($el, $wrapper) {
@@ -263,7 +266,7 @@ var Lobibox = Lobibox || {};
     };
 
     Lobibox.notify = function (type, options) {
-        if (["info", "warning", "error", "success"].indexOf(type) > -1) {
+        if (["default", "info", "warning", "error", "success"].indexOf(type) > -1) {
             return new LobiboxNotify(type, options);
         }
     };
@@ -274,7 +277,7 @@ var Lobibox = Lobibox || {};
         size: 'normal',             // normal, mini, large
         soundPath: 'sounds/',   // The folder path where sounds are located
         soundExt: '.ogg',           // Default extension for all sounds
-        showClass: 'zoomIn',        // Show animation class.
+        showClass: 'fadeInDown',    // Show animation class.
         hideClass: 'zoomOut',       // Hide animation class.
         icon: true,                 // Icon of notification. Leave as is for default icon or set custom string
         msg: '',                    // Message of notification
@@ -286,7 +289,8 @@ var Lobibox = Lobibox || {};
         width: 400,                 // Width of notification box
         sound: true,                // Sound of notification. Set this false to disable sound. Leave as is for default sound or set custom soud path
         position: "bottom right",   // Place to show notification. Available options: "top left", "top right", "bottom left", "bottom right"
-        iconSource: 'bootstrap'     // "bootstrap" or "fontAwesome" the library which will be used for icons
+        iconSource: 'bootstrap',    // "bootstrap" or "fontAwesome" the library which will be used for icons
+        rounded: false
     };
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
@@ -296,6 +300,11 @@ var Lobibox = Lobibox || {};
         },
         mini: {
             'class': 'notify-mini'
+        },
+        default: {
+            'class': 'lobibox-notify-default',
+            'title': 'Default',
+            sound: false
         },
         success: {
             'class': 'lobibox-notify-success',

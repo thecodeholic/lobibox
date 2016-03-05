@@ -306,6 +306,11 @@ $(function () {
     (function () {
         //            Notification basic example
         (function () {
+            $('#basicDefault').click(function () {
+                Lobibox.notify('default', {
+                    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                });
+            });
             $('#basicInfo').click(function () {
                 Lobibox.notify('info', {
                     msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
@@ -330,6 +335,12 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification with image
         (function () {
+            $('#basicDefaultImage').click(function () {
+                Lobibox.notify('default', {
+                    img: IMG_PREFIX + '1.jpg',
+                    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                });
+            });
             $('#basicInfoImage').click(function () {
                 Lobibox.notify('info', {
                     img: IMG_PREFIX + '1.jpg',
@@ -386,6 +397,12 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification custom title
         (function () {
+            $('#basicDefaultCustomTitle').click(function () {
+                Lobibox.notify('default', {
+                    title: 'Info title',
+                    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                });
+            });
             $('#basicInfoCustomTitle').click(function () {
                 Lobibox.notify('info', {
                     title: 'Info title',
@@ -414,6 +431,12 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification without icon
         (function () {
+            $('#basicDefaultNoIcon').click(function () {
+                Lobibox.notify('default', {
+                    icon: false,
+                    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                });
+            });
             $('#basicInfoNoIcon').click(function () {
                 Lobibox.notify('info', {
                     icon: false,
@@ -590,6 +613,12 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification Large
         (function () {
+            $('#largeDefaultBasic').click(function () {
+                Lobibox.notify('default', {
+                    size: 'large',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent, youngest nestor serene horse, already, ipsum unplanted trace line. Making queries worketh game unplanted trace how erring poles.'
+                });
+            });
             $('#largeInfoBasic').click(function () {
                 Lobibox.notify('info', {
                     size: 'large',
@@ -618,6 +647,13 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification large with image
         (function () {
+            $('#largeDefaultImage').click(function () {
+                Lobibox.notify('default', {
+                    img: IMG_PREFIX + '1.jpg',
+                    size: 'large',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent, youngest nestor serene horse, already, ipsum unplanted trace line. Making queries worketh game unplanted trace how erring poles.'
+                });
+            });
             $('#largeInfoImage').click(function () {
                 Lobibox.notify('info', {
                     img: IMG_PREFIX + '1.jpg',
@@ -650,6 +686,13 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification large positioning
         (function () {
+            $('#largeDefaultPosition').click(function () {
+                Lobibox.notify('default', {
+                    size: 'large',
+                    position: 'bottom left',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent, youngest nestor serene horse, already, ipsum unplanted trace line. Making queries worketh game unplanted trace how erring poles.'
+                });
+            });
             $('#largeInfoPosition').click(function () {
                 Lobibox.notify('info', {
                     size: 'large',
@@ -682,6 +725,14 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification large animation
         (function () {
+            $('#largeDefaultAnimation').click(function () {
+                Lobibox.notify('default', {
+                    showClass: 'fadeInDown',
+                    hideClass: 'fadeUpDown',
+                    size: 'large',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent, youngest nestor serene horse, already, ipsum unplanted trace line. Making queries worketh game unplanted trace how erring poles.'
+                });
+            });
             $('#largeInfoAnimation').click(function () {
                 Lobibox.notify('info', {
                     showClass: 'fadeInDown',
@@ -718,6 +769,12 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification mini basic
         (function () {
+            $('#miniDefaultAnimation').click(function () {
+                Lobibox.notify('default', {
+                    size: 'mini',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
             $('#miniInfoAnimation').click(function () {
                 Lobibox.notify('info', {
                     size: 'mini',
@@ -746,6 +803,13 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification mini with image
         (function () {
+            $('#miniDefaultImage').click(function () {
+                Lobibox.notify('default', {
+                    img: IMG_PREFIX + '1.jpg',
+                    size: 'mini',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
             $('#miniInfoImage').click(function () {
                 Lobibox.notify('info', {
                     img: IMG_PREFIX + '1.jpg',
@@ -778,6 +842,13 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification mini without icon
         (function () {
+            $('#miniDefaultNoIcon').click(function () {
+                Lobibox.notify('default', {
+                    size: 'mini',
+                    icon: false,
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
             $('#miniInfoNoIcon').click(function () {
                 Lobibox.notify('info', {
                     size: 'mini',
@@ -810,6 +881,13 @@ $(function () {
         //------------------------------------------------------------------------------
         //                Notification mini with title
         (function () {
+            $('#miniDefaultTitle').click(function () {
+                Lobibox.notify('default', {
+                    size: 'mini',
+                    title: 'Lorem ipsum',
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
             $('#miniInfoTitle').click(function () {
                 Lobibox.notify('info', {
                     size: 'mini',
