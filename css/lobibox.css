@@ -916,6 +916,7 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify .lobibox-notify-icon > div > img {
   width: 100%;
   max-width: 100%;
+  border-radius: 4px;
 }
 .lobibox-notify .lobibox-notify-icon > div .icon-el {
   text-align: center;
@@ -1029,6 +1030,9 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify.notify-mini .lobibox-notify-icon-wrapper {
   left: 12px;
   width: 26px;
+}
+.lobibox-notify.notify-mini .lobibox-notify-icon > div .icon-el {
+  font-size: 32px;
 }
 .lobibox-notify.notify-mini .lobibox-notify-body {
   margin: 15px 30px 15px 50px;
