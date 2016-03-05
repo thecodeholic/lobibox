@@ -323,6 +323,11 @@ var Lobibox = Lobibox || {};
         _afterShow: function () {
             var me = this;
 
+            if (!me.$options.draggable){
+                me.$el.css('left', '50%').css('margin-left', '-'+(me.$el.width()/2)+'px');
+                me.$el.css('top', '50%').css('margin-top', '-'+(me.$el.height()/2)+'px');
+            }
+
             me._triggerEvent('shown');
         },
 
