@@ -53,6 +53,9 @@ $(function () {
             $('#popupPromptBasic').click(function () {
                 Lobibox.prompt('text', {
                     title: 'Please enter username',
+                    shown: function(box){
+                        console.log(box.$input[0]);
+                    },
                     attrs: {
                         placeholder: "Username"
                     }

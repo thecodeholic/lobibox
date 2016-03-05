@@ -230,12 +230,14 @@ var Lobibox = Lobibox || {};
                 $('body').append('<div class="lobibox-backdrop"></div>');
             }
         },
+
         _triggerEvent: function (type) {
             var me = this;
             if (me.$options[type] && typeof me.$options[type] === 'function') {
                 me.$options[type](me);
             }
         },
+
         _calculateWidth: function (width) {
             var me = this;
             width = Math.min($(window).outerWidth(), width);
@@ -244,9 +246,11 @@ var Lobibox = Lobibox || {};
             }
             return width;
         },
+
         _calculateHeight: function (height) {
             return Math.min($(window).outerHeight(), height);
         },
+
         _addCloseButton: function () {
             var me = this;
             var closeBtn = $('<span class="btn-close">&times;</span>');
@@ -304,6 +308,28 @@ var Lobibox = Lobibox || {};
             me.$el.find('.lobibox-body').html(msg);
             return me;
         },
+
+        _beforeShow: function(){
+            var me = this;
+            me._triggerEvent('onShow');
+        },
+
+        _afterShow: function(){
+            var me = this;
+
+            me._triggerEvent('shown');
+        },
+
+        _beforeClose: function(){
+            var me = this;
+            me._triggerEvent('beforeClose');
+        },
+
+        _afterClose: function(){
+            var me = this;
+
+            me._triggerEvent('closed');
+        },
 //------------------------------------------------------------------------------
 //--------------------------PUBLIC METHODS--------------------------------------
 //------------------------------------------------------------------------------
@@ -342,7 +368,7 @@ var Lobibox = Lobibox || {};
          */
         destroy: function () {
             var me = this;
-            me._triggerEvent('beforeClose');
+            me._beforeClose();
             if (me.$options.hideClass) {
                 me.$el.removeClass(me.$options.showClass).addClass(me.$options.hideClass);
                 setTimeout(function () {
@@ -357,7 +383,7 @@ var Lobibox = Lobibox || {};
                     $('.lobibox-backdrop').remove();
                     $('body').removeClass(Lobibox.base.OPTIONS.bodyClass);
                 }
-                me._triggerEvent('closed');
+                me._afterClose();
             }
 
             return this;
@@ -450,7 +476,9 @@ var Lobibox = Lobibox || {};
         show: function () {
             var me = this,
                 $body = $('body');
-            me._triggerEvent('onShow');
+
+            me._beforeShow();
+
             me.$el.removeClass('lobibox-hidden');
             $body.append(me.$el);
             if (me.$options.buttons){
@@ -466,7 +494,7 @@ var Lobibox = Lobibox || {};
                     me.destroy();
                 }, me.$options.delay);
             }
-            me._triggerEvent('shown');
+            me._afterShow();
             return me;
         }
     };
@@ -584,13 +612,20 @@ var Lobibox = Lobibox || {};
             options = $.extend({}, mergedOptions, LobiboxPrompt.DEFAULT_OPTIONS, options);
             return options;
         },
+
         _init: function () {
             var me = this;
             LobiboxBase._init.call(me);
             me.show();
+        },
+
+        _afterShow: function(){
+            var me = this;
             me._setContent(me._createInput())._position();
             me.$input.focus();
+            LobiboxBase._afterShow.call(me);
         },
+
         _createInput: function () {
             var me = this,
                 label;
@@ -670,6 +705,11 @@ var Lobibox = Lobibox || {};
 
             LobiboxBase._init.call(me);
             me.show();
+        },
+
+        _afterShow: function(){
+            var me = this;
+
             var d = $('<div></div>');
             if (me.$options.iconClass) {
                 d.append($('<div class="lobibox-icon-wrapper"></div>')
@@ -680,6 +720,8 @@ var Lobibox = Lobibox || {};
             me._setContent(d.html());
 
             me._position();
+
+            LobiboxBase._afterShow.call(me);
         }
     });
 
@@ -722,6 +764,10 @@ var Lobibox = Lobibox || {};
             var me = this;
             LobiboxBase._init.call(me);
             me.show();
+        },
+
+        _afterShow: function(){
+            var me = this;
 
             var d = $('<div></div>');
             if (me.$options.iconClass) {
@@ -732,6 +778,8 @@ var Lobibox = Lobibox || {};
             d.append('<div class="lobibox-body-text-wrapper"><span class="lobibox-body-text">' + me.$options.msg + '</span></div>');
             me._setContent(d.html());
             me._position();
+
+            LobiboxBase._afterShow.call(me);
         }
     });
     Lobibox.alert.OPTIONS = {
@@ -774,11 +822,17 @@ var Lobibox = Lobibox || {};
             options = $.extend({}, mergedOptions, Lobibox.progress.DEFAULTS, options);
             return options;
         },
+
         _init: function () {
             var me = this;
 
             LobiboxBase._init.call(me);
             me.show();
+        },
+
+        _afterShow: function(){
+            var me = this;
+
             if (me.$options.progressTpl) {
                 me.$progressBarElement = $(me.$options.progressTpl);
             } else {
@@ -791,7 +845,10 @@ var Lobibox = Lobibox || {};
             var innerHTML = $('<div></div>').append(label, me.$progressBarElement);
             me._setContent(innerHTML);
             me._position();
+
+            LobiboxBase._afterShow.call(me);
         },
+
         _createProgressbar: function () {
             var me = this;
             var outer = $('<div class="lobibox-progress-bar-wrapper lobibox-progress-outer"></div>')
@@ -803,6 +860,7 @@ var Lobibox = Lobibox || {};
 
             return outer;
         },
+
         /**
          * Set progress value
          *
@@ -824,6 +882,7 @@ var Lobibox = Lobibox || {};
             me.$el.find('[data-role="progress-text"]').html(progress.toFixed(1) + "%");
             return me;
         },
+
         /**
          * Get progress value
          *
@@ -871,6 +930,7 @@ var Lobibox = Lobibox || {};
             options = $.extend({}, mergedOptions, Lobibox.window.DEFAULTS, options);
             return options;
         },
+
         _init: function () {
             var me = this;
 
@@ -879,19 +939,25 @@ var Lobibox = Lobibox || {};
             if (me.$options.url && me.$options.autoload) {
                 if (!me.$options.showAfterLoad) {
                     me.show();
-                    me._position();
                 }
                 me.load(function () {
                     if (me.$options.showAfterLoad) {
                         me.show();
-                        me._position();
                     }
                 });
             } else {
                 me.show();
-                me._position();
             }
         },
+
+        _afterShow: function(){
+            var me = this;
+
+            me._position();
+
+            LobiboxBase._afterShow.call(me);
+        },
+
         /**
          * Setter method for <code>params</code> option
          *
