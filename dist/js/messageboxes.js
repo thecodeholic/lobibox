@@ -457,13 +457,14 @@ var Lobibox = Lobibox || {};
                 var buttons = me.$el.find('.lobibox-footer').children();
                 buttons[0].focus();
             }
-            //var firstBtn = me.$el.find('.lobibox-btn').first();
-            //if (firstBtn.length > 0) {
-            //    firstBtn[0].focus();
-            //}
             if (me.$options.modal) {
                 $body.addClass(Lobibox.base.OPTIONS.bodyClass);
                 me._addBackdrop();
+            }
+            if (me.$options.delay !== false){
+                setTimeout(function(){
+                    me.destroy();
+                }, me.$options.delay);
             }
             me._triggerEvent('shown');
             return me;
@@ -526,21 +527,22 @@ var Lobibox = Lobibox || {};
         }
     };
     Lobibox.base.DEFAULTS = {
-        horizontalOffset: 5,    //If the messagebox is larger (in width) than window's width. The messagebox's width is reduced to window width - 2 * horizontalOffset
+        horizontalOffset: 5,                //If the messagebox is larger (in width) than window's width. The messagebox's width is reduced to window width - 2 * horizontalOffset
         width: 600,
-        height: 'auto',  // Height is automatically given calculated by width
-        closeButton: true,  // Show close button or not
-        draggable: false,  // Make messagebox draggable
+        height: 'auto',                     // Height is automatically given calculated by width
+        closeButton: true,                  // Show close button or not
+        draggable: false,                   // Make messagebox draggable
         customBtnClass: 'lobibox-btn lobibox-btn-default', // Class for custom buttons
         modal: true,
         debug: false,
-        buttonsAlign: 'center', // Position where buttons should be aligned
-        closeOnEsc: true,  // Close messagebox on Esc press
-        delayToRemove: 200,
-        baseClass: 'animated-super-fast', // Base class to add all messageboxes
-        showClass: 'zoomIn', // Show animation class
-        hideClass: 'zoomOut', // Hide animation class
-        iconSource: 'bootstrap', // "bootstrap" or "fontAwesome" the library which will be used for icons
+        buttonsAlign: 'center',             // Position where buttons should be aligned
+        closeOnEsc: true,                   // Close messagebox on Esc press
+        delayToRemove: 200,                 // Time after which lobibox will be removed after remove call. (This option is for hide animation to finish)
+        delay: false,                       // Time to remove lobibox after shown
+        baseClass: 'animated-super-fast',   // Base class to add all messageboxes
+        showClass: 'zoomIn',                // Show animation class
+        hideClass: 'zoomOut',               // Hide animation class
+        iconSource: 'bootstrap',            // "bootstrap" or "fontAwesome" the library which will be used for icons
 
         //events
         //When messagebox show is called but before it is actually shown
