@@ -169,10 +169,9 @@ var Lobibox = Lobibox || {};
 
         _onButtonClick: function (buttonOptions, type) {
             var me = this;
-            if (buttonOptions && buttonOptions.closeOnClick) {
-                if (type === 'ok' && me.$type === 'prompt' && me.isValid()) {
-                    me.destroy();
-                }
+
+            if ((type === 'ok' && me.$type === 'prompt' && me.isValid() || type !== 'ok') && buttonOptions && buttonOptions.closeOnClick) {
+                me.destroy();
             }
         },
 
@@ -672,17 +671,22 @@ var Lobibox = Lobibox || {};
         },
 
         isValid: function () {
-            var me = this;
+            var me = this,
+                $error = me.$el.find('.lobibox-input-error-message');
 
             if (me.$options.required && !me.getValue()){
                 me.$input.addClass('invalid');
-                if (me.$el.find('.lobibox-input-error-message').length === 0){
-                    me.$el.find('.lobibox-body').append('<p class="lobibox-input-error-message">'+'The field is required'+'</p>');
+                if ($error.length === 0){
+                    me.$el.find('.lobibox-body').append('<p class="lobibox-input-error-message">'+me.$options.errorMessage+'</p>');
                     me._position();
+                    me.$input.focus();
                 }
-
                 return false;
             }
+            me.$input.removeClass('invalid');
+            $error.remove();
+            me._position();
+            me.$input.focus();
 
             return true;
         }
@@ -696,7 +700,8 @@ var Lobibox = Lobibox || {};
         lines: 3,           // This works only for multiline prompt. Number of lines
         type: 'text',       // Prompt type. Available types (text|number|color)
         label: '',          // Set some text which will be shown exactly on top of textfield
-        required: true
+        required: false,
+        errorMessage: 'The field is required'
     };
 //------------------------------------------------------------------------------
 //-------------------------LobiboxConfirm---------------------------------------
