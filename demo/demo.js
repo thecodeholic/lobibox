@@ -933,5 +933,49 @@ $(function () {
                 });
             });
         })();
+        //------------------------------------------------------------------------------
+        //                Notification mini with title
+        (function () {
+            $('#miniDefaultRounded').click(function () {
+                Lobibox.notify('default', {
+                    size: 'mini',
+                    rounded: true,
+                    delayIndicator: false,
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniInfoRounded').click(function () {
+                Lobibox.notify('info', {
+                    size: 'mini',
+                    rounded: true,
+                    delayIndicator: false,
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniWarningRounded').click(function () {
+                Lobibox.notify('warning', {
+                    size: 'mini',
+                    rounded: true,
+                    delayIndicator: false,
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniErrorRounded').click(function () {
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    rounded: true,
+                    delayIndicator: false,
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+            $('#miniSuccessRounded').click(function () {
+                Lobibox.notify('success', {
+                    size: 'mini',
+                    rounded: true,
+                    delayIndicator: false,
+                    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+                });
+            });
+        })();
     })();
 });

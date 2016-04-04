@@ -335,7 +335,7 @@ var Lobibox = Lobibox || {};
         position: "bottom right",
         iconSource: 'bootstrap',    // "bootstrap" or "fontAwesome" the library which will be used for icons
         rounded: false,             // Whether to make notification corners rounded
-        messageHeight: 60           // Notification message maximum height
+        messageHeight: 60           // Notification message maximum height. This is not for notification itself, this is for <code>.lobibox-notify-msg</code>
     };
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
