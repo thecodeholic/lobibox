@@ -32,7 +32,7 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "jquery": "^1.11"
+  "devDependencies": {
+    "jquery": "~1.12.0",
   }
 }
