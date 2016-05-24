@@ -55,45 +55,7 @@ var Lobibox = Lobibox || {};
             }
             return options;
         };
-        var _init = function () {
-            // Create notification
-            var $notify = _createNotify();
-            if (me.$options.size === 'mini') {
-                $notify.addClass('notify-mini');
-            }
 
-            if (typeof me.$options.position === 'string') {
-                var $wrapper = _createNotifyWrapper();
-                _appendInWrapper($notify, $wrapper);
-                if ($wrapper.hasClass('center')) {
-                    $wrapper.css('margin-left', '-' + ($wrapper.width() / 2) + "px");
-                }
-            } else {
-                $('body').append($notify);
-                $notify.css({
-                    'position': 'fixed',
-                    left: me.$options.position.left,
-                    top: me.$options.position.top
-                })
-            }
-
-            me.$el = $notify;
-            if (me.$options.sound) {
-                var snd = new Audio(me.$options.sound); // buffers automatically when created
-                snd.play();
-            }
-            if (me.$options.rounded) {
-                me.$el.addClass('rounded');
-            }
-            me.$el.on('click.lobibox', function(ev){
-                if (me.$options.onClickUrl){
-                    window.location.href = me.$options.onClickUrl;
-                }
-                if (me.$options.onClick && typeof me.$options.onClick === 'function'){
-                    me.$options.onClick.call(me, ev);
-                }
-            });
-        };
         var _appendInWrapper = function ($el, $wrapper) {
             if (me.$options.size === 'normal') {
                 if ($wrapper.hasClass('bottom')) {
@@ -303,29 +265,80 @@ var Lobibox = Lobibox || {};
                     $li.remove();
                     parent.remove();
                 }
+                var list = Lobibox.notify.list;
+                var ind = list.indexOf(me);
+                list.splice(ind, 1);
+                var next = list[ind];
+                if (next && next.$options.showAfterPrevious){
+                    next._init();
+                }
             }, 500);
             return me;
+        };
+        me._init = function () {
+            // Create notification
+            var $notify = _createNotify();
+            if (me.$options.size === 'mini') {
+                $notify.addClass('notify-mini');
+            }
+
+            if (typeof me.$options.position === 'string') {
+                var $wrapper = _createNotifyWrapper();
+                _appendInWrapper($notify, $wrapper);
+                if ($wrapper.hasClass('center')) {
+                    $wrapper.css('margin-left', '-' + ($wrapper.width() / 2) + "px");
+                }
+            } else {
+                $('body').append($notify);
+                $notify.css({
+                    'position': 'fixed',
+                    left: me.$options.position.left,
+                    top: me.$options.position.top
+                })
+            }
+
+            me.$el = $notify;
+            if (me.$options.sound) {
+                var snd = new Audio(me.$options.sound); // buffers automatically when created
+                snd.play();
+            }
+            if (me.$options.rounded) {
+                me.$el.addClass('rounded');
+            }
+            me.$el.on('click.lobibox', function(ev){
+                if (me.$options.onClickUrl){
+                    window.location.href = me.$options.onClickUrl;
+                }
+                if (me.$options.onClick && typeof me.$options.onClick === 'function'){
+                    me.$options.onClick.call(me, ev);
+                }
+            });
+            me.$el.data('lobibox', me);
         };
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
         this.$type = type;
         this.$options = _processInput(options);
-        _init();
+        if (!me.$options.showAfterPrevious || Lobibox.notify.list.length === 0){
+            this._init();
+        }
+
     };
 
     Lobibox.notify = function (type, options) {
         if (["default", "info", "warning", "error", "success"].indexOf(type) > -1) {
             var lobibox = new LobiboxNotify(type, options);
-            lobibox.$el.data('lobibox', lobibox);
+            Lobibox.notify.list.push(lobibox);
             return lobibox;
         }
     };
+    Lobibox.notify.list = [];
     Lobibox.notify.closeAll = function () {
-        var ll = $('.lobibox-notify');
-        ll.each(function (ind, el) {
-            $(el).data('lobibox').remove();
-        });
+        var list = Lobibox.notify.list;
+        for (var i in list){
+            list[i].remove();
+        }
     };
     //User can set default options to this variable
     Lobibox.notify.DEFAULTS = {
@@ -354,6 +367,7 @@ var Lobibox = Lobibox || {};
         messageHeight: 60,          // Notification message maximum height. This is not for notification itself, this is for <code>.lobibox-notify-msg</code>
         pauseDelayOnHover: true,    // When you mouse over on notification delay (if it is enabled) will be paused.
         onClickUrl: null,           // The url which will be opened when notification is clicked
+        showAfterPrevious: false,   // Set this to true if you want notification not to be shown until previous notification is closed. This is useful for notification queues
 
         // Events
         onClick: null
