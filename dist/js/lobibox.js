@@ -1195,22 +1195,22 @@ var Lobibox = Lobibox || {};
         var _init = function () {
             // Create notification
             var $notify = _createNotify();
-            if (me.$options.size === 'mini'){
+            if (me.$options.size === 'mini') {
                 $notify.addClass('notify-mini');
             }
 
-            if (typeof me.$options.position === 'string'){
+            if (typeof me.$options.position === 'string') {
                 var $wrapper = _createNotifyWrapper();
                 _appendInWrapper($notify, $wrapper);
-                if ($wrapper.hasClass('center')){
-                    $wrapper.css('margin-left', '-'+($wrapper.width()/2)+"px");
+                if ($wrapper.hasClass('center')) {
+                    $wrapper.css('margin-left', '-' + ($wrapper.width() / 2) + "px");
                 }
             } else {
                 $('body').append($notify);
                 $notify.css({
                     'position': 'fixed',
                     left: me.$options.position.left,
-                    top: me.$options.position.top,
+                    top: me.$options.position.top
                 })
             }
 
@@ -1219,20 +1219,20 @@ var Lobibox = Lobibox || {};
                 var snd = new Audio(me.$options.sound); // buffers automatically when created
                 snd.play();
             }
-            if (me.$options.rounded){
+            if (me.$options.rounded) {
                 me.$el.addClass('rounded');
             }
         };
         var _appendInWrapper = function ($el, $wrapper) {
             if (me.$options.size === 'normal') {
-                if ($wrapper.hasClass('bottom')){
+                if ($wrapper.hasClass('bottom')) {
                     $wrapper.prepend($el);
                 } else {
                     $wrapper.append($el);
                 }
 
             } else if (me.$options.size === 'mini') {
-                if ($wrapper.hasClass('bottom')){
+                if ($wrapper.hasClass('bottom')) {
                     $wrapper.prepend($el);
                 } else {
                     $wrapper.append($el);
@@ -1315,7 +1315,7 @@ var Lobibox = Lobibox || {};
             // Create body, append title and message in body and append body in notification
             $msg = $('<div class="lobibox-notify-msg">' + me.$options.msg + '</div>');
 
-            if (me.$options.messageHeight !== false){
+            if (me.$options.messageHeight !== false) {
                 $msg.css('max-height', me.$options.messageHeight);
             }
 
@@ -1378,6 +1378,14 @@ var Lobibox = Lobibox || {};
                 }
 
             }, interval);
+
+            if (me.$options.pauseDelayOnHover) {
+                $el.on('mouseenter.lobibox', function () {
+                    interval = 0;
+                }).on('mouseleave.lobibox', function () {
+                    interval = 1000 / 30;
+                });
+            }
         };
         var _findTabToActivate = function ($li) {
             var $itemToActivate = $li.prev();
@@ -1442,10 +1450,10 @@ var Lobibox = Lobibox || {};
             return lobibox;
         }
     };
-    Lobibox.notify.closeAll = function(){
+    Lobibox.notify.closeAll = function () {
         var ll = $('.lobibox-notify');
-        ll.each(function(ind, el){
-            var notify =$(el).data('lobibox') .remove();
+        ll.each(function (ind, el) {
+            $(el).data('lobibox').remove();
         });
     };
     //User can set default options to this variable
@@ -1472,7 +1480,9 @@ var Lobibox = Lobibox || {};
         position: "bottom right",
         iconSource: 'bootstrap',    // "bootstrap" or "fontAwesome" the library which will be used for icons
         rounded: false,             // Whether to make notification corners rounded
-        messageHeight: 60           // Notification message maximum height. This is not for notification itself, this is for <code>.lobibox-notify-msg</code>
+        messageHeight: 60,          // Notification message maximum height. This is not for notification itself, this is for <code>.lobibox-notify-msg</code>
+        pauseDelayOnHover: true     // When you mouse over on notification delay (if it is enabled) will be paused.
+
     };
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
