@@ -1222,6 +1222,14 @@ var Lobibox = Lobibox || {};
             if (me.$options.rounded) {
                 me.$el.addClass('rounded');
             }
+            me.$el.on('click.lobibox', function(ev){
+                if (me.$options.onClickUrl){
+                    window.location.href = me.$options.onClickUrl;
+                }
+                if (me.$options.onClick && typeof me.$options.onClick === 'function'){
+                    me.$options.onClick.call(me, ev);
+                }
+            });
         };
         var _appendInWrapper = function ($el, $wrapper) {
             if (me.$options.size === 'normal') {
@@ -1481,8 +1489,11 @@ var Lobibox = Lobibox || {};
         iconSource: 'bootstrap',    // "bootstrap" or "fontAwesome" the library which will be used for icons
         rounded: false,             // Whether to make notification corners rounded
         messageHeight: 60,          // Notification message maximum height. This is not for notification itself, this is for <code>.lobibox-notify-msg</code>
-        pauseDelayOnHover: true     // When you mouse over on notification delay (if it is enabled) will be paused.
+        pauseDelayOnHover: true,    // When you mouse over on notification delay (if it is enabled) will be paused.
+        onClickUrl: null,           // The url which will be opened when notification is clicked
 
+        // Events
+        onClick: null
     };
     //This variable is necessary.
     Lobibox.notify.OPTIONS = {
