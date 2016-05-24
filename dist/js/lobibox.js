@@ -1335,8 +1335,14 @@ var Lobibox = Lobibox || {};
             }
             var time = 0;
             var interval = 1000 / 30;
+            var currentTime = new Date().getTime();
             var timer = setInterval(function () {
-                time += interval;
+                if (me.$options.continueDelayOnInactiveTab){
+                    time = new Date().getTime() - currentTime;
+                } else {
+                    time += interval;
+                }
+
                 var width = 100 * time / me.$options.delay;
                 if (width >= 100) {
                     width = 100;
@@ -1505,6 +1511,7 @@ var Lobibox = Lobibox || {};
         pauseDelayOnHover: true,    // When you mouse over on notification delay (if it is enabled) will be paused.
         onClickUrl: null,           // The url which will be opened when notification is clicked
         showAfterPrevious: false,   // Set this to true if you want notification not to be shown until previous notification is closed. This is useful for notification queues
+        continueDelayOnInactiveTab: true, // Continue delay when browser tab is inactive
 
         // Events
         onClick: null
