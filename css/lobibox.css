@@ -1056,3 +1056,14 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
 .lobibox-notify.without-icon .lobibox-notify-body {
   margin-left: 20px;
 }
+
+
+.lobibox-notify-wrapper.hasParent{
+  position: absolute;
+  margin-left: 0;
+  max-width: 100%;
+}
+
+.lobibox-notify-wrapper.hasParent .lobibox-notify{
+  max-width: 100%;
+}
