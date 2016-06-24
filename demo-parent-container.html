@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lobibox - Responsive jQuery notification plugin</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css"/>-->
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"/>
+        
+        <link rel="stylesheet" href="dist/css/lobibox.css"/>
+        <style type="text/css">
+            #notify-wrapper{
+                position: relative;
+                width: 100vw;
+                height: 200px;
+                border: 1px solid #d3d3d3;
+            }
+        </style>
+    </head>
+    <body>
+       
+        <h3> Within container</h3>
+        <div id="notify-wrapper"></div>
+        
+        <script src="lib/jquery.1.11.min.js"></script>
+        <script src="dist/js/notifications.min.js"></script>
+        <script type="text/javascript">
+            Lobibox.notify('success', {
+                title: '<h5>Alert Headline</h5>',
+                msg: 'Alert Message. <a href="#">This is a sample link</a>',
+                parent: "#notify-wrapper",
+                sound: false,
+                closable: false,
+                delay: 500000,
+                position: 'center bottom',
+                delayIndicator: false,
+                icon:'icon-icon-tick',
+                width: 500
+            });
+        </script>
+    </body>
+</html>

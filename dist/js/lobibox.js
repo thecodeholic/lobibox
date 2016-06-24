@@ -1243,15 +1243,17 @@ var Lobibox = Lobibox || {};
         };
         var _createNotifyWrapper = function () {
             var selector = (me.$options.size === 'large' ? '.lobibox-notify-wrapper-large' : '.lobibox-notify-wrapper')
-                    + "." + me.$options.position.replace(/\s/gi, '.'),
+                    + "." + me.$options.position.replace(/\s/gi, '.')+( (me.$options.parent ) ? ".hasParent."+(me.$options.parent).match(/()\w+/g).join("-") : '.noParent'),
                 $wrapper;
 
-            //var classes = me.$options.position.split(" ");
             $wrapper = $(selector);
             if ($wrapper.length === 0) {
                 $wrapper = $('<div></div>')
-                    .addClass(selector.replace(/\./g, ' ').trim())
-                    .appendTo($('body'));
+                    .addClass(selector.replace(/\./g, ' ').trim());
+
+                //append notification
+                (me.$options.parent) ? $wrapper.appendTo($(me.$options.parent))
+                                   : $wrapper.appendTo($('body'));
                 if (me.$options.size === 'large') {
                     $wrapper.append($('<ul class="lb-notify-tabs"></ul>'))
                         .append($('<div class="lb-notify-wrapper"></div>'));
