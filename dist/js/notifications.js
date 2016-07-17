@@ -176,9 +176,12 @@ var Lobibox = Lobibox || {};
             if (!me.$options.closable) {
                 return;
             }
-            $('<span class="lobibox-close">&times;</span>').click(function () {
-                me.remove();
-            }).appendTo($el);
+            $('<span class="lobibox-close">&times;</span>')
+                .click(function (ev) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    me.remove();
+                }).appendTo($el);
         };
         var _addCloseOnClick = function ($el) {
             if (!me.$options.closeOnClick) {
@@ -200,7 +203,7 @@ var Lobibox = Lobibox || {};
             var interval = 1000 / 30;
             var currentTime = new Date().getTime();
             var timer = setInterval(function () {
-                if (me.$options.continueDelayOnInactiveTab){
+                if (me.$options.continueDelayOnInactiveTab) {
                     time = new Date().getTime() - currentTime;
                 } else {
                     time += interval;
@@ -275,7 +278,7 @@ var Lobibox = Lobibox || {};
                 var ind = list.indexOf(me);
                 list.splice(ind, 1);
                 var next = list[ind];
-                if (next && next.$options.showAfterPrevious){
+                if (next && next.$options.showAfterPrevious) {
                     next._init();
                 }
             }, 500);
@@ -311,11 +314,11 @@ var Lobibox = Lobibox || {};
             if (me.$options.rounded) {
                 me.$el.addClass('rounded');
             }
-            me.$el.on('click.lobibox', function(ev){
-                if (me.$options.onClickUrl){
+            me.$el.on('click.lobibox', function (ev) {
+                if (me.$options.onClickUrl) {
                     window.location.href = me.$options.onClickUrl;
                 }
-                if (me.$options.onClick && typeof me.$options.onClick === 'function'){
+                if (me.$options.onClick && typeof me.$options.onClick === 'function') {
                     me.$options.onClick.call(me, ev);
                 }
             });
@@ -326,7 +329,7 @@ var Lobibox = Lobibox || {};
 //------------------------------------------------------------------------------
         this.$type = type;
         this.$options = _processInput(options);
-        if (!me.$options.showAfterPrevious || Lobibox.notify.list.length === 0){
+        if (!me.$options.showAfterPrevious || Lobibox.notify.list.length === 0) {
             this._init();
         }
 
@@ -342,7 +345,7 @@ var Lobibox = Lobibox || {};
     Lobibox.notify.list = [];
     Lobibox.notify.closeAll = function () {
         var list = Lobibox.notify.list;
-        for (var i in list){
+        for (var i in list) {
             list[i].remove();
         }
     };
