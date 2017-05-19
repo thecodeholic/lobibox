@@ -1,7 +1,16 @@
 {
   "name": "lobibox",
   "description": "jQuery Responsive notification plugin",
-  "main": "",
+  "main": [
+    "dist/css/lobibox.css",
+    "dist/js/lobibox.js",
+    "dist/sounds/sound1.ogg",
+    "dist/sounds/sound2.ogg",
+    "dist/sounds/sound3.ogg",
+    "dist/sounds/sound4.ogg",
+    "dist/sounds/sound5.ogg",
+    "dist/sounds/sound6.ogg",
+  ],
   "authors": [
     {
       "name": "Zura Sekhniashvili",
