@@ -1334,6 +1334,11 @@ var Lobibox = Lobibox || {};
             }
             if (me.$options.delayIndicator) {
                 var delay = $('<div class="lobibox-delay-indicator"><div></div></div>');
+                if (me.$options.rounded) {
+                    delay.addClass("lobibox-delay-rounded");
+                } else {
+                    delay.removeClass("lobibox-delay-rounded");
+                }
                 $el.append(delay);
             }
             var time = 0;
@@ -1345,19 +1350,28 @@ var Lobibox = Lobibox || {};
                 } else {
                     time += interval;
                 }
-
-                var width = 100 * time / me.$options.delay;
-                if (width >= 100) {
-                    width = 100;
-                    me.remove();
-                    timer = clearInterval(timer);
+        
+                if (me.$options.reverseDelayIndicator) {
+                    var width = 100 - (100 * time / me.$options.delay);
+                    if (width <= 0) {
+                        width = 0;
+                        me.remove();
+                        timer = clearInterval(timer);
+                    }
+                } else {
+                    var width = 100 * time / me.$options.delay;
+                    if (width >= 100) {
+                        width = 0;
+                        me.remove();
+                        timer = clearInterval(timer);
+                    }
                 }
                 if (me.$options.delayIndicator) {
                     delay.find('div').css('width', width + "%");
                 }
-
+        
             }, interval);
-
+        
             if (me.$options.pauseDelayOnHover) {
                 $el.on('mouseenter.lobibox', function () {
                     interval = 0;
