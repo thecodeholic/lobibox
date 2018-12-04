@@ -970,6 +970,10 @@ fieldset[disabled] .lobibox .lobibox-btn.lobibox-btn-default.active {
   bottom: 0;
   height: 3px;
 }
+.lobibox-notify .lobibox-delay-indicator.lobibox-delay-rounded {
+  left: 22px;
+  width: calc(100% - 44px);
+}
 .lobibox-notify .lobibox-delay-indicator > div {
   position: relative;
   height: 100%;
